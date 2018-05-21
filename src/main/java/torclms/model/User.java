@@ -11,8 +11,9 @@ import javax.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
 
-//@Entity
+@Entity
 //@Table(name = "users")
 //@EntityListeners(AuditingEntityListener.class)
 //@JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)

@@ -33,5 +33,4 @@ public class User implements Serializable {
     //@CreatedDate
     private Date createdAt;
 
-
 }

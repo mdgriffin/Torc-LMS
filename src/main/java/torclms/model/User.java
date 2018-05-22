@@ -26,7 +26,7 @@ public class User implements Serializable {
     @NotBlank
     private String surname;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "registered_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date registeredOn;

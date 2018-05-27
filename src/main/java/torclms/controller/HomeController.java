@@ -1,10 +1,10 @@
-package torclms;
+package torclms.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-public class HelloController {
+public class HomeController {
 
     @RequestMapping("/")
     public String index() {

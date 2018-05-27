@@ -1,18 +1,15 @@
 package torclms.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 
-@RestController
-@RequestMapping("/login")
+@Controller
 public class LoginController {
 
-
-    // Get All Users
-    @GetMapping("/")
-    public String getIndex (Model model) {
+    @RequestMapping("/login")
+    public String login (Model model) {
 
         model.addAttribute("title", "Please Login");
         return "login";

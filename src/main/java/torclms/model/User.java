@@ -23,8 +23,15 @@ public class User implements Serializable {
     @NotBlank
     private String firstname;
 
+
     @NotBlank
     private String surname;
+
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String password;
 
     @Column(name = "registered_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,5 +68,21 @@ public class User implements Serializable {
 
     public void setRegisteredOn(Date registeredOn) {
         this.registeredOn = registeredOn;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

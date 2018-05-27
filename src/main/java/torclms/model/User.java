@@ -1,5 +1,6 @@
 package torclms.model;
 
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,7 +23,6 @@ public class User implements Serializable {
 
     @NotBlank
     private String firstname;
-
 
     @NotBlank
     private String surname;
@@ -70,6 +70,10 @@ public class User implements Serializable {
         this.registeredOn = registeredOn;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_role_id"))
+    private Set<UserRole> roles;
+
     public String getEmail() {
         return email;
     }
@@ -84,5 +88,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
     }
 }

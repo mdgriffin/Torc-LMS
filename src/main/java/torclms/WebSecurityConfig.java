@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -20,6 +22,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     @Qualifier("dataSource")
@@ -32,7 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 jdbcAuthentication()
                 .usersByUsernameQuery("select email, password from users where email=?")
                 .authoritiesByUsernameQuery("select u.email, r.role from users u inner join user_roles ur on(u.user_id=ur.user_id) inner join role r on(ur.user_role_id=r.user_role_id) where u.email=?\n")
-                .dataSource(dataSource);
+                .dataSource(dataSource)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
@@ -55,16 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/access-denied");
     }
 
-    @Bean
     @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 }

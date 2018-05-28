@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import torclms.model.User;
@@ -18,8 +19,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
-    //@Autowired
-    //private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User findUserByEmail(String email) {
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserRole userRole = userRoleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<UserRole>(Arrays.asList(userRole)));
         userRepository.save(user);

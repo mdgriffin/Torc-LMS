@@ -1,3 +1,7 @@
+DROP TABLE users;
+DROP TABLE user_roles;
+DROP TABLE roles;
+
 CREATE TABLE users (
   user_id int NOT NULL auto_increment,
   firstname VARCHAR(255) NOT NULL,
@@ -8,11 +12,16 @@ CREATE TABLE users (
   PRIMARY KEY (user_id)
 );
 
-CREATE TABLE user_roles (
-  user_role_id int NOT NULL AUTO_INCREMENT,
-  user_id int NOT NULL,
+CREATE TABLE roles (
+  role_id int NOT NULL AUTO_INCREMENT,
   role varchar(45) NOT NULL,
-  PRIMARY KEY (user_role_id),
-  KEY fk_user_id (user_id),
-  CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (user_id)
+  CONSTRAINT pk_roles PRIMARY KEY (role_id)
+);
+
+CREATE TABLE user_roles (
+  role_id int NOT NULL,
+  user_id int NOT NULL,
+  PRIMARY KEY (role_id, user_id),
+  CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (user_id),
+  CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES users (role_id)
 );

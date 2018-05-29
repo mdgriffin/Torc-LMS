@@ -30,12 +30,18 @@ public class LoginController {
 
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
+    public String registration(Model model){
+        /*
         ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
+
         modelAndView.addObject("user", user);
         modelAndView.setViewName("registration");
         return modelAndView;
+        */
+        User user = new User();
+        model.addAttribute("user", user);
+
+        return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)

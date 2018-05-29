@@ -3,7 +3,6 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registration Form</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -22,7 +21,7 @@
                 <h2>Registration Form</h2>
                 <div class="form-group">
                     <div class="col-sm-9">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{firstname}"
+                        <label th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
                                class="validation-message"></label>
                         <input type="text" th:field="*{firstname}" placeholder="Name"
                                class="form-control" />
@@ -34,7 +33,7 @@
                         <label	th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"
                                   class="validation-message"></label>
                         <input type="text" th:field="*{surname}"
-                               placeholder="Last Name" class="form-control" />
+                               placeholder="Surname" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">

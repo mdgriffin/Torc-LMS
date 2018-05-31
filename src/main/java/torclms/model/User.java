@@ -73,6 +73,7 @@ public class User implements Serializable {
     //@ManyToMany(cascade = CascadeType.ALL)
     //@JoinTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_role_id"))
     @OneToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Role> roles;
 
     public String getEmail() {

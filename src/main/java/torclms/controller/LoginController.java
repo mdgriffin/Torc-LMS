@@ -31,13 +31,6 @@ public class LoginController {
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public String registration(Model model){
-        /*
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("registration");
-        return modelAndView;
-        */
         User user = new User();
         model.addAttribute("user", user);
 

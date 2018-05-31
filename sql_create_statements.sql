@@ -14,7 +14,7 @@ CREATE TABLE users (
 
 CREATE TABLE roles (
   role_id int NOT NULL AUTO_INCREMENT,
-  role varchar(45) NOT NULL,
+  role varchar(45) NOT NULL UNIQUE,
   CONSTRAINT pk_roles PRIMARY KEY (role_id)
 );
 

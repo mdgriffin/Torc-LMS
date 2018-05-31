@@ -70,9 +70,10 @@ public class User implements Serializable {
         this.registeredOn = registeredOn;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_role_id"))
-    private Set<UserRole> roles;
+    //@ManyToMany(cascade = CascadeType.ALL)
+    //@JoinTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_role_id"))
+    @OneToMany
+    private Set<Role> roles;
 
     public String getEmail() {
         return email;
@@ -90,11 +91,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<UserRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<UserRole> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }

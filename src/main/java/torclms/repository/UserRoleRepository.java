@@ -8,5 +8,5 @@ import torclms.model.UserRole;
 
 @Repository("UserRoleRepository")
 public interface UserRoleRepository  extends JpaRepository<UserRole, Integer> {
-    UserRole findByRole(String role);
+    UserRole findByRoleId(int roleId);
 }

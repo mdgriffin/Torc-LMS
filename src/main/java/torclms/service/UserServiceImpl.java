@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import torclms.model.Role;
 import torclms.model.User;
 import  torclms.model.UserRole;
+import torclms.repository.RoleRepository;
 import torclms.repository.UserRepository;
 import torclms.repository.UserRoleRepository;
 
@@ -18,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserRoleRepository userRoleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -31,9 +33,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        // TODO: Change to role repository
-        //UserRole userRole = userRoleRepository.findByRole("ADMIN");
-        //user.setRoles(new HashSet<UserRole>(Arrays.asList(userRole)));
+        Role role = roleRepository.findByRole("ADMIN");
+        user.setRoles(new HashSet<Role>(Arrays.asList(role)));
         userRepository.save(user);
     }
 }

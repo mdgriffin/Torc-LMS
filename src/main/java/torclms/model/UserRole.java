@@ -7,6 +7,14 @@ import javax.persistence.*;
 @IdClass(UserRoleIdentity.class)
 public class UserRole {
 
+    @OneToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
+    private Role role;
+
     @Column(name="user_id")
     @Id
     private int userId;

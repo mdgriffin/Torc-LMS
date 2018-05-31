@@ -2,6 +2,7 @@ package torclms.model;
 
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,6 +38,10 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date registeredOn;
+
+    @Column(columnDefinition = "TINYINT", nullable = true)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean enabled;
 
     public Long getUserId() {
         return userId;
@@ -98,5 +103,13 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -8,6 +8,7 @@ CREATE TABLE users (
   surname VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
+  enabled TINYINT(1) DEFAULT 1,
   registered_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id)
 );

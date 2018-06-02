@@ -4,38 +4,43 @@
 <head th:replace="~{fragments/header :: head}"></head>
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h3>Login to Team Torc LMS</h3>
+        <div class="section">
 
-    <form th:action="@{/login}" method="POST" class="form-signin">
+            <h2 class="title">Login to Team Torc LMS</h2>
 
-        <div class="field">
-            <label for="email" class="label">Email</label>
-            <div class="control">
-                <input type="text" id="email" name="email"  th:placeholder="Email" class="control" />
-            </div>
+            <form th:action="@{/login}" method="POST" class="form-signin">
+
+                <div class="field">
+                    <label for="txtEmail" class="label">Email</label>
+                    <div class="control">
+                        <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="input" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="txtPassword" class="label">Password</label>
+                    <div class="control">
+                        <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="input" />
+                    </div>
+                    <p th:if="${param.error}" class="help is-danger">Invalid Username of Password</p>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link" name="Submit" type="Submit" >Login</button>
+                    </div>
+                    <div class="control">
+                        <a href="registration" class="button is-text">Register an account</a>
+                    </div>
+                </div>
+            </form>
+
         </div>
 
-        <div class="field">
-            <label for="password" class="label">Password</label>
-            <div class="control">
-                <input type="password"  th:placeholder="Password" id="password" name="password" class="control" />
-            </div>
-            <p th:if="${param.error}" class="help is-danger">Invalid Username of Password</p>
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button" name="Submit" type="Submit" >Login</button>
-            </div>
-            <div class="control">
-                <a href="registration" class="button is-link">Register an account</a>
-            </div>
-        </div>
-    </form>
+    </div>
 
     <div th:replace="~{fragments/footer :: content}"></div>
-</div>
 </body>
 </html>

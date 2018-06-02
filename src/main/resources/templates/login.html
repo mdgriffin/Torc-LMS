@@ -3,24 +3,36 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
 <body>
-<form th:action="@{/registration}" method="get">
-    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-</form>
 
 <div class="container">
+
+    <h3>Login to Team Torc LMS</h3>
+
     <form th:action="@{/login}" method="POST" class="form-signin">
-        <h3 class="form-signin-heading" th:text="Welcome"></h3>
-        <br/>
 
-        <input type="text" id="email" name="email"  th:placeholder="Email"
-               class="form-control" /> <br/>
-        <input type="password"  th:placeholder="Password"
-               id="password" name="password" class="form-control" /> <br />
-
-        <div align="center" th:if="${param.error}">
-            <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+        <div class="field">
+            <label for="email" class="label">Email</label>
+            <div class="control">
+                <input type="text" id="email" name="email"  th:placeholder="Email" class="control" />
+            </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Login"></button>
+
+        <div class="field">
+            <label for="password" class="label">Password</label>
+            <div class="control">
+                <input type="password"  th:placeholder="Password" id="password" name="password" class="control" />
+            </div>
+            <p th:if="${param.error}" class="help is-danger">Invalid Username of Password</p>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button" name="Submit" type="Submit" >Login</button>
+            </div>
+            <div class="control">
+                <a href="registration" class="button is-link">Register an account</a>
+            </div>
+        </div>
     </form>
 
     <div th:replace="~{fragments/footer :: content}"></div>

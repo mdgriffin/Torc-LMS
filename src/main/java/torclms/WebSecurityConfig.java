@@ -48,8 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/").permitAll()
             .antMatchers("/login").permitAll()
-            // TODO: Remove, probably not needed
-            .antMatchers("/resources/**").permitAll()
             // TODO: Remove, testing only
             .antMatchers("/api/**").permitAll()
             .antMatchers("/registration").permitAll()

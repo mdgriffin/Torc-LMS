@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import torclms.model.Role;
 import torclms.model.User;
-import  torclms.model.UserRole;
 import torclms.repository.RoleRepository;
 import torclms.repository.UserRepository;
-import torclms.repository.UserRoleRepository;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService {

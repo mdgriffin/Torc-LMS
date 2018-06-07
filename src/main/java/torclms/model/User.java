@@ -1,5 +1,6 @@
 package torclms.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
@@ -20,6 +21,7 @@ import javax.persistence.Entity;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @NotBlank
@@ -75,11 +77,13 @@ public class User implements Serializable {
         this.registeredOn = registeredOn;
     }
 
-    //@ManyToMany(cascade = CascadeType.ALL)
-    //@JoinTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_role_id"))
-    @OneToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Role> roles;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = {@JoinColumn(name = "user_id")},
+        inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public String getEmail() {
         return email;

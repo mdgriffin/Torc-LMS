@@ -18,6 +18,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -51,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // TODO: Remove, testing only
             .antMatchers("/api/**").permitAll()
             .antMatchers("/registration").permitAll()
+            // Add routes and controller for mananger and trainee roles
+            //.antMatchers("/courses/**").hasAuthority("TRAINEE").anyRequest()
+            //.antMatchers("/manage/**").hasAuthority("MANAGER").anyRequest()
             .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
             .authenticated().and().csrf().disable().formLogin()
             .loginPage("/login").failureUrl("/login?error=true")

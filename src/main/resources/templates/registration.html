@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
@@ -11,40 +10,51 @@
 
             <h2 class="title">Register</h2>
 
-            <form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post" role="form">
+            <form autocomplete="off" action="#" th:action="@{/registration}" method="post" role="form">
+
+                <div class="field">
+                    <label for="sltUserRole" class="label">User Role</label>
+                    <div class="control">
+                        <select name="user_role" id="sltUserRole" class="input">
+                            <option th:each="role : ${roles}"
+                                    th:value="${role.toString()}"
+                                    th:utext="${role.getDisplayName()}"/>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="field">
                     <label for="txtFirstname" class="label">First Name</label>
                     <div class="control">
-                        <input type="text" th:field="*{firstname}" id="txtFirstname" placeholder="Name" class="input" />
+                        <input type="text" th:field="*{user.firstname}" id="txtFirstname" placeholder="Name" class="input" />
                     </div>
-                    <p th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="help is-danger"></p>
+                    <p th:if="${#fields.hasErrors('user.firstname')}" th:errors="*{user.firstname}" class="help is-danger"></p>
                 </div>
 
                 <div class="field">
                     <div class="col-sm-9">
                         <label for="txtSurname" class="label">Surname</label>
                         <div class="control">
-                            <input type="text" th:field="*{surname}" placeholder="Surname" id="txtSurname" class="input" />
+                            <input type="text" th:field="*{user.surname}" placeholder="Surname" id="txtSurname" class="input" />
                         </div>
-                        <p	th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="help is-danger"></p>
+                        <p	th:if="${#fields.hasErrors('user.surname')}" th:errors="*{user.surname}" class="help is-danger"></p>
                     </div>
                 </div>
 
                 <div class="field">
                     <label for="txtEmail" class="label">Email</label>
                     <div class="control">
-                        <input type="text" th:field="*{email}" id="txtEmail" placeholder="Email" class="input" />
+                        <input type="text" th:field="*{user.email}" id="txtEmail" placeholder="Email" class="input" />
                     </div>
-                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="help is-danger"></p>
+                    <p th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" class="help is-danger"></p>
                 </div>
 
                 <div class="field">
                     <label for="txtPassword" class="label">Password</label>
                     <div class="control">
-                        <input type="password" th:field="*{password}" id="txtPassword" placeholder="Password" class="input" />
+                        <input type="password" th:field="*{user.password}" id="txtPassword" placeholder="Password" class="input" />
                     </div>
-                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="help is-danger"></p>
+                    <p th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" class="help is-danger"></p>
                 </div>
 
                 <div class="field is-grouped">

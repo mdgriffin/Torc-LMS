@@ -45,6 +45,14 @@ public class User implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles = new HashSet<>();
+
     public Long getUserId() {
         return userId;
     }
@@ -76,14 +84,6 @@ public class User implements Serializable {
     public void setRegisteredOn(Date registeredOn) {
         this.registeredOn = registeredOn;
     }
-
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = {@JoinColumn(name = "user_id")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    private Set<Role> roles = new HashSet<>();
 
     public String getEmail() {
         return email;

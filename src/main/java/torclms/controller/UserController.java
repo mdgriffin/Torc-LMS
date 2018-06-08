@@ -29,7 +29,6 @@ public class UserController {
     }
 
     // Get a Single User
-    // Get a Single Note
     @GetMapping("/users/{id}")
     public User getNoteById(@PathVariable(value = "id") Long userId) {
         return userRepository.findById(userId)

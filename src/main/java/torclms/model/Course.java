@@ -31,8 +31,8 @@ public class Course implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "cart")
-    Set<Stage> stages = new HashSet<Stage>();
+    @OneToMany(mappedBy = "course")
+    Set<Stage> stages = new HashSet<>();
 
     public long getCourseId() {
         return courseId;

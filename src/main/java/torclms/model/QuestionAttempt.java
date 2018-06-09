@@ -1,18 +1,16 @@
 package torclms.model;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity
 @Table(name="question_attempt")
 public class QuestionAttempt implements Serializable {
 
-    private int questionId;
-
-    private int userId;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="question_attempt_id")
     private int questionAttemptId;
 
     private Date dateAttempted;
@@ -26,6 +24,6 @@ public class QuestionAttempt implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="question_option_id", nullable=false)
+    @JoinColumn(name="option_id", nullable=false)
     private QuestionOption questionOption;
 }

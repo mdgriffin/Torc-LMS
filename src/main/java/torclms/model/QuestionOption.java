@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+@Entity
 @Table(name="question_options")
 public class QuestionOption implements Serializable {
 

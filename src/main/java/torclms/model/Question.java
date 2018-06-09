@@ -6,13 +6,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @Table(name="Questions")
 public class Question implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="step_id")
-    private int stepId;
+    @Column(name="question_id")
+    private int questionId;
 
     @NotBlank
     private String question;
@@ -26,12 +27,12 @@ public class Question implements Serializable {
     @OneToMany(mappedBy = "question")
     Set<QuestionOption> options = new HashSet<>();
 
-    public int getStepId() {
-        return stepId;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setStepId(int stepId) {
-        this.stepId = stepId;
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
     public String getQuestion() {

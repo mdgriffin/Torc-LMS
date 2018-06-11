@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import torclms.model.Question;
 import torclms.repository.QuestionRepository;
 
+import java.util.List;
+
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
@@ -13,6 +15,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     public Question findQuestionById (int questionId) {
         return questionRepo.findByQuestionId((questionId));
+    }
+
+    public List<Question> getQuestions () {
+        return questionRepo.findAll();
     }
 
     public Question saveQuestion (Question question) {

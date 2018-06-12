@@ -22,10 +22,15 @@ public class Course implements Serializable {
     @NotBlank
     private String title;
 
-    @Column(name = "date_created", nullable = false, updatable = false)
+    @Column(name = "date_created", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date dateCreated;
+
+    @PrePersist
+    protected void onCreate() {
+        dateCreated = new Date();
+    }
 
     @Column(columnDefinition = "TINYINT", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")

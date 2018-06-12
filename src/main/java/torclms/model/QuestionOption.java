@@ -1,5 +1,6 @@
 package torclms.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -25,9 +26,13 @@ public class QuestionOption implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean isCorrect;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="question_id", nullable=false)
+    @JsonBackReference
     private Question question;
+
+    @Transient
+    private int questionId;
 
     public int getOptionId() {
         return optionId;
@@ -67,5 +72,13 @@ public class QuestionOption implements Serializable {
 
     public void setTextAudio(String textAudio) {
         this.textAudio = textAudio;
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 }

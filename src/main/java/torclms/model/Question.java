@@ -1,5 +1,7 @@
 package torclms.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -24,7 +26,8 @@ public class Question implements Serializable {
     @NotBlank
     private String explanation;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @JsonManagedReference
     Set<QuestionOption> options = new HashSet<>();
 
     public int getQuestionId() {

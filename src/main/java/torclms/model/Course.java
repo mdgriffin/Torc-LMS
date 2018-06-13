@@ -1,5 +1,6 @@
 package torclms.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -17,7 +18,7 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="course_id")
-    private long courseId;
+    private int courseId;
 
     @NotBlank
     private String title;
@@ -36,14 +37,15 @@ public class Course implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @JsonManagedReference
     Set<Stage> stages = new HashSet<>();
 
-    public long getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(long id) {
+    public void setCourseId(int id) {
         this.courseId = id;
     }
 

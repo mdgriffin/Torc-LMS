@@ -1,5 +1,108 @@
-.navbar-brand h3 {
-    font-weight: bold;
-    margin: 0 10px;
-    align-self: center;
+
+/**
+    ====================
+    ****** Global ******
+    ====================
+ **/
+
+.section {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+
+/* === Quiz Component === */
+
+.quiz-question-wrongAnswer p,
+.quiz-question-correctAnswer p {
+    margin: 0;
+}
+
+.quiz-question-wrongAnswer,
+.quiz-question-correctAnswer {
+    padding: 5px 10px;
+    color: #fff;
+    margin: 10px 0;
+}
+
+.quiz-question-wrongAnswer {
+    background: red;
+}
+
+.quiz-question-correctAnswer {
+    background: green;
+    color: #fff;
+}
+
+.quiz-question-explanation {
+    background: #eaeaea;
+    padding: 5px 10px;
+    margin: 10px 0;
+}
+
+.quiz-question-explanation p {
+    margin: 0;
+}
+
+/* === Course Creator Component === */
+
+.courseCreator .nav-tabs {
+    margin-bottom: 1em;
+}
+
+.courseCreator .nav-tabs > li:not(:first-child) > button {
+    margin-left: 10px;
+}
+
+.courseCreator-stages-tabs {
+    background: #f4f4f4;
+    border: 1px solid #eaeaea;
+}
+
+.courseCreator-questions-options .form-check label {
+    color: red;
+    cursor: pointer;
+}
+
+.courseCreator-questions-options .form-check label:after {
+    content: "Wrong";
+    margin-left: 5px;
+}
+
+.courseCreator-questions-options .form-check label i {
+    font-size: 1.4em;
+    vertical-align: middle;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox] {
+    display: none;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox]:checked + label {
+    color: green;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox]:checked + label:after {
+    content: "Correct"
+}
+
+.courseCreator-actions {
+    margin-top: 2em;
+}
+
+.courseCreator-actions button {
+    margin-left: 5px;
+}
+
+.nav-buttonContainer {
+    position: relative;
+    min-height: 45px;
+}
+
+.courseCreator .nav-tabs .nav-link {
+    height: 45px;
+}
+
+.nav-buttonContainer button {
+    height: 100%;
 }

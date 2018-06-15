@@ -10,21 +10,21 @@ var commonMixin = {
 }
 
 var optionTemplate = [
-'<div class="form-group row">',
-    '<label class="col-sm-2 col-form-label">Option {{index + 1}}</label>',
-    '<div class="col-sm-7">',
-        '<input type="text" v-model="optionText" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validOptionText}]" />',
-        '<div class="invalid-feedback">Option text must be provided</div>',
-    '</div>',
-    '<div class="col-sm-2">',
-        '<div class="form-check">',
-            '<input class="form-check-input" type="checkbox" :id="\'chbx-questionoption-\' + option.optionid" v-model="isCorrect"><label class="form-check-label" :for="\'chbx-questionoption-\' + option.optionid"><i class="fas fa-check-circle"></i></label>',
+    '<div class="form-group row">',
+        '<label class="col-sm-2 col-form-label">Option {{index + 1}}</label>',
+        '<div class="col-sm-7">',
+            '<input type="text" v-model="optionText" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validOptionText}]" />',
+            '<div class="invalid-feedback">Option text must be provided</div>',
+        '</div>',
+        '<div class="col-sm-2">',
+            '<div class="form-check">',
+                '<input class="form-check-input" type="checkbox" :id="\'chbx-questionoption-\' + option.optionid" v-model="isCorrect"><label class="form-check-label" :for="\'chbx-questionoption-\' + option.optionid"><i class="fas fa-check-circle"></i></label>',
+            '</div>',
+        '</div>',
+        '<div class="col-sm-1 text-right">',
+            '<button class="btn btn-medium btn-light" @click="removeOption"><i class="fas fa-trash-alt"></i></button>',
         '</div>',
     '</div>',
-    '<div class="col-sm-1 text-right">',
-        '<button class="btn btn-medium btn-light" @click="removeOption"><i class="fas fa-trash-alt"></i></button>',
-    '</div>',
-'</div>',
 ].join('');
 
 Vue.component('course-creator-option', {
@@ -177,7 +177,6 @@ Vue.component('course-creator-stage', {
 
 var template = [
     '<div :class="[\'courseCreator\', {wasValidated: wasValidated}]">',
-        '<h3>Course Creator</h3>',
         '<div class="courseCreator-form">',
             '<div class="form-group">',
                 '<label>Course Title</label>',

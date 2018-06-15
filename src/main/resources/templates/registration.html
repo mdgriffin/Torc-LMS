@@ -4,13 +4,15 @@
 <head th:replace="~{fragments/header :: head}"></head>
 <body>
 
+    <th:block th:include="fragments/admin-menu :: navbar"></th:block>
+
     <div class="container">
 
         <div class="section">
 
             <h2 class="title">Register</h2>
 
-            <form autocomplete="off" action="#" th:action="@{/registration}" method="post" role="form">
+            <form autocomplete="off" action="#" th:action="@{/admin/users/new}" method="post" role="form">
 
                 <div th:if="${successMessage}" class="alert alert-success" th:utext="${successMessage}"></div>
 
@@ -48,8 +50,6 @@
                 </div>
 
                 <button type="submit" class="btn">Register User</button>
-
-                <a th:href="@{/login}">Login</a>
 
             </form>
 

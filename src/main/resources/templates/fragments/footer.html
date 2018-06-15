@@ -1,13 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="content">
-    <footer>
-        <div class="container">
-            <div class="section">
-                <p>&copy; Team Torc LMS</p>
+    <div th:fragment="content">
+        <footer>
+            <div class="container">
+                <div class="section">
+                    <p>&copy; Team Torc LMS</p>
+                </div>
             </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
+
+    <div th:fragment="vueResources">
+        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js}"></script>
+        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js}"></script>
+        <script th:src="@{/js/lib/util.js}"></script>
+        <script th:src="@{/js/lib/validator.js}"></script>
+    </div>
+
 </body>
 </html>

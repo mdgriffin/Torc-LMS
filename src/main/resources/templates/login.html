@@ -12,29 +12,19 @@
 
             <form th:action="@{/login}" method="POST" class="form-signin">
 
-                <div class="field">
+                <div class="form-group">
                     <label for="txtEmail" class="label">Email</label>
-                    <div class="control">
-                        <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="input" />
-                    </div>
+                    <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="form-control" />
                 </div>
 
-                <div class="field">
+                <div class="form-group">
                     <label for="txtPassword" class="label">Password</label>
-                    <div class="control">
-                        <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="input" />
-                    </div>
-                    <p th:if="${param.error}" class="help is-danger">Invalid Username of Password</p>
+                    <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="form-control" />
+                    <div th:if="${#request.getParameter('error') != null}" class="invalid-feedback">Invalid Username of Password</div>
                 </div>
 
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button class="button is-link" name="Submit" type="Submit" >Login</button>
-                    </div>
-                    <div class="control">
-                        <a href="registration" class="button is-text">Register an account</a>
-                    </div>
-                </div>
+                <button class="btn btn-primary" name="Submit" type="Submit" >Login</button>
+                <a th:href="@{registration}" class="button is-text">Register an account</a>
             </form>
 
         </div>

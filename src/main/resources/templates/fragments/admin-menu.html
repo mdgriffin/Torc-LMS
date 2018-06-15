@@ -4,30 +4,20 @@
 <body>
 
     <div th:fragment="navbar">
-        <nav class="navbar is-light">
-            <div class="navbar-brand">
-                <h3>Team Torc LMS</h3>
-            </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand">Team Torc LMS</a>
 
-            <div class="navbar-menu">
-                <div class="navbar-start">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <a class="navbar-item" href="#">Home</a>
+            <div class="collapse navbar-collapse">
 
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="/documentation/overview/start/">Dropdown</a>
-                        <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="#">Item 1</a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item" href="#">Item 2</a>
-                            <a class="navbar-item is-active" href="#">Item 3</a>
-                        </div>
-                    </div>
-
-                    <a th:href="@{/logout}" class="navbar-item">Logout</a>
-
-                </div>
-
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" th:href="@{/admin/home}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/create-course}">Create Course</a></li>
+                    <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
+                </ul>
             </div>
         </nav>
     </div>

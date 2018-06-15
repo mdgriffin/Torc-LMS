@@ -4,12 +4,12 @@
 
 Building
 ````
-mvn clean install
+mvn -P local clean install
 ````
 
 Running the application:
 ````
-mvn spring-boot:run
+mvn -P local spring-boot:run
 ````
 
 The application is configured to listen to localhost:8090

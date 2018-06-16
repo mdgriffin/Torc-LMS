@@ -8,10 +8,6 @@ var store = new Vuex.Store({
         }
     },
     mutations: {
-        saveCourse: function (state, courseObj) {
-            console.log("Saving course to store");
-            //state.course = courseObj;
-        },
         removeCourse: function (state) {
             Vue.set(state, 'course', {title: '', stages: {}, wasValidated: false});
             Vue.set(state.course, 'currentStageId', null);
@@ -134,5 +130,36 @@ var store = new Vuex.Store({
             }
         }
         */
+    },
+    actions: {
+        saveCourse: function (context) {
+            var course = {};
+
+            course.title = context.state.course.title;
+            course.enabled = true;
+            course.stages = [];
+
+            for (var stageKey in context.state.course.stages) {
+                var stage = Util.clone(context.state.course.stages[stageKey]);
+
+                delete stage.currentQuestionId
+                delete stage.questions;
+                delete stage.stageid;
+
+                course.stages.push(stage);
+
+            }
+
+            // TODO: Place context root in config
+            fetch('/lms/api/courses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(course)
+            }).then(function (response) {
+                console.log(response);
+            });
+        },
     }
 });

@@ -241,11 +241,12 @@ Vue.component('course-creator', {
     methods: {
         saveCourse: function () {
             this.$store.commit('setWasValidated', true);
-            /*
-            if (this.validateCourses()) {
-                this.$store.commit('saveCourse', this.course);
-            }
-            */
+
+            // TODO: Need to validate entire is valid
+            //if (this.validateCourses()) {
+                //this.$store.commit('saveCourse', this.course);
+                this.$store.dispatch('saveCourse');
+            //}
         },
         clearForm: function () {
             console.log('Clearing Form');

@@ -67,6 +67,10 @@ var questionTemplate = [
         '<input type="text" v-model="questionTitle" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />',
         '<div class="invalid-feedback">Question is required</div>',
     '</div>',
+    '<div class="form-group">',
+        '<label>Audio</label>',
+        '<input type="text" v-model="questionAudio" class="form-control" />',
+    '</div>',
     '<div class="courseCreator-questions-options">',
         '<h4>Options</h4>',
         '<course-creator-option v-for="(option, optionKey, optionIndex) in options" :stageid="stageid" :questionid="question.questionid" :option="option" :index="optionIndex" :key="optionKey"></course-creator-option>',
@@ -75,13 +79,17 @@ var questionTemplate = [
 '</div>',
 ].join("");
 
+
+
+
 Vue.component('course-creator-question', {
     props: ['stageid', 'question'],
     mixins: [commonMixin],
     template: questionTemplate,
     data: function () {
         return  {
-            questionTitle: this.question.question
+            questionTitle: this.question.question,
+            questionAudio: this.question.audio
         }
     },
     methods: {
@@ -92,6 +100,9 @@ Vue.component('course-creator-question', {
     watch: {
         questionTitle: function () {
             this.$store.commit('setQuestionTitle', {stageid: this.stageid, questionid: this.question.questionid, title: this.questionTitle});
+        },
+        questionAudio: function () {
+            this.$store.commit('setQuestionAudio', {stageid: this.stageid, questionid: this.question.questionid, audio: this.questionAudio});
         }
     },
     computed: {
@@ -128,6 +139,8 @@ var stageTemplate = [
     '</div>',
 '</div>'
 ].join("");
+
+
 
 Vue.component('course-creator-stage', {
     props: ['stageid', 'stage'],
@@ -249,5 +262,7 @@ Vue.component('course-creator', {
         },
     }
 });
+
+
 
 })();

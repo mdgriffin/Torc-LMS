@@ -45,6 +45,9 @@ var store = new Vuex.Store({
         setQuestionTitle: function (state, data) {
             Vue.set(state.course.stages[data.stageid].questions[data.questionid], 'question', data.title);
         },
+        setQuestionAudio: function (state, data) {
+            Vue.set(state.course.stages[data.stageid].questions[data.questionid], 'audio', data.audio);
+        },
         addQuestionToStage: function (state, questionData) {
             var questions = state.course.stages[questionData.stageid].questions;
             Vue.set(questions, questionData.question.questionid, questionData.question);

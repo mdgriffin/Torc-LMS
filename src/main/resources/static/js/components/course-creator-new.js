@@ -116,61 +116,71 @@
         }
     });
 
+    */
+
     var stageTemplate = [
         '<div class="courseCreator-stageSingle">',
-        '<div class="form-group">',
-        '<label>Stage Title</label>',
-        '<input type="text" v-model="title" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />',
-        '<div class="invalid-feedback" >Stage Title is required</div>',
-        '</div>',
-        '<div class="form-group">',
-        '<label>Video URL</label>',
-        '<input type="text" v-model="videoUrl" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validVideoUrl}]" />',
-        '<div class="invalid-feedback">Video URL is required</div>',
-        '</div>',
-        '<div class="courseCreator-questions">',
-        '<ul class="nav nav-tabs">',
-        '<li class="nav-item" v-for="(question, questionKey, questionIndex) in questions">',
-        '<a :class="[\'nav-link\', {active: currentQuestionId === questionKey}]" @click="changeQuestion(questionKey)">Question {{questionIndex + 1}} <button class="btn btn-clear" @click.stop="removeQuestion(questionKey)"><i class="fas fa-trash-alt"></i></button></a>',
-        '</li>',
-        '<li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>',
-        '</ul>',
-        // v-if="stage.currentQuestionId === questionIndex
-        '<course-creator-question v-for="(question, questionKey, questionIndex) in questions" :stageid="stageid" :question="question" :key="questionKey" v-if="currentQuestionId === questionKey"></course-creator-question>',
-        '</div>',
+            '<div class="form-group">',
+                '<label>Stage Title</label>',
+                '<input type="text" v-model="title" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />',
+                '<div class="invalid-feedback" >Stage Title is required</div>',
+            '</div>',
+            '<div class="form-group">',
+                '<label>Video URL</label>',
+                '<input type="text" v-model="videoUrl" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validVideoUrl}]" />',
+                '<div class="invalid-feedback">Video URL is required</div>',
+            '</div>',
+            '<div class="courseCreator-questions">',
+                '<ul class="nav nav-tabs">',
+                    '<li class="nav-item" v-for="(question, questionIndex) in questions">',
+                        '<a :class="[\'nav-link\', {active: currentQuestionId === questionIndex}]" @click="changeQuestion(questionIndex)">Question {{questionIndex + 1}} <button class="btn btn-clear" @click.stop="removeQuestion(questionIndex)"><i class="fas fa-trash-alt"></i></button></a>',
+                    '</li>',
+                    '<li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>',
+                '</ul>',
+                //'<course-creator-question v-for="(question, questionKey, questionIndex) in questions" :stageid="stageid" :question="question" :key="questionKey" v-if="currentQuestionId === questionKey"></course-creator-question>',
+            '</div>',
         '</div>'
     ].join("");
 
-
-
     Vue.component('course-creator-stage', {
-        props: ['stageid', 'stage'],
-        mixins: [commonMixin],
+        props: ['stageid', 'course'],
+        //mixins: [commonMixin],
         template: stageTemplate,
         data: function () {
             return {
-                title: this.stage.title,
-                videoUrl: this.stage.videoUrl
+                title: this.course.stages[this.stageid].title,
+                videoUrl: this.course.stages[this.stageid].videoUrl
+
             };
         },
         methods: {
             addQuestion: function () {
-                // TODO: Move blank question and stage data to constants
-                this.$store.commit('addQuestionToStage', {stageid: this.stageid, question: {questionid: Util.guid(),question: '', explanation: '', options: {}}});
+                //this.$store.commit('addQuestionToStage', {stageid: this.stageid, question: {questionid: Util.guid(),question: '', explanation: '', options: {}}});
+                this.course.stages[this.stageid].questions.push({questionid: null,question: '', explanation: '', options: []});
             },
             removeQuestion: function (questionid) {
-                this.$store.commit('removeQuestionFromStage', {stageid: this.stageid, questionid: questionid});
+                //this.$store.commit('removeQuestionFromStage', {stageid: this.stageid, questionid: questionid});
             },
             changeQuestion: function (questionid) {
-                this.$store.commit('setCurrentQuestionid', {stageid: this.stageid, currentQuestionId: questionid});
+                //this.$store.commit('setCurrentQuestionid', {stageid: this.stageid, currentQuestionId: questionid});
             }
         },
         computed: {
+            /*
             questions: function () {
                 return this.$store.getters.getQuestionsForStage(this.stageid);
             },
+
+            */
             currentQuestionId: function () {
-                return this.$store.getters.getCurrentQuestionIdForStage(this.stageid);
+                //return this.$store.getters.getCurrentQuestionIdForStage(this.stageid);
+                return this.course.stages[this.stageid].currentQuestionId;
+            },
+            questions: function () {
+                return this.course.stages[this.stageid].questions;
+            },
+            wasValidated: function () {
+                return this.course.wasValidated;
             },
             validQuestionTitle: function () {
                 return this.title.length > 0;
@@ -181,40 +191,38 @@
         },
         watch: {
             title: function (newVal) {
-                this.$store.commit('setStageTitle', {title: newVal, stageid: this.stageid});
+                //this.$store.commit('setStageTitle', {title: newVal, stageid: this.stageid});
+                this.course.stages[this.stageid].title = newVal;
             },
             videoUrl: function (newVal) {
-                this.$store.commit('setStageVideoUrl', {videoUrl: newVal, stageid: this.stageid});
+                //this.$store.commit('setStageVideoUrl', {videoUrl: newVal, stageid: this.stageid});
+                this.course.stages[this.stageid].videoUrl = newVal;
             }
         }
     });
 
-    */
-
     var template = [
-        '<div :class="[\'courseCreator\', {wasSubmitted: wasSubmitted}]">',
-        '<div class="courseCreator-form">',
-        '<div class="form-group">',
-        '<label>Course Title</label>',
-        '<input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': wasSubmitted && !validCourseTitle}]"/>',
-        '<div class="invalid-feedback" >Course Title is required</div>',
-        '</div>',
-        /*
-        '<div class="courseCreator-stages">',
-        '<ul class="nav nav-tabs courseCreator-stages-tabs">',
-        '<li class="nav-item" v-for="(stage, stageKey, stageIndex) in stages">',
-        '<a :class="[\'nav-link\', {active: stageKey === currentStageId}]" @click="changeStage(stageKey)">Stage {{stageIndex + 1}} <button class="btn btn-clear" @click.stop="removeStage(stageKey)"><i class="fas fa-trash-alt"></i></button></a>',
-        '</li>',
-        '<li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>',
-        '</ul>',
-        '<course-creator-stage v-for="(stage, stageKey, stageIndex) in stages" v-if="stageKey === currentStageId" :stage="stage" :stageid="stageKey" :key="stageKey"></course-creator-stage>',
-        '</div>', // courseCreator-stages
-        */
-        '<div class="courseCreator-actions">',
-        '<button @click="saveCourse" class="btn btn-primary">Save</button>',
-        '<button @click="clearForm" class="btn btn-secondary">Clear Form</button>',
-        '</div>', // courseCreator-actions
-        '</div>', // courseCreator-form
+        '<div :class="[\'courseCreator\', {wasValidated: course.wasValidated}]">',
+            '<div class="courseCreator-form">',
+                '<div class="form-group">',
+                    '<label>Course Title</label>',
+                    '<input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': course.wasValidated && !validCourseTitle}]"/>',
+                    '<div class="invalid-feedback" >Course Title is required</div>',
+                '</div>',
+                '<div class="courseCreator-stages">',
+                    '<ul class="nav nav-tabs courseCreator-stages-tabs">',
+                        '<li class="nav-item" v-for="(stage, stageIndex) in stages">',
+                            '<a :class="[\'nav-link\', {active: stageIndex === currentStageId}]" @click="changeStage(stageIndex)">Stage {{stageIndex + 1}} <button class="btn btn-clear" @click.stop="removeStage(stageIndex)"><i class="fas fa-trash-alt"></i></button></a>',
+                        '</li>',
+                        '<li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>',
+                    '</ul>',
+                    '<course-creator-stage v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageId" :course="course" :stageid="stageIndex" :key="stageIndex"></course-creator-stage>',
+                '</div>', // courseCreator-stages
+                '<div class="courseCreator-actions">',
+                    '<button @click="saveCourse" class="btn btn-primary">Save</button>',
+                    '<button @click="clearForm" class="btn btn-secondary">Clear Form</button>',
+                '</div>', // courseCreator-actions
+            '</div>', // courseCreator-form
         '</div>', // courseCreator
     ].join('');
 
@@ -224,7 +232,9 @@
                 default: function () {
                     return {
                         title: '',
-                        stages: ''
+                        stages: [],
+                        // TODO: Need to move this out of course
+                        wasValidated: false
                     }
                 }
             }
@@ -233,32 +243,21 @@
         //mixins: [commonMixin],
         data: function () {
             return {
-                wasSubmitted: false,
+                //wasSubmitted: false,
+                currentStageId: null
             }
         },
         computed: {
-            /*
             stages: function () {
-                return this.$store.getters.stages;
+                return this.course.stages;
             },
-            currentStageId: function () {
-                return this.$store.getters.currentStageId;
-            },
-            */
             validCourseTitle: function () {
                 return this.course.title.length > 0;
             }
         },
-        watch: {
-            /*
-            courseTitle: function () {
-                this.$store.commit('setCourseTitle', this.courseTitle);
-            }
-            */
-        },
         methods: {
             saveCourse: function () {
-                this.wasSubmitted = true;
+                this.wasValidated = true;
 
                 console.log("Saving Course");
                 //this.$store.commit('setWasValidated', true);
@@ -274,13 +273,14 @@
                 //this.$store.commit('removeCourse');
             },
             addStage: function () {
-                //this.$store.commit('addStage', {stageid: Util.guid(), title: '', videoUrl: '', questions: {}, currentQuestionId: null});
+                this.course.stages.push({stageid: null, title: '', videoUrl: '', questions: [], currentQuestionId: null})
             },
             removeStage: function (stageid) {
                 //this.$store.commit('removeStage', stageid);
             },
             changeStage: function (stageIndex) {
                 //this.$store.commit('setCurrentStageId', stageIndex);
+                this.currentStageId = stageIndex;
             },
         }
     });

@@ -149,9 +149,17 @@
         methods: {
             addQuestion: function () {
                 this.course.stages[this.stageindex].questions.push(Util.clone(BLANK_QUESTION));
+                this.currentQuestionIndex = this.course.stages[this.stageindex].questions.length - 1;
             },
             removeQuestion: function (questionIndex) {
-                // TODO
+                // TODO: Removing the wrong question
+                this.course.stages[this.stageindex].questions.splice(questionIndex, 1);
+
+                if (questionIndex === this.currentQuestionIndex && this.course.stages[this.stageindex].questions.length > 0) {
+                    //Vue.set(stage, 'currentQuestionId', Object.keys(stage.questions)[0]);
+                    this.currentQuestionIndex = 0;
+                }
+                // TODO: Set to null if there are no questions in this stage
             },
             changeQuestion: function (questionIndex) {
                 this.currentQuestionIndex = questionIndex;
@@ -222,7 +230,6 @@
         template: template,
         data: function () {
             return {
-                //wasSubmitted: false,
                 currentStageIndex: null
             }
         },
@@ -247,20 +254,45 @@
                 //this.$store.commit('saveCourse', this.course);
                 //this.$store.dispatch('saveCourse');
                 //}
+
+                /*
+                fetch('/lms/api/courses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(course)
+                }).then(function (response) {
+                    console.log(response);
+                });
+                 */
             },
             clearForm: function () {
-                console.log('Clearing Form');
-                //this.$store.commit('removeCourse');
+                // TODO: Place in variable
+                // TODO: Copy course into data property
+                this.course = {
+                    title: '',
+                    stages: [],
+                    // TODO: Need to move this out of course
+                    wasValidated: false
+                };
             },
             addStage: function () {
-                this.course.stages.push(Util.clone(BLANK_STAGE))
+                this.course.stages.push(Util.clone(BLANK_STAGE));
+                this.currentStageIndex = this.course.stages.length - 1;
             },
             removeStage: function (stageIndex) {
-                // TODO
+                // TODO: removing the wrong stage
+                this.course.stages.splice(stageIndex, 1);
+
+                if (stageIndex === this.currentStageIndex && this.course.stages.length > 0) {
+                    this.currentStageIndex = 0;
+                }
+                // TODO: Set currentStageIndex to null if there are no stages
             },
             changeStage: function (stageIndex) {
                 this.currentStageIndex = stageIndex;
-            },
+            }
         }
     });
 

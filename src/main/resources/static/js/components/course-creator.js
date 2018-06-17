@@ -250,25 +250,20 @@
 
                 console.log(JSON.stringify(this.course));
 
-                //this.$store.commit('setWasValidated', true);
-
                 // TODO: Need to validate entire is valid
-                //if (this.validateCourses()) {
-                //this.$store.commit('saveCourse', this.course);
-                //this.$store.dispatch('saveCourse');
-                //}
+                // keep reference to all subcomponents
+                // each component has a isValid method which will be checked
 
-                /*
+                // TODO: Need to store config root in config file
                 fetch('/lms/api/courses', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(course)
+                    body: JSON.stringify(this.course)
                 }).then(function (response) {
                     console.log(response);
                 });
-                 */
             },
             clearForm: function () {
                 // TODO: Copy course into data property

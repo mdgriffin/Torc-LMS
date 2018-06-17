@@ -26,7 +26,7 @@ public class Question implements Serializable {
     @NotBlank
     private String explanation;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
     @JsonManagedReference
     Set<QuestionOption> options = new HashSet<>();
 

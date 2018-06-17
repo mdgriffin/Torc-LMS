@@ -34,7 +34,7 @@
         },
         methods: {
             removeOption: function () {
-                // TODO
+                this.course.stages[this.stageindex].questions[this.questionindex].options.splice(this.optionindex, 1);
             }
         },
         watch: {
@@ -69,7 +69,7 @@
             '</div>',
             '<div class="courseCreator-questions-options">',
                 '<h4>Options</h4>',
-                '<course-creator-option v-for="(option, optionIndex) in options" :stageindex="stageindex" :questionindex="questionindex" :course="course" :optionindex="optionIndex" :key="optionIndex"></course-creator-option>',
+                '<course-creator-option v-for="(option, optionIndex) in options" :stageindex="stageindex" :questionindex="questionindex" :course="course" :optionindex="optionIndex" :key="option.uid"></course-creator-option>',
                 '<button class="btn btn-light" @click="addOption">Add Option  <i class="fas fa-plus-circle"></i></button>',
             '</div>',
         '</div>',
@@ -86,7 +86,10 @@
         },
         methods: {
             addOption: function () {
-                this.course.stages[this.stageindex].questions[this.questionindex].options.push(Util.clone(BLANK_OPTION));
+                var newOption = Util.clone(BLANK_OPTION);
+                newOption.uid = Util.guid();
+
+                this.course.stages[this.stageindex].questions[this.questionindex].options.push(newOption);
             }
         },
         watch: {
@@ -129,14 +132,13 @@
                     '</li>',
                     '<li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>',
                 '</ul>',
-                '<course-creator-question v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="questionIndex" v-show="currentQuestionIndex === questionIndex"></course-creator-question>',
+                '<course-creator-question v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="question.uid" v-show="currentQuestionIndex === questionIndex"></course-creator-question>',
             '</div>',
         '</div>'
     ].join("");
 
     Vue.component('course-creator-stage', {
         props: ['stageindex', 'course'],
-        //mixins: [commonMixin],
         template: stageTemplate,
         data: function () {
             return {
@@ -148,18 +150,20 @@
         },
         methods: {
             addQuestion: function () {
-                this.course.stages[this.stageindex].questions.push(Util.clone(BLANK_QUESTION));
+                var newQuestion = Util.clone(BLANK_QUESTION);
+                newQuestion.uid = Util.guid();
+
+                this.course.stages[this.stageindex].questions.push(newQuestion);
                 this.currentQuestionIndex = this.course.stages[this.stageindex].questions.length - 1;
             },
             removeQuestion: function (questionIndex) {
-                // TODO: Removing the wrong question
                 this.course.stages[this.stageindex].questions.splice(questionIndex, 1);
 
-                if (questionIndex === this.currentQuestionIndex && this.course.stages[this.stageindex].questions.length > 0) {
-                    //Vue.set(stage, 'currentQuestionId', Object.keys(stage.questions)[0]);
-                    this.currentQuestionIndex = 0;
+                if (this.questions.length > 0 && questionIndex <= this.currentQuestionIndex) {
+                    this.currentQuestionIndex--;
+                } else if (this.questions.length === 0) {
+                    this.currentQuestionIndex = null;
                 }
-                // TODO: Set to null if there are no questions in this stage
             },
             changeQuestion: function (questionIndex) {
                 this.currentQuestionIndex = questionIndex;
@@ -204,7 +208,7 @@
                         '</li>',
                         '<li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>',
                     '</ul>',
-                    '<course-creator-stage v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stageIndex"></course-creator-stage>',
+                    '<course-creator-stage v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>',
                 '</div>', // courseCreator-stages
                 '<div class="courseCreator-actions">',
                     '<button @click="saveCourse" class="btn btn-primary">Save</button>',
@@ -221,7 +225,6 @@
                     return {
                         title: '',
                         stages: [],
-                        // TODO: Need to move this out of course
                         wasValidated: false
                     }
                 }
@@ -268,27 +271,28 @@
                  */
             },
             clearForm: function () {
-                // TODO: Place in variable
                 // TODO: Copy course into data property
                 this.course = {
                     title: '',
                     stages: [],
-                    // TODO: Need to move this out of course
                     wasValidated: false
                 };
             },
             addStage: function () {
-                this.course.stages.push(Util.clone(BLANK_STAGE));
+                var newStage = Util.clone(BLANK_STAGE);
+                newStage.uid = Util.guid();
+
+                this.course.stages.push(newStage);
                 this.currentStageIndex = this.course.stages.length - 1;
             },
             removeStage: function (stageIndex) {
-                // TODO: removing the wrong stage
                 this.course.stages.splice(stageIndex, 1);
 
-                if (stageIndex === this.currentStageIndex && this.course.stages.length > 0) {
-                    this.currentStageIndex = 0;
+                if (this.stages.length > 0 && stageIndex <= this.currentStageIndex) {
+                    this.currentStageIndex--;
+                } else if (this.stages.length === 0) {
+                    this.currentStageIndex = null;
                 }
-                // TODO: Set currentStageIndex to null if there are no stages
             },
             changeStage: function (stageIndex) {
                 this.currentStageIndex = stageIndex;

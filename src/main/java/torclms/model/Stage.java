@@ -1,10 +1,13 @@
 package torclms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "stages")
@@ -29,6 +32,10 @@ public class Stage implements Serializable {
     @JoinColumn(name="course_id", nullable=false)
     @JsonBackReference
     private Course course;
+
+    @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
+    @JsonManagedReference
+    Set<Question> questions = new HashSet<>();
 
     @Transient
     private int courseId;
@@ -79,5 +86,13 @@ public class Stage implements Serializable {
 
     public void setCourseId(int course_id) {
         this.courseId = courseId;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
     }
 }

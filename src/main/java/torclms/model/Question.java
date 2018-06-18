@@ -1,5 +1,6 @@
 package torclms.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -25,6 +26,11 @@ public class Question implements Serializable {
 
     @NotBlank
     private String explanation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="stage_id", nullable=false)
+    @JsonBackReference
+    private Stage stage;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
     @JsonManagedReference
@@ -68,5 +74,13 @@ public class Question implements Serializable {
 
     public void setQuestionAudio(String questionAudio) {
         this.questionAudio = questionAudio;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

@@ -274,10 +274,12 @@
                     body: JSON.stringify(this.course)
                 }).then(function (response) {
                     console.log(response);
-                });
+                    alert("Question Saved Successfully");
+                }).error(function () {
+                    alert("An error has occured, please try again");
+                })
             },
             clearForm: function () {
-                // TODO: Copy course into data property
                 this.course = {
                     title: '',
                     stages: [],

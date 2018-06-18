@@ -46,7 +46,7 @@ public class AdminController {
         return "registration";
     }
 
-    @PostMapping("/users-new")
+    @PostMapping("/users/new")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, @RequestParam("user_role") String roleName) {
         ModelAndView modelAndView = new ModelAndView();
         // TODO: Selected role should be returned

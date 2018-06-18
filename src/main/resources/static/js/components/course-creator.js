@@ -1,7 +1,7 @@
 (function () {
 
     const BLANK_STAGE = {stageid: null, title: '', videoUrl: '', questions: []};
-    const BLANK_QUESTION = {questionid: null,question: '', explanation: '', options: []};
+    const BLANK_QUESTION = {questionid: null, question: '', explanation: '', questionAudio: '', options: []};
     const BLANK_OPTION = {optionid: null, text: '', isCorrect: false};
 
     var optionTemplate = [
@@ -67,6 +67,11 @@
                 '<label>Audio</label>',
                 '<input type="text" v-model="questionAudio" class="form-control" />',
             '</div>',
+            '<div class="form-group">',
+                '<label>Explanation</label>',
+                '<input type="text" v-model="explanation" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validExplanation}]" />',
+                '<div class="invalid-feedback">Explanation is required</div>',
+            '</div>',
             '<div class="courseCreator-questions-options">',
                 '<h4>Options</h4>',
                 '<course-creator-option v-for="(option, optionIndex) in options" :stageindex="stageindex" :questionindex="questionindex" :course="course" :optionindex="optionIndex" :key="option.uid"></course-creator-option>',
@@ -81,7 +86,8 @@
         data: function () {
             return  {
                 questionTitle: this.course.stages[this.stageindex].questions[this.questionindex].question,
-                questionAudio: this.course.stages[this.stageindex].questions[this.questionindex].audio
+                questionAudio: this.course.stages[this.stageindex].questions[this.questionindex].questionAudio,
+                explanation: this.course.stages[this.stageindex].questions[this.questionindex].explanation
             }
         },
         methods: {
@@ -97,7 +103,10 @@
                 this.course.stages[this.stageindex].questions[this.questionindex].question = newVal;
             },
             questionAudio: function (newVal) {
-                this.course.stages[this.stageindex].questions[this.questionindex].audio = newVal;
+                this.course.stages[this.stageindex].questions[this.questionindex].questionAudio = newVal;
+            },
+            explanation: function (newVal) {
+                this.course.stages[this.stageindex].questions[this.questionindex].explanation = newVal;
             }
         },
         computed: {
@@ -106,6 +115,9 @@
             },
             validQuestionTitle: function () {
                 return this.questionTitle.length > 0;
+            },
+            validExplanation: function () {
+                return this.explanation.length > 0;
             },
             options: function () {
                 return this.course.stages[this.stageindex].questions[this.questionindex].options;
@@ -145,7 +157,6 @@
                 title: this.course.stages[this.stageindex].title,
                 videoUrl: this.course.stages[this.stageindex].videoUrl,
                 currentQuestionIndex: null
-
             };
         },
         methods: {

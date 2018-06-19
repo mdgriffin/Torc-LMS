@@ -32,6 +32,12 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping("/courses")
+    public String showCourses () {
+        // TODO: Create admin index view of courses
+        return "admin/courses";
+    }
+
     @GetMapping("/courses/new")
     public String createCourse () {
         return "admin/create-course";
@@ -69,4 +75,5 @@ public class AdminController {
 
         return modelAndView;
     }
+
 }

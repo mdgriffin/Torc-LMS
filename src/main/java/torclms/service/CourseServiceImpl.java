@@ -5,11 +5,18 @@ import org.springframework.stereotype.Service;
 import torclms.model.Course;
 import torclms.repository.CourseRepository;
 
+import java.util.List;
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepo;
+
+    public List<Course> findAll () {
+        return courseRepo.findAll();
+    }
+
 
     public Course findCourseById (int courseId) {
         return courseRepo.findByCourseId(courseId);

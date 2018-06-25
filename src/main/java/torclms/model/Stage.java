@@ -33,9 +33,13 @@ public class Stage implements Serializable {
     @JsonBackReference
     private Course course;
 
-    @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
+    @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     Set<Question> questions = new HashSet<>();
+
+    @OneToMany(mappedBy="assignedStage", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<UserAssignment> assignedUsers;
 
     @Transient
     private int courseId;
@@ -94,5 +98,13 @@ public class Stage implements Serializable {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    public Set<UserAssignment> getAssignedUsers() {
+        return assignedUsers;
+    }
+
+    public void setAssignedUsers(Set<UserAssignment> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 }

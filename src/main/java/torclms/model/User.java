@@ -3,6 +3,7 @@ package torclms.model;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -51,7 +52,12 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
+    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<UserAssignment> assignedStages;
 
     public Long getUserId() {
         return userId;
@@ -115,5 +121,17 @@ public class User implements Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public Set<UserAssignment> getAssignedStages() {
+        return assignedStages;
+    }
+
+    public void setAssignedStages(Set<UserAssignment> assignedStages) {
+        this.assignedStages = assignedStages;
     }
 }

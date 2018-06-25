@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import torclms.model.Stage;
 import torclms.repository.StageRepository;
 
+import java.util.Optional;
+
 @Service
 public class StageServiceImpl implements  StageService {
 
@@ -13,5 +15,9 @@ public class StageServiceImpl implements  StageService {
 
     public Stage saveStage (Stage stage) {
         return stageRepo.save(stage);
+    }
+
+    public Stage getStageById (int stageId) {
+        return stageRepo.findByStageId(stageId);
     }
 }

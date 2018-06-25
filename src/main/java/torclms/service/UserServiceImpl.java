@@ -1,6 +1,7 @@
 package torclms.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import torclms.entity.UserRole;
 import torclms.model.Role;
+import torclms.model.Stage;
 import torclms.model.User;
+import torclms.model.UserAssignment;
 import torclms.repository.RoleRepository;
 import torclms.repository.UserRepository;
 
@@ -35,5 +38,18 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRole(userRole.toString());
         user.setRoles(new HashSet<Role>(Arrays.asList(role)));
         userRepository.save(user);
+    }
+
+    @Override
+    public User assignStages(User user, Stage stage) {
+        UserAssignment assignment = new UserAssignment();
+
+        assignment.setAssignedUser(user);
+        assignment.setAssignedStage(stage);
+        assignment.setDeadline(new Date());
+
+        user.getAssignedStages().add(assignment);
+
+        return userRepository.save(user);
     }
 }

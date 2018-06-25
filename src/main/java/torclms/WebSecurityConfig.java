@@ -31,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("dataSource")
     private DataSource dataSource;
 
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -51,14 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/login").permitAll()
             // TODO: Remove, testing only
             .antMatchers("/api/**").permitAll()
-            .antMatchers("/registration").permitAll()
+            //.antMatchers("/registration").permitAll()
             // Add routes and controller for mananger and trainee roles
-            //.antMatchers("/courses/**").hasAuthority("TRAINEE").anyRequest()
-            //.antMatchers("/manage/**").hasAuthority("MANAGER").anyRequest()
-            .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-            .authenticated().and().csrf().disable().formLogin()
+            .antMatchers("/train/**").hasAuthority("TRAINEE")
+            .antMatchers("/manage/**").hasAuthority("MANAGER")
+            .antMatchers("/admin/**").hasAuthority("ADMIN")
+            .anyRequest().authenticated().and().csrf().disable().formLogin()
             .loginPage("/login").failureUrl("/login?error=true")
-            .defaultSuccessUrl("/admin/home")
+            .successHandler(loginSuccessHandler)
+            //.defaultSuccessUrl("/admin/home")
             .usernameParameter("email")
             .passwordParameter("password")
             .and().logout()

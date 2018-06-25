@@ -44,6 +44,8 @@ public class StageController {
     public User assignStage (@RequestParam("stage_id") String stageIdStr) {
         int stageId = Integer.parseInt(stageIdStr);
 
+
+        // TODO: The user should also be selectable, not only the currently logged in user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Stage stage = stageService.getStageById(stageId);
         String userEmail = auth.getPrincipal().toString();

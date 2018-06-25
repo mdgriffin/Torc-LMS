@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user, UserRole userRole) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
         Role role = roleRepository.findByRole(userRole.toString());
         user.setRoles(new HashSet<Role>(Arrays.asList(role)));
         userRepository.save(user);

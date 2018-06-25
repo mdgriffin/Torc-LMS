@@ -1,13 +1,13 @@
 package torclms.service;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import torclms.entity.TestCompletionDeadline;
 import torclms.entity.UserRole;
 import torclms.model.Role;
 import torclms.model.Stage;
@@ -47,7 +47,8 @@ public class UserServiceImpl implements UserService {
 
         assignment.setAssignedUser(user);
         assignment.setAssignedStage(stage);
-        assignment.setDeadline(new Date());
+
+        assignment.setDeadline(TestCompletionDeadline.getDate());
 
         user.getAssignedStages().add(assignment);
 

@@ -30,18 +30,17 @@ public class UserController {
 
     // Get a Single User
     @GetMapping("/users/{id}")
-    public User getNoteById(@PathVariable(value = "id") Long userId) {
+    public User getUserById(@PathVariable(value = "id") Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
-    // Update a Note
     @PutMapping("/users/{id}")
-    public User updateNote(@PathVariable(value = "id") Long noteId,
+    public User updateUser(@PathVariable(value = "id") Long userId,
                            @Valid @RequestBody User userDetails) {
 
-        User user = userRepository.findById(noteId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", noteId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
 
         user.setFirstname(userDetails.getFirstname());
@@ -53,11 +52,11 @@ public class UserController {
 
     // Delete a User
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long userId) {
-        User note = userRepository.findById(userId)
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        userRepository.delete(note);
+        userRepository.delete(user);
 
         return ResponseEntity.ok().build();
     }

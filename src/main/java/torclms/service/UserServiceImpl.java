@@ -2,6 +2,7 @@ package torclms.service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +40,11 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRole(userRole.toString());
         user.setRoles(new HashSet<Role>(Arrays.asList(role)));
         userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById (Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override

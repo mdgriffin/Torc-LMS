@@ -17,7 +17,7 @@ public class StageServiceImpl implements  StageService {
         return stageRepo.save(stage);
     }
 
-    public Stage getStageById (int stageId) {
-        return stageRepo.findByStageId(stageId);
+    public Optional<Stage> getStageById (int stageId) {
+        return stageRepo.findById(stageId);
     }
 }

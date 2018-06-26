@@ -2,7 +2,9 @@ package torclms.service;
 
 import torclms.model.Stage;
 
+import java.util.Optional;
+
 public interface StageService {
     Stage saveStage (Stage stage);
-    Stage getStageById (int stageId);
+    Optional<Stage> getStageById (int stageId);
 }

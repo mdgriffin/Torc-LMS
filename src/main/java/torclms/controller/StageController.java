@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import torclms.dto.UserStageAssignment;
+import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
 import torclms.model.Stage;
 import torclms.model.User;
@@ -16,6 +18,7 @@ import torclms.service.StageService;
 import torclms.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -41,16 +44,10 @@ public class StageController {
     }
 
     @PostMapping("/stages/assign")
-    public User assignStage (@RequestParam("stage_id") String stageIdStr) {
-        int stageId = Integer.parseInt(stageIdStr);
+    public User assignStage (@RequestBody  UserStageAssignment assignment) {
+        Stage stage = stageService.getStageById(assignment.getStageId()).orElseThrow(() -> new ResourceNotFoundException("Stage", "id", assignment.getStageId()));
+        User user = userService.findById(assignment.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", assignment.getUserId()));
 
-
-        // TODO: The user should also be selectable, not only the currently logged in user
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Stage stage = stageService.getStageById(stageId);
-        String userEmail = auth.getPrincipal().toString();
-        User loggedInUser = userService.findUserByEmail(userEmail);
-
-        return userService.assignStages(loggedInUser, stage);
+        return userService.assignStages(user, stage);
     }
 }

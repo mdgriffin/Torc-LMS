@@ -5,5 +5,4 @@ import torclms.model.Stage;
 
 public interface StageRepository extends JpaRepository<Stage, Integer> {
 
-    public Stage findByStageId (int stageId);
 }

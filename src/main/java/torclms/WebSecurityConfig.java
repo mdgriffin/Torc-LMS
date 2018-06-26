@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/login").permitAll()
             // TODO: Remove, testing only
             .antMatchers("/api/**").permitAll()
+            .antMatchers("/api/**/**").permitAll()
             //.antMatchers("/registration").permitAll()
             // Add routes and controller for mananger and trainee roles
             .antMatchers("/train/**").hasAuthority("TRAINEE")

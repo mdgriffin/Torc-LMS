@@ -10,17 +10,27 @@
 
     <div class="section">
 
-        <article class="message">
-            <div class="message-body">
-                <h3>Assign Course Stages to Users</h3>
-            </div>
-        </article>
+        <div id="assignStageApp">
+
+            <label>Select User</label>
+
+            <auto-complete v-bind="selectedUserEmail" :items="userEmails"></auto-complete>
+
+            <data-table :headings="userHeadings" :obj-key="'email'" :rows="users"></data-table>
+
+        </div>
 
     </div>
 
 </div>
 
 <div th:replace="~{fragments/footer :: content}"></div>
+
+<th:block th:include="fragments/footer :: vueResources"></th:block>
+
+<script th:src="@{/js/components/datatables.js}"></script>
+<script th:src="@{/js/components/autocomplete.js}"></script>
+<script th:src="@{/js/apps/assign-stage.js}"></script>
 
 </body>
 </html>

@@ -68,6 +68,7 @@ return {
 
             switch (e.key) {
                 case 'Down':
+                case 'ArrowDown':
                     if (this.selectedIndex !== null) {
                         if (this.selectedIndex < this.filteredItems.length - 1) {
                             this.selectedIndex++
@@ -77,6 +78,7 @@ return {
                     }
                     break;
                 case 'Up':
+                case 'ArrowUp':
                     if (this.selectedIndex !== null) {
                         if (this.selectedIndex > 0) {
                             this.selectedIndex--;

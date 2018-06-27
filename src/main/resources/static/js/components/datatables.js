@@ -136,8 +136,8 @@ components.BaseTable = {
             if (this.searchInput.length > 0) {
                 var escapedInputText = Util.escapeRegExp(this.searchInput.toLowerCase());
                 return rows.filter(function (row) {
-                    return row.filter(function (item) {
-                        return item.toLowerCase().search(escapedInputText) !== -1;
+                    return Object.keys(row).filter(function (key) {
+                        return row[key].toLowerCase().search(escapedInputText) !== -1;
                     }).length > 0;
                 });
             }

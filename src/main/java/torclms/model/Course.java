@@ -41,6 +41,10 @@ public class Course implements Serializable {
     @JsonManagedReference
     Set<Stage> stages = new HashSet<>();
 
+    @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<UserAssignment> assignedUsers;
+
     public int getCourseId() {
         return courseId;
     }

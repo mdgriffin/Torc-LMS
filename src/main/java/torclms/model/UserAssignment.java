@@ -24,9 +24,9 @@ public class UserAssignment implements Serializable {
     private User assignedUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stage_id")
+    @JoinColumn(name = "course_id")
     @JsonBackReference
-    private Stage assignedStage;
+    private Course assignedCourse;
 
     @Column(name = "assigned_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,12 +45,12 @@ public class UserAssignment implements Serializable {
         this.assignedUser = assignedUser;
     }
 
-    public Stage getAssignedStage() {
-        return assignedStage;
+    public Course getAssignedCourse() {
+        return assignedCourse;
     }
 
-    public void setAssignedStage(Stage assignedStage) {
-        this.assignedStage = assignedStage;
+    public void setAssignedCourse(Course assignedCourse) {
+        this.assignedCourse = assignedCourse;
     }
 
     public Date getAssignedOn() {

@@ -6,6 +6,7 @@ import torclms.model.Course;
 import torclms.repository.CourseRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -18,8 +19,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-    public Course findCourseById (int courseId) {
-        return courseRepo.findByCourseId(courseId);
+    public Optional<Course> findCourseById (int courseId) {
+        return courseRepo.findById(courseId);
     }
 
     public Course saveCourse (Course cource) {

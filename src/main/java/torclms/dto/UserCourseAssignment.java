@@ -1,10 +1,10 @@
 package torclms.dto;
 
-public class UserStageAssignment {
+public class UserCourseAssignment {
 
     private Long userId;
 
-    private int stageId;
+    private int courseId;
 
     public Long getUserId() {
         return userId;
@@ -14,11 +14,11 @@ public class UserStageAssignment {
         this.userId = userId;
     }
 
-    public int getStageId() {
-        return stageId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setStageId(int stageId) {
-        this.stageId = stageId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }

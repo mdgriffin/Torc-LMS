@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import torclms.entity.TestCompletionDeadline;
 import torclms.entity.UserRole;
-import torclms.model.Role;
-import torclms.model.Stage;
-import torclms.model.User;
-import torclms.model.UserAssignment;
+import torclms.model.*;
 import torclms.repository.RoleRepository;
 import torclms.repository.UserRepository;
 
@@ -48,15 +45,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User assignStages(User user, Stage stage) {
+    public User assignCourse(User user, Course course) {
         UserAssignment assignment = new UserAssignment();
 
         assignment.setAssignedUser(user);
-        assignment.setAssignedStage(stage);
-
+        assignment.setAssignedCourse(course);
         assignment.setDeadline(TestCompletionDeadline.getDate());
 
-        user.getAssignedStages().add(assignment);
+        user.getAssignedCourses().add(assignment);
 
         return userRepository.save(user);
     }

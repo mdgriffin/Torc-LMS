@@ -57,7 +57,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<UserAssignment> assignedStages;
+    private Set<UserAssignment> assignedCourses;
 
     public Long getUserId() {
         return userId;
@@ -127,11 +127,11 @@ public class User implements Serializable {
         return enabled;
     }
 
-    public Set<UserAssignment> getAssignedStages() {
-        return assignedStages;
+    public Set<UserAssignment> getAssignedCourses() {
+        return assignedCourses;
     }
 
-    public void setAssignedStages(Set<UserAssignment> assignedStages) {
-        this.assignedStages = assignedStages;
+    public void setAssignedCourses(Set<UserAssignment> assignedStages) {
+        this.assignedCourses = assignedCourses;
     }
 }

@@ -6,31 +6,19 @@
 
 <th:block th:include="fragments/manager-menu :: navbar"></th:block>
 
-<div class="container">
-
-    <div class="section">
-
-        <div id="assignStageApp">
-
-            <label>Select User</label>
-
-            <auto-complete v-bind="selectedUserEmail" :items="userEmails"></auto-complete>
-
-            <data-table :headings="userHeadings" :obj-key="'email'" :rows="users"></data-table>
-
-        </div>
-
+<div class="container section">
+    <div id="assignStageApp">
+        <h2>Assign Courses to Users</h2>
+        <assign-course :users="users" :courses="courses"></assign-course>
     </div>
-
 </div>
 
 <div th:replace="~{fragments/footer :: content}"></div>
 
 <th:block th:include="fragments/footer :: vueResources"></th:block>
 
-<script th:src="@{/js/components/datatables.js}"></script>
-<script th:src="@{/js/components/autocomplete.js}"></script>
-<script th:src="@{/js/apps/assign-stage.js}"></script>
+<script th:src="@{/js/components/assign-course.js}"></script>
+<script th:src="@{/js/apps/assign-course.js}"></script>
 
 </body>
 </html>

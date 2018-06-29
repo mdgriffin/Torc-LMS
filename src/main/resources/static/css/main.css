@@ -80,6 +80,10 @@ li.selected button {
 * === Elements  ===
 **/
 
+.navbar-dark .navbar-brand.primaryLogo {
+    color: #fff;
+}
+
 .pageTitle {
     margin-bottom: 1em;
 }
@@ -115,6 +119,19 @@ li.selected button {
 
 .btn.headingAligned {
     margin-left: 15px;
+}
+
+.scroller::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scroller::-webkit-scrollbar-track {
+    background: #f7f6f6;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+    background: #dedede;
+    border-radius: 3px;
 }
 
 .componentsContainer .card {
@@ -260,6 +277,10 @@ span.required {
 
 /* === Datatable Component === */
 
+.datatable header {
+    padding-bottom: 2em;
+}
+
 .datatable-options label {
     font-weight: 400;
 }
@@ -272,6 +293,11 @@ span.required {
 .datatable-search,
 .datatable-pagination {
     text-align: right;
+    justify-content: right;
+}
+
+.datatable-pagination .pagination {
+    justify-content: flex-end;
 }
 
 .datatable-search label {
@@ -374,4 +400,34 @@ span.required {
 
 .dropdown-large {
     width: 500px;
+}
+
+
+/* Stage Selector */
+
+.stage-selector-section h3 {
+    margin: 10px;
+}
+
+.stage-selector-section h3 .fa-check {
+    color: green;
+}
+
+.selectorList {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.selectorList-single {
+    padding: 10px;
+    border-top: 1px solid #f4f4f4;
+}
+
+.selectorList-single:hover {
+    background-color: #eaeaea;
+}
+
+.selectorList-single.is-selected {
+    background: #C1CFDA;
+    color: #fff;
 }

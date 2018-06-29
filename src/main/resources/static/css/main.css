@@ -405,16 +405,13 @@ span.required {
 
 /* Stage Selector */
 
-.stage-selector-section h3 {
-    margin: 10px;
-}
 
 .stage-selector-section h3 .fa-check {
     color: green;
 }
 
 .selectorList {
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: scroll;
 }
 

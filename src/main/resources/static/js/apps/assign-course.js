@@ -16,7 +16,6 @@ var app = new Vue({
             })
             .then(function (json) {
                 self.users = json;
-
             });
 
         fetch('/lms/api/courses')
@@ -25,7 +24,6 @@ var app = new Vue({
             })
             .then(function (json) {
                 self.courses = json;
-
             });
     }
 });

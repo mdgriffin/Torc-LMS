@@ -18,8 +18,8 @@ var baseTableTemplate = [
             '<input type="text" class="form-control" v-model="searchInput"/>',
         '</div>', // datatable-search
     '</header>',
-    '<table class="table">',
-        '<thead>',
+    '<table class="table table-bordered">',
+        '<thead class="thead-light">',
         '<tr>',
             '<slot name="before-headings"></slot>',
             '<th v-for="item, itemIndex in headings">{{item}} <button v-if="columnSorting" class="btn btn-clear" @click="sortColumn(itemIndex)"><i :class="[\'fas\', sortButtonClass(itemIndex)]"></i></button></th>',
@@ -43,9 +43,9 @@ var baseTableTemplate = [
         '</div>', // datatable-indicators
         '<div v-if="pagination" class="datatable-pagination alignMiddle-half">',
             '<ul class="pagination">',
-                '<li :class="{disabled: currentPage === 0}"><a @click="changePage(currentPage - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>',
-                '<li v-for="page in numPages" :class="{active: currentPage === (page - 1)}"><a @click="changePage(page - 1)">{{page}}</a></li>',
-                '<li :class="{disabled: currentPage === numPages - 1}"><a @click="changePage(currentPage + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>',
+                '<li :class="[{disabled: currentPage === 0}, \'page-item\']"><a @click="changePage(currentPage - 1)" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>',
+                '<li v-for="page in numPages" :class="[{active: currentPage === (page - 1)}, \'page-item\']"><a @click="changePage(page - 1)" class="page-link">{{page}}</a></li>',
+                '<li :class="[{disabled: currentPage === numPages - 1}, \'page-item\']"><a @click="changePage(currentPage + 1)" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>',
             '</ul>',
         '</div>', // datatable-pagination
     '</footer>',
@@ -54,6 +54,7 @@ var baseTableTemplate = [
 
 var dataTableTemplate = [
     '<basetable :headings="headings" :rows="rows">',
+        '<template slot="after-headings"><slot name="after-headings"></slot></template>',
         '<template slot="table-body" slot-scope="scope">',
             '<tr v-for="(row, rowIndex) in scope.rows">',
                 '<slot name="before-data" v-bind:rowIndex="rowIndex"></slot>',

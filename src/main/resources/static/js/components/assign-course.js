@@ -6,13 +6,16 @@ var AssignCourse = (function () {
                 <div class="col-sm stage-selector-section stage-selector-user">
                     <h3>Select User <i class="fas fa-check" v-if="selectedUserIndex !== null"></i></h3>
                     <div class="selectorList scroller">
-                        <div :class="[{'is-selected': userIndex === selectedUserIndex},'selectorList-single']" v-for="(user, userIndex) in users" v-on:click="selectUser(userIndex)">
+                        <div :class="[{'is-selected': userIndex === selectedUserIndex, 'is-busy': !userAvailable(userIndex)},'selectorList-single']" v-for="(user, userIndex) in users" v-on:click="selectUser(userIndex)">
                             <div class="selectorList-single-icon">
                                 <i class="fas fa-user"></i>
                             </div>
                             <p>{{user.firstname}} {{user.surname}}</p>
-                            <p>Number of courses assigned: {{user.assignedCourses.length}}</p>
-                            <p>User Available: {{ userAvailable(userIndex) }}</p>
+                            <div>
+                                <p v-if="userAvailable(userIndex)" class="is-available">Available</p>
+                                <p v-else class="is-busy">Busy</p>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -26,7 +29,7 @@ var AssignCourse = (function () {
                 </div>
             </div>
             <div class="d-flex justify-content-end section">
-                <button class="btn btn-outline-secondary" v-on:click="save" :disabled="!canSave">Save</button>
+                <button class="btn btn-outline-secondary" v-on:click="save" :disabled="!canSave">Assign</button>
             </div>
         </div>
     `
@@ -59,7 +62,9 @@ var AssignCourse = (function () {
         },
         methods: {
             selectUser: function (userIndex) {
-                this.selectedUserIndex = userIndex;
+                if (this.userAvailable(userIndex)) {
+                    this.selectedUserIndex = userIndex;
+                }
             },
             selectCourse: function (courseIndex) {
                 this.selectedCourseIndex = courseIndex;
@@ -96,6 +101,10 @@ var AssignCourse = (function () {
 
                         if (userIndex !== -1) {
                             Vue.set(self.users, userIndex, json);
+                        }
+
+                        if (userIndex  == self.selectedUserIndex) {
+                            self.selectedUserIndex = null;
                         }
                     }).catch(function () {
                         alert("An error has occured, please try again");

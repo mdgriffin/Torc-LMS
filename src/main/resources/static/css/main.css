@@ -420,11 +420,48 @@ span.required {
     border-top: 1px solid #f4f4f4;
 }
 
-.selectorList-single:hover {
+.selectorList-single:not(.is-busy):hover {
     background-color: #eaeaea;
 }
 
 .selectorList-single.is-selected {
     background: #C1CFDA;
     color: #fff;
+}
+
+.selectorList-single.is-busy {
+    color: #a9a9a9;
+}
+
+.selectorList-single p.is-available,
+.selectorList-single p.is-busy {
+    color: #fff;
+    line-height: 1.4em;
+    border-radius: 0.7em;
+    padding: 0 10px;
+    text-align: right;
+    margin: 0;
+}
+
+.selectorList-single p.is-available {
+    background: #16a016;
+}
+
+.selectorList-single p.is-busy {
+    background: red;
+}
+
+.selectorList-single-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    background: #ccc;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 30px
+}
+
+.selectorList-single > p {
+    display: inline-block;
 }

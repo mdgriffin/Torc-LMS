@@ -441,6 +441,7 @@ span.required {
     padding: 0 10px;
     text-align: right;
     margin: 0;
+    display: inline;
 }
 
 .selectorList-single p.is-available {

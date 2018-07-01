@@ -5,6 +5,7 @@ var AssignCourse = (function () {
             <div class="row no-gutters ">
                 <div class="col-sm stage-selector-section stage-selector-user">
                     <h3>Select User <i class="fas fa-check" v-if="selectedUserIndex !== null"></i></h3>
+                    <loader v-if="users === null"></loader>
                     <div class="selectorList scroller">
                         <div :class="[{'is-selected': userIndex === selectedUserIndex, 'is-busy': !userAvailable(userIndex)},'selectorList-single']" v-for="(user, userIndex) in users" v-on:click="selectUser(userIndex)">
                             <div class="selectorList-single-icon">
@@ -21,6 +22,7 @@ var AssignCourse = (function () {
                 </div>
                 <div class="col-sm stage-selector-section stage-selector-course">
                     <h3>Select Course <i class="fas fa-check" v-if="selectedCourseIndex !== null"></i></h3>
+                    <loader v-if="courses === null"></loader>
                     <div class="selectorList scroller">
                         <div :class="[{'is-selected': courseIndex === selectedCourseIndex},'selectorList-single']" v-for="(course, courseIndex) in courses" v-on:click="selectCourse(courseIndex)">
                             <p>{{course.title}}</p>
@@ -37,10 +39,13 @@ var AssignCourse = (function () {
     return {
         props: ['users', 'courses'],
         template: template,
+        components: {
+            'loader': LoadingStatus
+        },
         data: function () {
             return {
                 selectedUserIndex: null,
-                selectedCourseIndex: null
+                selectedCourseIndex: null,
             }
         },
         computed: {

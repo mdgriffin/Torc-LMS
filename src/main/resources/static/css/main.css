@@ -378,7 +378,7 @@ span.required {
     left: 0;
 }
 
-.dropdown-content.aligRight {
+.dropdown-content.alignRight {
     right: 0;
 }
 
@@ -465,4 +465,33 @@ span.required {
 
 .selectorList-single > p {
     display: inline-block;
+}
+
+/* Loading Component */
+
+.loadingStatus {
+    text-align: center;
+    color: #b3b1b1;
+}
+
+.loadingStatus h3 {
+    font-size: 1.4em;
+}
+
+.loadingStatus-indicator svg path,
+.loadingStatus-indicator svg rect{
+    fill: #b3b1b1;
+}
+.infiniteRotate {
+    animation: rotation 1.5s infinite linear;
+    -webkit-animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
 }

@@ -1,8 +1,8 @@
 var app = new Vue({
     el: '#assignStageApp',
     data: {
-        users: [],
-        courses: []
+        users: null,
+        courses: null
     },
     components: {
         'assign-course': AssignCourse

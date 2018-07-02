@@ -23,7 +23,7 @@ public class ManagerController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getFirstname() + " " + user.getSurname() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("managerMessage","Content Available Only for Users with ManagerRole");
+        modelAndView.addObject("managerMessage","Content Available Only for Users with Manager Role");
         modelAndView.setViewName("manage/home");
         return modelAndView;
     }

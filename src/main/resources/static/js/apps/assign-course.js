@@ -10,7 +10,7 @@ var app = new Vue({
     created: function () {
         var self = this;
 
-        fetch('/lms/api/users')
+        fetch('/lms/api/users?trainees=true')
             .then(function (response) {
                 return response.json();
             })

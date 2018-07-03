@@ -52,6 +52,8 @@ public class CourseController {
     public List<Course> getCoursesAssignedToUser (@PathVariable(value = "userId") Long userId) {
         List<Course> assignedCourses = courseRepo.findAssignedCourses(userId, new Date(), TestCompletionDeadline.getDate());
 
+        // TODO: Should only be accessible to the user who is assigned courses or users with role or admin
+
         if (assignedCourses.size() == 0) {
             throw new ResourceNotFoundException("User", "id", userId);
         }

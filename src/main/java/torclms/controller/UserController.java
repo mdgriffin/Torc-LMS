@@ -26,7 +26,6 @@ public class UserController {
         } else {
             return userRepository.findAll();
         }
-
     }
 
     // Create a new User
@@ -45,10 +44,8 @@ public class UserController {
     @PutMapping("/users/{id}")
     public User updateUser(@PathVariable(value = "id") Long userId,
                            @Valid @RequestBody User userDetails) {
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
 
         user.setFirstname(userDetails.getFirstname());
         user.setSurname(userDetails.getSurname());

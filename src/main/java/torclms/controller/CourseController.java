@@ -1,6 +1,10 @@
 package torclms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import torclms.dto.UserCourseAssignment;
@@ -13,6 +17,7 @@ import torclms.service.CourseService;
 import torclms.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +52,18 @@ public class CourseController {
 
         return userService.assignCourse(user, course);
     }
+
+    @GetMapping("/courses/assigned")
+    public List<Course> getCoursesAssignedToActiveUser (@AuthenticationPrincipal final Principal authUser) {
+        User user = userService.findUserByEmail(authUser.getName());
+        List<Course> assignedCourses = courseRepo.findAssignedCourses(user.getUserId(), new Date(), TestCompletionDeadline.getDate());
+
+        if (assignedCourses.size() == 0) {
+            throw new ResourceNotFoundException("User", "id", user.getUserId());
+        }
+
+        return assignedCourses;
+    };
 
     @GetMapping("/courses/assigned/{userId}")
     public List<Course> getCoursesAssignedToUser (@PathVariable(value = "userId") Long userId) {

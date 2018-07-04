@@ -19,11 +19,24 @@
                 </div>
             </article>
 
+            <div id="traineeHomeApp">
+                <div v-for="course in assignedCourses">
+
+                    <h3>{{ course.title }}</h3>
+
+                </div>
+            </div>
+
         </div>
 
     </div>
 
     <div th:replace="~{fragments/footer :: content}"></div>
+
+    <th:block th:include="fragments/footer :: vueResources"></th:block>
+
+    <script th:src="@{/js/components/loading-status.js}"></script>
+    <script th:src="@{/js/apps/trainee-home.js}"></script>
 
 </body>
 </html>

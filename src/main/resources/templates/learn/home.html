@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragments/header :: head}"></head>
 <body>
 
-    <h2>Trainee Home Page</h2>
+    <th:block th:include="fragments/trainee-menu :: navbar"></th:block>
+
+    <div class="container">
+
+        <div class="section">
+
+            <article class="card">
+                <div class="card-header">
+                    <p th:utext="${userName}"></p>
+                </div>
+                <div class="card-body">
+                    <p class="admin-message-text text-center" th:utext="${traineeMessage}"></p>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+
+    <div th:replace="~{fragments/footer :: content}"></div>
 
 </body>
 </html>

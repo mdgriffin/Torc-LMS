@@ -275,9 +275,9 @@
                 }).then(function (response) {
                     console.log(response);
                     alert("Question Saved Successfully");
-                }).error(function () {
+                }).catch(function () {
                     alert("An error has occured, please try again");
-                })
+                });
             },
             clearForm: function () {
                 this.course = {

@@ -3,10 +3,11 @@ package torclms.service;
 import torclms.model.Course;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseService {
 
-    Course findCourseById (int courseId);
+    Optional<Course> findCourseById (int courseId);
 
     List<Course> findAll ();
 

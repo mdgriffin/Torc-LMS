@@ -1,5 +1,7 @@
 package torclms.controller;
 
+import org.springframework.data.repository.query.Param;
+import torclms.entity.UserRole;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.User;
 import torclms.repository.UserRepository;
@@ -18,8 +20,13 @@ public class UserController {
 
     // Get All Users
     @GetMapping("/users")
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<User> getAllUser(@RequestParam(value = "trainees", required = false, defaultValue = "false") boolean trainee) {
+        if (trainee) {
+            return userRepository.getUsersByRole(UserRole.TRAINEE.name());
+        } else {
+            return userRepository.findAll();
+        }
+
     }
 
     // Create a new User

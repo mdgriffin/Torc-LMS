@@ -4,32 +4,59 @@
 <head th:replace="~{fragments/header :: head}"></head>
 <body>
 
+    <br><br><br>
     <div class="container">
+        <div class = "row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class = "panel panel-login">
+                    <div class = "panel-heading">
+                        <div class ="row">
+                            <div class = "col-xs-12">
+                                <h2>Team Torc SQL LMS</h2>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
 
-        <div class="section">
+                    <div class="panel-body">
+                        <div class = "row">
+                            <div class = "col-lg-12">
+                                <form th:action="@{/login}" method="POST" class="form-signin">
+                                    <div class="form-group">
+                                        <br>
+                                        <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="form-control" />
+                                    </div>
 
-            <h2 class="title">Login to Team Torc LMS</h2>
+                                    <div class="form-group">
+                                        <br>
+                                        <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="form-control" />
+                                    </div>
 
-            <form th:action="@{/login}" method="POST" class="form-signin">
+                                    <div class = "form-group">
+                                        <div th:if="${#request.getParameter('error') != null}" class="">Invalid Username of Password</div>
+                                    </div>
 
-                <div class="form-group">
-                    <label for="txtEmail" class="label">Email</label>
-                    <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="form-control" />
+                                    <!--<div class="form-group text-center">
+                                        <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                        <label for="remember"> Remember Me</label>
+                                    </div>-->
+
+                                    <br>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <button class="form-control btn btn-login" name="Submit" type="Submit" >Login</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="txtPassword" class="label">Password</label>
-                    <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="form-control" />
-                    <div th:if="${#request.getParameter('error') != null}" class="invalid-feedback">Invalid Username of Password</div>
-                </div>
-
-                <button class="btn btn-primary" name="Submit" type="Submit" >Login</button>
-            </form>
-
+            </div>
         </div>
-
     </div>
-
     <div th:replace="~{fragments/footer :: content}"></div>
 </body>
 </html>

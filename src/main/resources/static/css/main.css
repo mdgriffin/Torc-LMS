@@ -80,10 +80,6 @@ li.selected button {
 * === Elements  ===
 **/
 
-.navbar-dark .navbar-brand.primaryLogo {
-    color: #fff;
-}
-
 .pageTitle {
     margin-bottom: 1em;
 }
@@ -119,19 +115,6 @@ li.selected button {
 
 .btn.headingAligned {
     margin-left: 15px;
-}
-
-.scroller::-webkit-scrollbar {
-    width: 5px;
-}
-
-.scroller::-webkit-scrollbar-track {
-    background: #f7f6f6;
-}
-
-.scroller::-webkit-scrollbar-thumb {
-    background: #dedede;
-    border-radius: 3px;
 }
 
 .componentsContainer .card {
@@ -277,10 +260,6 @@ span.required {
 
 /* === Datatable Component === */
 
-.datatable header {
-    padding-bottom: 2em;
-}
-
 .datatable-options label {
     font-weight: 400;
 }
@@ -293,11 +272,6 @@ span.required {
 .datatable-search,
 .datatable-pagination {
     text-align: right;
-    justify-content: right;
-}
-
-.datatable-pagination .pagination {
-    justify-content: flex-end;
 }
 
 .datatable-search label {
@@ -378,7 +352,7 @@ span.required {
     left: 0;
 }
 
-.dropdown-content.alignRight {
+.dropdown-content.aligRight {
     right: 0;
 }
 
@@ -400,98 +374,4 @@ span.required {
 
 .dropdown-large {
     width: 500px;
-}
-
-
-/* Stage Selector */
-
-
-.stage-selector-section h3 .fa-check {
-    color: green;
-}
-
-.selectorList {
-    max-height: 400px;
-    overflow-y: scroll;
-}
-
-.selectorList-single {
-    padding: 10px;
-    border-top: 1px solid #f4f4f4;
-}
-
-.selectorList-single:not(.is-busy):hover {
-    background-color: #eaeaea;
-}
-
-.selectorList-single.is-selected {
-    background: #C1CFDA;
-    color: #fff;
-}
-
-.selectorList-single.is-busy {
-    color: #a9a9a9;
-}
-
-.selectorList-single p.is-available,
-.selectorList-single p.is-busy {
-    color: #fff;
-    line-height: 1.4em;
-    border-radius: 0.7em;
-    padding: 0 10px;
-    text-align: right;
-    margin: 0;
-    display: inline;
-}
-
-.selectorList-single p.is-available {
-    background: #16a016;
-}
-
-.selectorList-single p.is-busy {
-    background: red;
-}
-
-.selectorList-single-icon {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    color: #fff;
-    background: #ccc;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 30px
-}
-
-.selectorList-single > p {
-    display: inline-block;
-}
-
-/* Loading Component */
-
-.loadingStatus {
-    text-align: center;
-    color: #b3b1b1;
-}
-
-.loadingStatus h3 {
-    font-size: 1.4em;
-}
-
-.loadingStatus-indicator svg path,
-.loadingStatus-indicator svg rect{
-    fill: #b3b1b1;
-}
-.infiniteRotate {
-    animation: rotation 1.5s infinite linear;
-    -webkit-animation: rotation 1.5s infinite linear;
-}
-
-@keyframes rotation {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(359deg);
-    }
 }

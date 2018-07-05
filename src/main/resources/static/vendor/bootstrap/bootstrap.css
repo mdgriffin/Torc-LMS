@@ -1273,6 +1273,7 @@ h2,
   font-size: 30px;
   color: #0a0a0a;
   font-family: "Times New Roman";
+  text-align: center;
 }
 h3,
 .h3 {
@@ -2558,7 +2559,7 @@ output {
   font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
-  background-color: #ffffff;
+  background-color: white;
   background-image: none;
   border: 1px solid #cccccc;
   border-radius: 4px;
@@ -3005,6 +3006,7 @@ select[multiple].input-lg {
   }
 }
 .btn {
+  background-color: #005cbf;
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -3126,7 +3128,7 @@ fieldset[disabled] .btn-default.focus {
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #96818e81;
+  background-color: darkblue;
   border-color: #96818e81;
 }
 .btn-primary:active,

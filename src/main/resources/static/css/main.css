@@ -79,11 +79,15 @@ li.selected button {
 /**
 * === Elements  ===
 **/
-
 .pageTitle {
     margin-bottom: 1em;
 }
 
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
 .btn-fullWidth {
     display: block;
     width: 100%;
@@ -129,6 +133,23 @@ li.selected button {
     background: none;
 }
 
+.btn-login {
+    border-radius: 4px;
+    background-color: #007bff;
+    outline: none;
+    color: white;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding: 14px 0;
+    text-transform: uppercase;
+    border-color: #007bff;
+   }
+
+.new-class {
+    color: red;
+}
+
 span.required {
     color: red;
     font-weight: bold;
@@ -162,7 +183,7 @@ span.required {
 }
 
 .form-control {
-    border-radius: 0;
+    border-radius: 4px;
 }
 
 .pagination a:hover {

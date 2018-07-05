@@ -23,7 +23,6 @@
                             <div class = "col-lg-12">
                                 <form th:action="@{/login}" method="POST" class="form-signin">
                                     <div class="form-group">
-                                        <br>
                                         <input type="text" id="txtEmail" name="email"  th:placeholder="Email" class="form-control" />
                                     </div>
 
@@ -32,7 +31,7 @@
                                         <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="form-control" />
                                     </div>
 
-                                    <div class = "form-group">
+                                    <div class = "new-class">
                                         <div th:if="${#request.getParameter('error') != null}" class="">Invalid Username of Password</div>
                                     </div>
 

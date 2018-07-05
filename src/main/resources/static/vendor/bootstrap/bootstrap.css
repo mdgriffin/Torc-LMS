@@ -3042,6 +3042,12 @@ select[multiple].input-lg {
   color: #333333;
   text-decoration: none;
 }
+
+.btn-login:hover {
+  color: #ffffff;
+  background-color: darkblue;
+  border-color: #96818e81;
+}
 .btn:active,
 .btn.active {
   outline: 0;
@@ -3078,10 +3084,11 @@ fieldset[disabled] a.btn {
   background-color: #e6e6e6;
   border-color: #adadad;
 }
+
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: #333333;
+  color: #ffffff;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
@@ -3997,7 +4004,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav > li.disabled > a:hover,
 .nav > li.disabled > a:focus {
-  color: #777777;
+  color: #ffffff;
   text-decoration: none;
   background-color: transparent;
   cursor: not-allowed;

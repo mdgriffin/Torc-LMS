@@ -121,6 +121,11 @@ li.selected button {
     margin-left: 15px;
 }
 
+.video-fullWidth {
+    width: 100%;
+    height: auto;
+}
+
 .componentsContainer .card {
     margin: 2em 0;
 }
@@ -144,7 +149,7 @@ li.selected button {
     padding: 14px 0;
     text-transform: uppercase;
     border-color: #007bff;
-   }
+}
 
 .new-class {
     color: red;

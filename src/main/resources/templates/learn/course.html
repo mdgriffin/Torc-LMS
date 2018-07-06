@@ -3,7 +3,6 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="fragments/header :: head"></th:block>
-    <link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">
 </head>
 <body>
 
@@ -12,10 +11,6 @@
 <div class="container">
 
     <div class="section">
-
-        <h2>Show the course</h2>
-
-
 
         <div id="courseApp"></div>
 
@@ -27,10 +22,10 @@
 
 <th:block th:include="fragments/footer :: vueResources"></th:block>
 
-<script src="https://vjs.zencdn.net/7.0.3/video.js"></script>
 <script th:src="@{/js/components/loading-status.js}"></script>
 <script th:src="@{/js/components/video-player.js}"></script>
-<script th:src="@{/js/apps/view-course.js}"></script>
+<script th:src="@{/js/components/course.js}"></script>
+<script th:src="@{/js/apps/course-app.js}"></script>
 
 </body>
 </html>

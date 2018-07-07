@@ -44,6 +44,12 @@ public class CourseController {
         return courseService.saveCourse(course);
     }
 
+    @GetMapping("/courses/{courseId}")
+    public Course getCourseById (@PathVariable(value = "courseId") int courseId) {
+        Course course = courseService.findCourseById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        return course;
+    }
+
     // TODO: Change to /courses/assigned
     @PostMapping("/courses/assign")
     public User assignStage (@RequestBody UserCourseAssignment assignment) {

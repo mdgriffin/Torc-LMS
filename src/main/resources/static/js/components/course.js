@@ -54,20 +54,23 @@ var Course = (function () {
 
     var template = `
         <div class="course">
-            <h2>Course</h2>
-            <course-stage :stage-duration="stageDuration"></course-stage>
+            <h3>{{course.title}}</h3>
+            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex"  :key="stageIndex" :stage="stage" :stage-duration="stageDuration" ></course-stage>
         </div>
     `
 
     return {
+        props: ['course'],
         template: template,
         data: function () {
             return {
-                stageDuration: STAGE_DURATION
+                stageDuration: STAGE_DURATION,
+                currentStageIndex: 0
             }
         },
         components: {
-            'course-stage': CourseStage
+            'course-stage': CourseStage,
+            'loading-status': LoadingStatus
         }
     }
 

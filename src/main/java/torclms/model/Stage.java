@@ -30,11 +30,11 @@ public class Stage implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="course_id", nullable=false)
-    @JsonBackReference
+    @JsonBackReference("courseStages")
     private Course course;
 
     @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference("stageQuestions")
     Set<Question> questions = new HashSet<>();
 
     @Transient

@@ -18,7 +18,7 @@ public class Role {
     private String role;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonBackReference("userRoles")
     private Set<User> users = new HashSet<>();
 
     public int getRoleId() {

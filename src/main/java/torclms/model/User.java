@@ -52,7 +52,7 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    @JsonManagedReference
+    @JsonManagedReference("userRoles")
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)

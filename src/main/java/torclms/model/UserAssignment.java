@@ -25,7 +25,7 @@ public class UserAssignment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    @JsonBackReference
+    //@JsonBackReference("courseAssignedUser")
     private Course assignedCourse;
 
     @Column(name = "assigned_on", nullable = false, updatable = false)

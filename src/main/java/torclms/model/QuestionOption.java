@@ -28,7 +28,7 @@ public class QuestionOption implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="question_id", nullable=false)
-    @JsonBackReference
+    @JsonBackReference("questionOptions")
     private Question question;
 
     @Transient

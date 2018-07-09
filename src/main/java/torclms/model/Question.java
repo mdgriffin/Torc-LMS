@@ -29,11 +29,11 @@ public class Question implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="stage_id", nullable=false)
-    @JsonBackReference
+    @JsonBackReference("stageQuestions")
     private Stage stage;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
-    @JsonManagedReference
+    @JsonManagedReference("questionOptions")
     Set<QuestionOption> options = new HashSet<>();
 
     public int getQuestionId() {

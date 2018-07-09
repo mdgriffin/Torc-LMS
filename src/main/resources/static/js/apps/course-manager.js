@@ -9,7 +9,9 @@ var app = new Vue({
     created: function () {
         var self = this;
 
-        fetch('/lms/api/courses')
+        fetch('/lms/api/courses', {
+            credentials: 'include'
+        })
             .then(function (response) {
                 return response.json();
             })

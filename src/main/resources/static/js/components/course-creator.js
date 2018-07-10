@@ -268,13 +268,19 @@
                 // TODO: Need to store config root in config file
                 fetch('/lms/api/courses', {
                     method: 'POST',
+                    credentials: 'same-origin',
                     headers: {
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(this.course)
                 }).then(function (response) {
-                    console.log(response);
+                    //console.log(response);
                     alert("Question Saved Successfully");
+
+                    return response.json();
+                }).then(function (resData) {
+                    console.log(resData);
                 }).catch(function () {
                     alert("An error has occured, please try again");
                 });

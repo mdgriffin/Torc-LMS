@@ -55,10 +55,10 @@ return {
 
             if (Array.isArray(this.selectedOptions)) {
                 this.selectedOptions.forEach(index => {
-                    numCorrect += this.question.options[index].correct? 1 : 0;
+                    numCorrect += this.question.options[index].isCorrect? 1 : 0;
                 })
             } else {
-                return this.question.options[this.selectedOptions].correct;
+                return this.question.options[this.selectedOptions].isCorrect;
             }
 
             return numCorrect === this.selectedOptions.length;

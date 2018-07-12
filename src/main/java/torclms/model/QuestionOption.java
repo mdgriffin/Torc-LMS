@@ -1,6 +1,7 @@
 package torclms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -22,8 +23,9 @@ public class QuestionOption implements Serializable {
     @Column(name="text_audio")
     private String textAudio;
 
-    @Column(columnDefinition = "TINYINT", nullable = true)
+    @Column(name="is_correct", columnDefinition = "INTEGER", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")
+    @JsonProperty(value="isCorrect")
     private boolean isCorrect;
 
     @ManyToOne(fetch = FetchType.LAZY)

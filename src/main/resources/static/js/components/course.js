@@ -3,16 +3,25 @@ var CourseStage = (function () {
     var template = `
         <div class="course-stage">
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
-            <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/video1.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
+            <h3>{{stage.title}}</h3>
+            <div class="course-stage-video" v-if="!videoFinished">
+                <!--<video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
+                <video-player :video-url="'/lms/videos/video2.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
+            </div>
+            <div class="course-stage-quiz" v-if="videoFinished">
+                <h3>Show Quiz</h3>
+                <quiz :questions="stage.questions" v-on:quiz-pass="onQuizPass" v-on:quiz-fail="onQuizFail"></quiz>
+            </div>
         </div>
     `
 
     return {
-        props: ['stageDuration'],
+        props: ['stage', 'stageDuration'],
         template: template,
         data: function () {
             return {
-                timeRemaining: this.stageDuration
+                timeRemaining: this.stageDuration,
+                videoFinished: false
             }
         },
         filters: {
@@ -26,13 +35,25 @@ var CourseStage = (function () {
         methods: {
             onVideoEnded: function () {
                 console.log('Parent: On Video Ended');
+                this.videoFinished = true;
             },
             onVideoPlay: function () {
                 console.log('Parent: On Video Play');
+            },
+            onCountdownComplete: function () {
+                alert('You have run out of time!');
+                this.$emit('stageFail');
+            },
+            onQuizPass: function () {
+                console.log('Parent: Quiz Pass!');
+            },
+            onQuizFail: function () {
+                console.log('Parent: Quiz Fail!');
             }
         },
         components: {
-            'video-player': VideoPlayer
+            'video-player': VideoPlayer,
+            'quiz': Quiz
         },
         created: function () {
             var self = this;
@@ -41,6 +62,7 @@ var CourseStage = (function () {
 
                 if (self.timeRemaining <= 0) {
                     clearInterval(timer);
+                    self.onCountdownComplete();
                 }
             }, 1000)
         }
@@ -55,7 +77,7 @@ var Course = (function () {
     var template = `
         <div class="course">
             <h3>{{course.title}}</h3>
-            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex"  :key="stageIndex" :stage="stage" :stage-duration="stageDuration" ></course-stage>
+            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:stage-fail="stageFail" v-on:pass="stagePass"></course-stage>
         </div>
     `
 
@@ -66,6 +88,14 @@ var Course = (function () {
             return {
                 stageDuration: STAGE_DURATION,
                 currentStageIndex: 0
+            }
+        },
+        methods: {
+            stageFail: function () {
+                alert("Fail!");
+            },
+            stagePass: function () {
+                alert("Pass!");
             }
         },
         components: {

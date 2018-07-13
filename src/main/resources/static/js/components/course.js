@@ -24,8 +24,8 @@ var CourseStage = (function () {
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
             <h3>{{stage.title}}</h3>
             <div class="course-stage-video" v-if="fsm.state === 'video'">
-                <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
-                <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
+                <!--<video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
+                <video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
             </div>
             <div class="course-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
                 <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Process to Quiz</button>
@@ -36,7 +36,7 @@ var CourseStage = (function () {
             <div class="course-stage-completed" v-if="fsm.state == 'quizFail' || fsm.state == 'quizPass'">
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="rewatchVideo">Rewatch Video</button>
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="retakeQuiz">Retake Quiz</button>
-                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">Process to next stage</button>
+                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">{{lastStage? 'Complete Stage' : 'Process to next stage'}}</button>
             </div>
             <div class="course-state-timesUp" v-if="fsm.state === 'timesUp'">
                 <h3>Times Up!</h3>
@@ -46,7 +46,7 @@ var CourseStage = (function () {
     `
 
     return {
-        props: ['stage', 'stageDuration'],
+        props: ['stage', 'stageDuration', 'lastStage'],
         template: template,
         data: function () {
             return {
@@ -74,7 +74,7 @@ var CourseStage = (function () {
             },
             onCountdownComplete: function () {
                 this.fsm.countdownComplete();
-                this.$emit('stageFail');
+                this.$emit('fail');
             },
             onQuizPass: function () {
                 this.fsm.quizPassed();
@@ -93,7 +93,7 @@ var CourseStage = (function () {
                 this.$refs.quiz.reset();
             },
             nextStage: function () {
-                this.$emit('stageComplete');
+                this.$emit('complete');
             }
         },
         components: {
@@ -122,7 +122,11 @@ var Course = (function () {
     var template = `
         <div class="course">
             <h3>{{course.title}}</h3>
-            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:stage-fail="stageFail" v-on:pass="stagePass"></course-stage>
+            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
+            
+            <div class="course-completed" v-if="courseCompleted">
+                <h3>Congratulations! You Have Completed This Course</h3>
+            </div>
         </div>
     `
 
@@ -135,12 +139,20 @@ var Course = (function () {
                 currentStageIndex: 0
             }
         },
+        computed: {
+            courseCompleted: function () {
+                return this.currentStageIndex >= this.course.stages.length
+            }
+        },
         methods: {
             stageFail: function () {
                 alert("Fail!");
             },
-            stagePass: function () {
-                alert("Pass!");
+            stageComplete: function () {
+                this.currentStageIndex++;
+            },
+            isLastStage: function (stageIndex) {
+                return stageIndex === this.course.stages.length - 1;
             }
         },
         components: {

@@ -8,7 +8,7 @@ var TraineeHomeApp = (function () {
                 <div v-for="course in assignedCourses">
                     <h3>{{ course.title }}</h3>
         
-                    <a :href="'learn/course/' + course.courseId">Start</a>
+                    <a :href="'course/' + course.courseId">Start</a>
                 </div>
             </div>
         </article>

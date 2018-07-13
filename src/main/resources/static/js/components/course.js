@@ -24,7 +24,7 @@ var CourseStage = (function () {
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
             <h3>{{stage.title}}</h3>
             <div class="course-stage-video" v-if="fsm.state === 'video'">
-                <!--<video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
+                <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
             </div>
             <div class="course-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">

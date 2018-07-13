@@ -1,54 +1,21 @@
 var CourseStageFSM = function () {
-    return new StateMachine({
+    var fsm = new StateMachine({
         init: 'video',
         transitions: [
-            { name: 'watchVideo',         from: 'video',                              to: 'confirmQuiz' },
-            { name: 'quizConfirmed',      from: 'confirmQuiz',                        to: 'takeQuiz'  },
-            { name: 'quizFailed',         from: 'takeQuiz',                           to: 'quizFail'    },
-            { name: 'quizPassed',         from: 'takeQuiz',                           to: 'quizPass' },
-            { name: 'nextStageConfirmed', from: 'quizPass',                           to: 'nextStage' },
-            { name: 'rewatchVideo',       from: 'quizFailed',                         to: 'watchVideo'},
-            { name: 'retakeTest',         from: 'quizFailed',                         to: 'takeQuiz'},
-            { names: 'timesUp',           from: ['video', 'confirmQuiz', 'takeQuiz'], to: 'timesUp' },
+            {name: 'watchVideo', from: 'video', to: 'confirmQuiz'},
+            {name: 'quizConfirmed', from: 'confirmQuiz', to: 'takeQuiz'},
+            {name: 'quizFailed', from: 'takeQuiz', to: 'quizFail'},
+            {name: 'quizPassed', from: 'takeQuiz', to: 'quizPass'},
+            {name: 'nextStageConfirmed', from: 'quizPass', to: 'nextStage'},
+            {name: 'rewatchVideo', from: 'quizFail', to: 'video'},
+            {name: 'retakeTest', from: 'quizFail', to: 'takeQuiz'},
+            {name: 'countdownComplete', from: ['video', 'confirmQuiz', 'takeQuiz'], to: 'timesUp'},
         ],
-        methods: {
-            onWatchVideo: function() {
-                console.log('FSM: Video Watched')
-            },
-            onQuizConfirmed: function() {
-                console.log('FSM: Video Confirmed')
-            },
-            onQuizFailed: function() {
-                console.log('FSM: Quiz Failed')
-            },
-            onQuizPassed: function() {
-                console.log('FSM: Quiz Passed')
-            },
-            onNextStageConfirmed: function() {
-                console.log('FSM: Next Stage Confirmed')
-            },
-            onRewatchVideo: function() {
-                console.log('FSM: Rewatch Video')
-            },
-            onRetakeQuiz: function() {
-                console.log('FSM: Retake Quiz')
-            },
-            onTimesUp: function () {
-                console.log('FSM: Times Up');
-            }
-        }
+        methods: {}
     });
-};
 
-/*
-var stageStates = {
-    0: 'watchVideo',
-    1: 'confirmProceed',
-    2: 'takeQuiz',
-    3: 'quizFail',
-    4: 'quizPass'
+    return fsm;
 };
-*/
 
 var CourseStage = (function () {
 
@@ -56,20 +23,24 @@ var CourseStage = (function () {
         <div class="course-stage">
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
             <h3>{{stage.title}}</h3>
-            <div class="course-stage-video" v-if="!videoFinished">
+            <div class="course-stage-video" v-if="fsm.state === 'video'">
                 <!--<video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
                 <video-player :video-url="'/lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
             </div>
-            <div class="course-stage-quizProceed" v-if="videoFinished && !quizProceedConfirmed">
+            <div class="course-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
                 <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Process to Quiz</button>
             </div>
-            <div class="course-stage-quiz" v-if="this.videoFinished && this.quizProceedConfirmed">
-                <quiz :questions="stage.questions" v-on:quiz-pass="onQuizPass" v-on:quiz-fail="onQuizFail"></quiz>
+            <div class="course-stage-quiz" v-if="fsm.state === 'takeQuiz' || fsm.state == 'quizFail' || fsm.state == 'quizPass'">
+                <quiz ref="quiz" :questions="stage.questions" v-on:quiz-pass="onQuizPass" v-on:quiz-fail="onQuizFail"></quiz>
             </div>
-            <div class="course-stage-completed" v-if="quizCompleted">
-                <button class="btn btn-primary btn-lg" v-if="!quizPassed" v-on:click="rewatchVideo">Rewatch Video</button>
-                <button class="btn btn-primary btn-lg" v-if="!quizPassed" v-on:click="retakeQuiz">Retake Quiz</button>
-                <button class="btn btn-primary btn-lg" v-if="quizPassed" v-on:click="nextStage">Process to next stage</button>
+            <div class="course-stage-completed" v-if="fsm.state == 'quizFail' || fsm.state == 'quizPass'">
+                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="rewatchVideo">Rewatch Video</button>
+                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="retakeQuiz">Retake Quiz</button>
+                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">Process to next stage</button>
+            </div>
+            <div class="course-state-timesUp" v-if="fsm.state === 'timesUp'">
+                <h3>Times Up!</h3>
+                <p>You have not completed this stage in the allotted time</p>
             </div>
         </div>
     `
@@ -80,10 +51,7 @@ var CourseStage = (function () {
         data: function () {
             return {
                 timeRemaining: this.stageDuration,
-                videoFinished: false,
-                quizProceedConfirmed: false,
-                quizCompleted: false,
-                quizPassed: false
+                fsm: CourseStageFSM()
             }
         },
         filters: {
@@ -96,36 +64,36 @@ var CourseStage = (function () {
         },
         methods: {
             confirmQuizProceed: function () {
-                this.quizProceedConfirmed = true;
+                this.fsm.quizConfirmed();
             },
             onVideoEnded: function () {
-                console.log('Parent: On Video Ended');
-                this.videoFinished = true;
+                this.fsm.watchVideo();
             },
             onVideoPlay: function () {
                 console.log('Parent: On Video Play');
             },
             onCountdownComplete: function () {
-                alert('You have run out of time!');
+                this.fsm.countdownComplete();
                 this.$emit('stageFail');
             },
             onQuizPass: function () {
-                console.log('Parent: Quiz Pass!');
-                this.quizCompleted = true;
-                this.quizPassed = true;
+                this.fsm.quizPassed();
             },
             onQuizFail: function () {
-                console.log('Parent: Quiz Fail!');
-                this.quizCompleted = true;
+                this.fsm.quizFailed();
             },
             rewatchVideo: function () {
-                console.log('On Rewatch Video');
+                this.fsm.rewatchVideo();
+                this.timeRemaining = this.stageDuration;
             },
             retakeQuiz: function () {
-                console.log('On Retake Video');
+                this.fsm.retakeTest();
+                // TODO: Should be total duration - video duration
+                this.timeRemaining = this.stageDuration / 2;
+                this.$refs.quiz.reset();
             },
             nextStage: function () {
-                console.log('On Proceed to Next Stage');
+                this.$emit('stageComplete');
             }
         },
         components: {

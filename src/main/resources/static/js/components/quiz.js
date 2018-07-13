@@ -113,35 +113,6 @@ return {
             }
         },
         submitAnswer: function () {
-
-            /*
-            var numSelected = this.numSelectedOptions;
-            
-            if (numSelected > 0) {
-                this.questionAnswered = true;
-                var numSelectedRight = 0;
-                
-                if (this.multipleChoice) {
-                    for (var i = 0; i < numSelected; i++) {
-                        if (this.question.options[this.selectedOptions[i]].isCorrect) {
-                            numSelectedRight++;
-                        }
-                    }
-                } else {
-                    if (this.question.options[this.selectedOptions].isCorrect) {
-                        numSelectedRight++;
-                    }
-                }
-
-                if (numSelectedRight === numSelected && numSelectedRight === this.numRightOptions) {
-                    this.answerCorrect = true;
-                    this.numRight++;
-                } else {
-                    this.answerCorrect = false;
-                    this.numWrong++;
-                }
-            }
-            */
             this.questionAnswered = true;
 
             if (this.answerCorrect) {
@@ -160,6 +131,9 @@ return {
                 this.quizCompleted = true;
             }
             return true;
+        },
+        reset: function () {
+            Object.assign(this.$data, this.$options.data.apply(this))
         }
     }
 };

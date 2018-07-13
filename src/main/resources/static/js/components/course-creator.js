@@ -266,7 +266,7 @@
                 // each component has a isValid method which will be checked
 
                 // TODO: Need to store config root in config file
-                fetch('/lms/api/courses', {
+                fetch(Config.coursesApiUrl, {
                     method: 'POST',
                     credentials: 'same-origin',
                     headers: {

@@ -24,7 +24,7 @@ var CourseApp = (function () {
             var self = this;
             // get the course from the rest service
             var courseId = parseInt(window.location.href.substring(window.location.href.lastIndexOf('/') + 1));
-            fetch('/lms/api/courses/' + courseId, {
+            fetch(Config.coursesApiUrl + '/' + courseId, {
                 credentials: 'include'
             })
                 .then(function (response) {

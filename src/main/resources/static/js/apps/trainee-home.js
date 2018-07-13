@@ -8,7 +8,7 @@ var TraineeHomeApp = (function () {
                 <div v-for="course in assignedCourses">
                     <h3>{{ course.title }}</h3>
         
-                    <a :href="'/lms/learn/course/' + course.courseId">Start</a>
+                    <a :href="'learn/course/' + course.courseId">Start</a>
                 </div>
             </div>
         </article>
@@ -25,7 +25,7 @@ var TraineeHomeApp = (function () {
         created: function () {
             var self = this;
 
-            fetch('/lms/api/courses/assigned', {
+            fetch(Config.assignedCoursesApiUrl, {
                 credentials: "include"
             })
                 .then(function (response) {

@@ -87,7 +87,7 @@ var AssignCourse = (function () {
                 var self = this;
 
                 if (self.canSave) {
-                    fetch('/lms/api/courses/assign', {
+                    fetch(Config.assignCourseApiUrl, {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {

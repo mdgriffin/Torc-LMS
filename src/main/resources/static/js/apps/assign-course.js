@@ -10,7 +10,7 @@ var app = new Vue({
     created: function () {
         var self = this;
 
-        fetch('/lms/api/users?trainees=true', {
+        fetch(Config.traineesApiUrl, {
             credentials: 'same-origin'
         })
             .then(function (response) {
@@ -20,7 +20,7 @@ var app = new Vue({
                 self.users = json;
             });
 
-        fetch('/lms/api/courses', {
+        fetch(Config.coursesApiUrl, {
             credentials: 'same-origin'
         })
             .then(function (response) {

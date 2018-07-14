@@ -3,6 +3,7 @@ package torclms.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -36,6 +37,10 @@ public class UserAssignment implements Serializable {
     @Column(name = "deadline", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
+
+    @Column(name="locked", columnDefinition = "TINYINT DEFAULT 0", nullable = true)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean locked;
 
     public User getAssignedUser() {
         return assignedUser;
@@ -75,5 +80,13 @@ public class UserAssignment implements Serializable {
 
     public void setUserAssignmentId(Long userAssignmentId) {
         this.userAssignmentId = userAssignmentId;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

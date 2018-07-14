@@ -121,12 +121,18 @@ var Course = (function () {
 
     var template = `
         <div class="course">
-            <h3>{{course.title}}</h3>
-            <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
+            <h2>{{course.title}}</h2>
             
-            <div class="course-completed" v-if="courseCompleted">
-                <h3>Congratulations! You Have Completed This Course</h3>
+            <div class="card">
+                <div class="card-body">
+                    <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
+                
+                    <div class="course-completed" v-if="courseCompleted">
+                        <h3>Congratulations! You Have Completed This Course</h3>
+                    </div>
+                </div>
             </div>
+            
         </div>
     `
 

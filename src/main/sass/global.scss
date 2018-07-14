@@ -1,0 +1,515 @@
+@import "bootstrap/bootstrap";
+@import "login";
+
+/**
+    ====================
+    ****** Global ******
+    ====================
+ **/
+
+body {
+  background: #f4f4f4;
+}
+
+h2 {
+  text-align: center;
+}
+
+/**
+ * === Helper Classes ===
+ **/
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.list-reset {
+  margin: 0;
+  padding: 0;
+}
+
+.list-reset > li {
+  list-style: none;
+}
+
+.list-inline > li {
+  display: inline;
+}
+
+.list-inlineBlock > li {
+  display: inline-block;
+}
+
+.list-stacked > li {
+  display: block;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.muted {
+  color: rgb(173, 173, 173);
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.alignMiddle {
+  vertical-align: middle;
+}
+
+/* Same as btn clear */
+li.selected button {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.alignMiddle-half {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+}
+
+/**
+* === Elements  ===
+**/
+.pageTitle {
+  margin-bottom: 1em;
+
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #005cbf;
+  border-color: #005cbf;
+}
+
+.btn-fullWidth {
+  display: block;
+  width: 100%;
+}
+
+.btn-alignLeft {
+  text-align: left;
+}
+
+.btn-alignRight {
+  text-align: right;
+}
+
+.btn-clear {
+  background: none;
+  color: #363636;
+  text-decoration: none;
+  border-radius: 0;
+}
+
+.btn-clear:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.btn-md {
+  padding: 8px 16px;
+  font-size: 1.1em;
+}
+
+.btn.headingAligned {
+  margin-left: 15px;
+}
+
+.video-fullWidth {
+  width: 100%;
+  height: auto;
+}
+
+.componentsContainer .card {
+  margin: 2em 0;
+}
+
+.nav-tabs li a {
+  cursor: pointer;
+}
+
+.btn-clear {
+  background: none;
+}
+
+.btn-login {
+  border-radius: 4px;
+  background-color: #007bff;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  height: auto;
+  font-weight: normal;
+  padding: 14px 0;
+  text-transform: uppercase;
+  border-color: #007bff;
+}
+
+.btn-login:hover {
+  color: #ffffff;
+  background-color: darkblue;
+  border-color: #96818e81;
+}
+
+.errorHolder {
+  color: red;
+}
+
+span.required {
+  color: red;
+  font-weight: bold;
+  font-size: 1.3em;
+  line-height: 1em;
+}
+
+.spacedTable {
+  width: 100%;
+  border-spacing: 0 20px;
+  border-collapse:separate;
+}
+
+.spacedTable tbody td {
+  border-bottom: 1px solid #eaeaea;
+  border-top: 1px solid #eaeaea;
+  padding: 10px;
+}
+
+.spacedTable tbody td:first-child {
+  border-left: 1px solid #eaeaea;
+}
+
+.spacedTable tbody td:last-child {
+  border-right: 1px solid #eaeaea;
+  text-align: right;
+}
+
+.spacedTable tbody tr:hover td {
+  background: #fafafa;
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  cursor: pointer;
+}
+
+.section {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+
+/* === Quiz Component === */
+
+.quiz-question-wrongAnswer p,
+.quiz-question-correctAnswer p {
+  margin: 0;
+}
+
+.quiz-question-wrongAnswer,
+.quiz-question-correctAnswer {
+  padding: 5px 10px;
+  color: #fff;
+  margin: 10px 0;
+}
+
+.quiz-question-wrongAnswer {
+  background: red;
+}
+
+.quiz-question-correctAnswer {
+  background: green;
+  color: #fff;
+}
+
+.quiz-question-explanation {
+  background: #eaeaea;
+  padding: 5px 10px;
+  margin: 10px 0;
+}
+
+.quiz-question-explanation p {
+  margin: 0;
+}
+
+/* Stage Selector */
+
+
+.stage-selector-section h3 .fa-check {
+  color: green;
+}
+
+.selectorList {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.selectorList-single {
+  padding: 10px;
+  border-top: 1px solid #f4f4f4;
+}
+
+.selectorList-single:not(.is-busy):hover {
+  background-color: #eaeaea;
+}
+
+.selectorList-single.is-selected {
+  background: #C1CFDA;
+  color: #fff;
+}
+
+.selectorList-single.is-busy {
+  color: #a9a9a9;
+}
+
+.selectorList-single p.is-available,
+.selectorList-single p.is-busy {
+  color: #fff;
+  line-height: 1.4em;
+  border-radius: 0.7em;
+  padding: 0 10px;
+  text-align: right;
+  margin: 0;
+  display: inline;
+}
+
+.selectorList-single p.is-available {
+  background: #16a016;
+}
+
+.selectorList-single p.is-busy {
+  background: red;
+}
+
+.selectorList-single-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background: #ccc;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 30px
+}
+
+.selectorList-single > p {
+  display: inline-block;
+}
+
+/* Loading Component */
+
+.loadingStatus {
+  text-align: center;
+  color: #b3b1b1;
+}
+
+.loadingStatus h3 {
+  font-size: 1.4em;
+}
+
+.loadingStatus-indicator svg path,
+.loadingStatus-indicator svg rect{
+  fill: #b3b1b1;
+}
+.infiniteRotate {
+  animation: rotation 1.5s infinite linear;
+  -webkit-animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+/* === Course Creator Component === */
+
+.courseCreator .nav-tabs {
+  margin-bottom: 1em;
+}
+
+.courseCreator .nav-tabs > li:not(:first-child) > button {
+  margin-left: 10px;
+}
+
+.courseCreator-stages-tabs {
+  background: #f4f4f4;
+  border: 1px solid #eaeaea;
+}
+
+.courseCreator-questions-options .form-check label {
+  color: red;
+  cursor: pointer;
+}
+
+.courseCreator-questions-options .form-check label:after {
+  content: "Wrong";
+  margin-left: 5px;
+}
+
+.courseCreator-questions-options .form-check label i {
+  font-size: 1.4em;
+  vertical-align: middle;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox] {
+  display: none;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox]:checked + label {
+  color: green;
+}
+
+.courseCreator-questions-options .form-check input[type=checkbox]:checked + label:after {
+  content: "Correct"
+}
+
+.courseCreator-actions {
+  margin-top: 2em;
+}
+
+.courseCreator-actions button {
+  margin-left: 5px;
+}
+
+/* === Datatable Component === */
+
+.datatable-options label {
+  font-weight: 400;
+}
+
+.datatable-options select {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.datatable-search,
+.datatable-pagination {
+  text-align: right;
+}
+
+.datatable-search label {
+  margin-right: 1em;
+}
+
+.datatable-search .form-control {
+  max-width: 300px;
+  display: inline-block;
+}
+
+.datatable-indicator p {
+  margin: 0;
+}
+
+
+.nav-buttonContainer {
+  position: relative;
+  min-height: 45px;
+}
+
+.courseCreator .nav-tabs .nav-link {
+  height: 45px;
+}
+
+.nav-buttonContainer button {
+  height: 100%;
+}
+
+/* Autocomplete Component */
+
+.selectableInput {
+  position: relative;
+}
+
+.selectableInput-input {
+  width: 100%;
+}
+
+.selectableInput-result {
+  max-height: 200px;
+  overflow-y: scroll;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  display: none;
+}
+
+.selectableInput-result.isOpen {
+  display: block;
+}
+
+/* Dropdown Component */
+
+.hasDropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #f4f4f4;
+  box-shadow: 0 0 3px 0 rgba(0,0,0,0.2);
+  right: 0;
+  top: 100%;
+  width: 150px;
+  display: none;
+  color: #000;
+  text-align: left;
+  z-index: 1;
+}
+
+
+.dropdown-content.alignLeft {
+  left: 0;
+}
+
+.dropdown-content.aligRight {
+  right: 0;
+}
+
+.dropdown-content.isOpen {
+  display: block;
+}
+
+.dropdown-button button {
+  display: block;
+}
+
+.dropdown-small {
+  width: 150px;
+}
+
+.dropdown-medium {
+  width: 300px;
+}
+
+.dropdown-large {
+  width: 500px;
+}
+
+

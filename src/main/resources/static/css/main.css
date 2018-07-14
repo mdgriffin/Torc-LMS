@@ -5,6 +5,9 @@
     ====================
  **/
 
+h2 {
+    text-align: center;
+}
 
 /**
  * === Helper Classes ===
@@ -81,13 +84,15 @@ li.selected button {
 **/
 .pageTitle {
     margin-bottom: 1em;
+
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #005cbf;
+    border-color: #005cbf;
 }
+
 .btn-fullWidth {
     display: block;
     width: 100%;
@@ -151,7 +156,13 @@ li.selected button {
     border-color: #007bff;
 }
 
-.new-class {
+.btn-login:hover {
+    color: #ffffff;
+    background-color: darkblue;
+    border-color: #96818e81;
+}
+
+.errorHolder {
     color: red;
 }
 

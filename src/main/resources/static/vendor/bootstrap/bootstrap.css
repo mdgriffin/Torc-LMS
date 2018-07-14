@@ -1273,7 +1273,6 @@ h2,
   font-size: 30px;
   color: #0a0a0a;
   font-family: "Times New Roman";
-  text-align: center;
 }
 h3,
 .h3 {
@@ -3006,7 +3005,6 @@ select[multiple].input-lg {
   }
 }
 .btn {
-  background-color: #005cbf;
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -3041,12 +3039,6 @@ select[multiple].input-lg {
 .btn.focus {
   color: #333333;
   text-decoration: none;
-}
-
-.btn-login:hover {
-  color: #ffffff;
-  background-color: darkblue;
-  border-color: #96818e81;
 }
 .btn:active,
 .btn.active {

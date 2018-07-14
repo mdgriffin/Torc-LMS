@@ -1,0 +1,10 @@
+{
+  "name": "TeamTorcLMS",
+  "version": "0.0.1",
+  "description": "Team Torc LMS",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
+}

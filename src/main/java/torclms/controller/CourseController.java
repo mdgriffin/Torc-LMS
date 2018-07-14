@@ -12,7 +12,9 @@ import torclms.entity.TestCompletionDeadline;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
 import torclms.model.User;
+import torclms.model.UserAssignment;
 import torclms.repository.CourseRepository;
+import torclms.repository.UserAssignmentRepository;
 import torclms.service.CourseService;
 import torclms.service.UserService;
 
@@ -33,6 +35,9 @@ public class CourseController {
 
     @Autowired
     private CourseRepository courseRepo;
+
+    @Autowired
+    private UserAssignmentRepository assignmentRepo;
 
     @GetMapping("/courses")
     public List<Course> getCourse () {
@@ -60,15 +65,17 @@ public class CourseController {
     }
 
     @GetMapping("/courses/assigned")
-    public List<Course> getCoursesAssignedToActiveUser (@AuthenticationPrincipal final Principal authUser) {
+    public List<UserAssignment> getCoursesAssignedToActiveUser (@AuthenticationPrincipal final Principal authUser) {
         User user = userService.findUserByEmail(authUser.getName());
-        List<Course> assignedCourses = courseRepo.findAssignedCourses(user.getUserId(), new Date(), TestCompletionDeadline.getDate());
+        //List<Course> assignedCourses = courseRepo.findAssignedCourses(user.getUserId(), new Date(), TestCompletionDeadline.getDate());
 
-        if (assignedCourses.size() == 0) {
+        List<UserAssignment> userAssignments = assignmentRepo.findUserAssignments(user.getUserId(), new Date(), TestCompletionDeadline.getDate());
+
+        if (userAssignments.size() == 0) {
             throw new ResourceNotFoundException("User", "id", user.getUserId());
         }
 
-        return assignedCourses;
+        return userAssignments;
     };
 
     @GetMapping("/courses/assigned/{userId}")

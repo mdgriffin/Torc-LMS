@@ -5,10 +5,10 @@ var TraineeHomeApp = (function () {
             <div class="card-body">
                 <h3>Assigned Courses</h3>
         
-                <div v-for="course in assignedCourses">
-                    <h3>{{ course.title }}</h3>
+                <div v-for="assignment in userAssignments">
+                    <h3>{{ assignment.assignedCourse.title }}</h3>
         
-                    <a :href="'course/' + course.courseId">Start</a>
+                    <a :href="'course/' + assignment.assignedCourse.courseId">Start</a>
                 </div>
             </div>
         </article>
@@ -18,7 +18,7 @@ var TraineeHomeApp = (function () {
         template: template,
         data: function () {
             return {
-                assignedCourses: []
+                userAssignments: []
             }
         },
         components: {},
@@ -32,7 +32,7 @@ var TraineeHomeApp = (function () {
                     return response.json();
                 })
                 .then(function (json) {
-                    self.assignedCourses = json;
+                    self.userAssignments = json;
                 });
         }
     };

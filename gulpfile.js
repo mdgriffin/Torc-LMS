@@ -1,17 +1,18 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('styles', function() {
-    //compile and copy our sass file
-    gulp.src('src/main/sass/global.scss')
+gulp.task('sass', function() {
+    return gulp.src('src/main/sass/global.scss')
+        .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/main/resources/static/css/'));
 });
 
 //watch task
 gulp.task('default',function() {
-    gulp.watch('src/main/sass/**/*.scss',['styles']);
+    gulp.watch('src/main/sass/**/*.scss',['sass']);
 });
 
-//these get run by gradle when building the app
-gulp.task('build', ['styles']);
+gulp.task('build', ['sass']);

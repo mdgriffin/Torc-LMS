@@ -1,4 +1,5 @@
-$primary: #ff0000;
+$primary: #006BA6;
+$secondary: #EE964B;
 
 @import "bootstrap/bootstrap";
 @import "login";
@@ -57,11 +58,11 @@ h2 {
 }
 
 .positive {
-  color: green;
+  color: $green;
 }
 
 .negative {
-  color: red;
+  color: $red;
 }
 
 .muted {
@@ -90,6 +91,7 @@ li.selected button {
 /**
 * === Elements  ===
 **/
+
 .pageTitle {
   margin-bottom: 1em;
 
@@ -145,31 +147,12 @@ li.selected button {
   background: none;
 }
 
-.btn-login {
-  border-radius: 4px;
-  background-color: #007bff;
-  outline: none;
-  color: white;
-  font-size: 14px;
-  height: auto;
-  font-weight: normal;
-  padding: 14px 0;
-  text-transform: uppercase;
-  border-color: #007bff;
-}
-
-.btn-login:hover {
-  color: #ffffff;
-  background-color: darkblue;
-  border-color: #96818e81;
-}
-
 .errorHolder {
-  color: red;
+  color: $red;
 }
 
 span.required {
-  color: red;
+  color: $red;
   font-weight: bold;
   font-size: 1.3em;
   line-height: 1em;
@@ -224,16 +207,16 @@ span.required {
 .quiz-question-wrongAnswer,
 .quiz-question-correctAnswer {
   padding: 5px 10px;
-  color: #fff;
+  color: $red;
   margin: 10px 0;
 }
 
 .quiz-question-wrongAnswer {
-  background: red;
+  background: $red;
 }
 
 .quiz-question-correctAnswer {
-  background: green;
+  background: $green;
   color: #fff;
 }
 
@@ -251,7 +234,7 @@ span.required {
 
 
 .stage-selector-section h3 .fa-check {
-  color: green;
+  color: $green;
 }
 
 .selectorList {
@@ -356,7 +339,7 @@ span.required {
 }
 
 .courseCreator-questions-options .form-check label {
-  color: red;
+  color: $red;
   cursor: pointer;
 }
 
@@ -375,7 +358,7 @@ span.required {
 }
 
 .courseCreator-questions-options .form-check input[type=checkbox]:checked + label {
-  color: green;
+  color: $green;
 }
 
 .courseCreator-questions-options .form-check input[type=checkbox]:checked + label:after {

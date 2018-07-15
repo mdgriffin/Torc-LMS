@@ -18,7 +18,6 @@
                     </div>
 
                     <div class="form-group">
-                        <br>
                         <input type="password"  th:placeholder="Password" id="txtPassword" name="password" class="form-control" />
                     </div>
 
@@ -26,14 +25,8 @@
                         <div th:if="${#request.getParameter('error') != null}" class="">Invalid Username or Password</div>
                     </div>
 
-                    <!--<div class="form-group text-center">
-                        <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                        <label for="remember"> Remember Me</label>
-                    </div>-->
-
-                    <br>
                     <div class="form-group">
-                        <button class="form-control btn btn-primary btn-block" name="Submit" type="Submit" >Login</button>
+                        <button class="form-control btn btn-secondary btn-block" name="Submit" type="Submit" >Login</button>
                     </div>
                 </form>
             </div>

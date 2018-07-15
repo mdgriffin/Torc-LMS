@@ -121,7 +121,7 @@ var Course = (function () {
 
     var template = `
         <div class="course">
-            <h2>{{course.title}}</h2>
+            <h2 class="pageTitle">{{course.title}}</h2>
             
             <div class="card">
                 <div class="card-body">

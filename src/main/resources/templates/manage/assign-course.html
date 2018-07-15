@@ -7,10 +7,18 @@
 <th:block th:include="fragments/manager-menu :: navbar"></th:block>
 
 <div class="container section">
-    <div id="assignStageApp">
-        <h2>Assign Courses to Users</h2>
-        <assign-course :users="users" :courses="courses"></assign-course>
+
+    <h2 class="pageTitle">Assign Courses to Users</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <div id="assignStageApp">
+
+                <assign-course :users="users" :courses="courses"></assign-course>
+            </div>
+        </div>
     </div>
+
 </div>
 
 <div th:replace="~{fragments/footer :: content}"></div>

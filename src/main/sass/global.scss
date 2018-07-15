@@ -1,3 +1,5 @@
+$primary: #ff0000;
+
 @import "bootstrap/bootstrap";
 @import "login";
 
@@ -91,12 +93,6 @@ li.selected button {
 .pageTitle {
   margin-bottom: 1em;
 
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #005cbf;
-  border-color: #005cbf;
 }
 
 .btn-fullWidth {

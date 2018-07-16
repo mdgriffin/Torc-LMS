@@ -35,6 +35,9 @@
         methods: {
             removeOption: function () {
                 this.course.stages[this.stageindex].questions[this.questionindex].options.splice(this.optionindex, 1);
+            },
+            isValid: function () {
+                return this.validOptionText;
             }
         },
         watch: {
@@ -74,7 +77,7 @@
             '</div>',
             '<div class="courseCreator-questions-options">',
                 '<h4>Options</h4>',
-                '<course-creator-option v-for="(option, optionIndex) in options" :stageindex="stageindex" :questionindex="questionindex" :course="course" :optionindex="optionIndex" :key="option.uid"></course-creator-option>',
+                '<course-creator-option ref="optionEls" v-for="(option, optionIndex) in options" :stageindex="stageindex" :questionindex="questionindex" :course="course" :optionindex="optionIndex" :key="option.uid"></course-creator-option>',
                 '<button class="btn btn-light" @click="addOption">Add Option  <i class="fas fa-plus-circle"></i></button>',
             '</div>',
         '</div>',
@@ -96,6 +99,19 @@
                 newOption.uid = Util.guid();
 
                 this.course.stages[this.stageindex].questions[this.questionindex].options.push(newOption);
+            },
+            isValid: function () {
+                var validChildren = true;
+
+                if (this.$refs.optionEls) {
+                    this.$refs.optionEls.forEach(child => {
+                        if (!child.isValid()) {
+                            validChildren = false;
+                        }
+                    })
+                }
+
+                return validChildren && this.validQuestionTitle && this.validExplanation;
             }
         },
         watch: {
@@ -144,7 +160,7 @@
                     '</li>',
                     '<li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>',
                 '</ul>',
-                '<course-creator-question v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="question.uid" v-show="currentQuestionIndex === questionIndex"></course-creator-question>',
+                '<course-creator-question ref="questionsEls" v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="question.uid" v-show="currentQuestionIndex === questionIndex"></course-creator-question>',
             '</div>',
         '</div>'
     ].join("");
@@ -178,6 +194,19 @@
             },
             changeQuestion: function (questionIndex) {
                 this.currentQuestionIndex = questionIndex;
+            },
+            isValid: function () {
+                var childrenValid = true;
+
+                if (this.$refs.questionsEls) {
+                    this.$refs.questionsEls.forEach(child => {
+                        if (!child.isValid()) {
+                            childrenValid = false;
+                        }
+                    })
+                }
+
+                return childrenValid && this.validQuestionTitle && this.validVideoUrl;
             }
         },
         computed: {
@@ -219,7 +248,7 @@
                         '</li>',
                         '<li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>',
                     '</ul>',
-                    '<course-creator-stage v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>',
+                    '<course-creator-stage ref="courseStageEls" v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>',
                 '</div>', // courseCreator-stages
                 '<div class="courseCreator-actions">',
                     '<button @click="saveCourse" class="btn btn-primary">Save</button>',
@@ -259,31 +288,41 @@
             saveCourse: function () {
                 this.course.wasValidated = true;
 
-                console.log(JSON.stringify(this.course));
+                if (this.isValid()) {
+                    fetch(Config.coursesApiUrl, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.course)
+                    }).then(function (response) {
+                        //console.log(response);
+                        alert("Question Saved Successfully");
 
-                // TODO: Need to validate entire is valid
-                // keep reference to all subcomponents
-                // each component has a isValid method which will be checked
+                        return response.json();
+                    }).then(function (resData) {
+                        console.log(resData);
+                    }).catch(function () {
+                        alert("An error has occured, please try again");
+                    });
+                } else {
+                    alert("Please correct validation errors and submit again");
+                }
+            },
+            isValid: function () {
+                var childrenValid = true;
 
-                // TODO: Need to store config root in config file
-                fetch(Config.coursesApiUrl, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.course)
-                }).then(function (response) {
-                    //console.log(response);
-                    alert("Question Saved Successfully");
+                if (this.$refs.courseStageEls) {
+                    this.$refs.courseStageEls.forEach((child) => {
+                        if (!child.isValid()) {
+                            childrenValid = false;
+                        }
+                    });
+                }
 
-                    return response.json();
-                }).then(function (resData) {
-                    console.log(resData);
-                }).catch(function () {
-                    alert("An error has occured, please try again");
-                });
+                return childrenValid && this.validCourseTitle;
             },
             clearForm: function () {
                 this.course = {

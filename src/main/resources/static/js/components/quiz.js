@@ -109,7 +109,6 @@ return {
                 // reset state
                 this.selectedOptions = [];
                 this.questionAnswered = false;
-                //this.answerCorrect = false;
             }
         },
         submitAnswer: function () {

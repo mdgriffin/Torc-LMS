@@ -6276,7 +6276,7 @@ span.required {
 .quiz-question-wrongAnswer,
 .quiz-question-correctAnswer {
   padding: 5px 10px;
-  color: #dc3545;
+  color: #fff;
   margin: 10px 0; }
 
 .quiz-question-wrongAnswer {

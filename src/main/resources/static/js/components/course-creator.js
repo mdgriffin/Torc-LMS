@@ -299,7 +299,7 @@
                         body: JSON.stringify(this.course)
                     }).then(function (response) {
                         //console.log(response);
-                        alert("Question Saved Successfully");
+                        alert("Course Saved Successfully");
 
                         return response.json();
                     }).then(function (resData) {

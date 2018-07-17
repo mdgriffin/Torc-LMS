@@ -192,7 +192,6 @@ span.required {
   margin-bottom: 3em;
 }
 
-
 /* === Quiz Component === */
 
 .quiz-question-wrongAnswer p,
@@ -227,7 +226,6 @@ span.required {
 }
 
 /* Stage Selector */
-
 
 .stage-selector-section h3 .fa-check {
   color: $green;
@@ -487,4 +485,33 @@ span.required {
   width: 500px;
 }
 
+/* === Course List Component === */
 
+.courseList-single {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.courseList-single:last-child {
+  margin-bottom: 0;
+}
+
+.courseList-single.is-deleting {
+  border: 1px solid red;
+  opacity: 0.25;
+}
+
+.courseList-single p {
+  margin: 0;
+}
+
+.courseList-single-body {
+  display: flex;
+  align-items: center;
+}
+
+.courseList-single-actions {
+  display: flex;
+  justify-content: flex-end;
+}

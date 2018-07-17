@@ -1,6 +1,7 @@
 package torclms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,6 +54,14 @@ public class CourseController {
     public Course getCourseById (@PathVariable(value = "courseId") int courseId) {
         Course course = courseService.findCourseById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
         return course;
+    }
+
+    @DeleteMapping("/courses/{courseId}")
+    public ResponseEntity deleteCourseById (@PathVariable(value = "courseId") int courseId) {
+        Course course = courseService.findCourseById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        courseRepo.delete(course);
+
+        return ResponseEntity.ok().build();
     }
 
     // TODO: Change to /courses/assigned

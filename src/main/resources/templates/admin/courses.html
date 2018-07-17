@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div id="courseManageApp">
                     <loading-status v-if="loadingCourses"></loading-status>
-                    <course-list :courses="courses"></course-list>
+                    <course-list v-if="courses.length > 0" :courses="courses"></course-list>
                 </div>
             </div>
         </div>

@@ -515,3 +515,28 @@ span.required {
   display: flex;
   justify-content: flex-end;
 }
+
+
+/* Trainee Home */
+
+.userAssignments-single {
+  border: 1px solid $gray-200;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 2em;
+}
+
+.userAssignments-single img {
+  display: block;
+  width: 200px;
+}
+
+.userAssignments-single a {
+  font-size: 1.4em;
+}
+
+.userAssignments-single-body {
+  padding: 1em;
+  flex-grow: 1;
+}

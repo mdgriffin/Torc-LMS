@@ -3,12 +3,18 @@ var TraineeHomeApp = (function () {
     var template = `
         <article class="card">
             <div class="card-body">
-                <h3>Assigned Courses</h3>
+                <h3>Assigned Course</h3>
         
-                <div v-for="assignment in userAssignments">
-                    <h3>{{ assignment.assignedCourse.title }}</h3>
+                <loading-status v-if="assignmentsLoading"></loading-status>
         
-                    <a :href="'course/' + assignment.assignedCourse.courseId">Start</a>
+                <div class="userAssignments">
+                    <div v-for="assignment in userAssignments" class="userAssignments-single">
+                        <img :src="contextRoot + '/images/placeholder.jpeg'" alt="">
+                        <div class="userAssignments-single-body">
+                            <h3>{{ assignment.assignedCourse.title }}</h3>
+                            <a :href="'course/' + assignment.assignedCourse.courseId">Start Course</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
@@ -18,10 +24,14 @@ var TraineeHomeApp = (function () {
         template: template,
         data: function () {
             return {
-                userAssignments: []
+                assignmentsLoading: true,
+                userAssignments: [],
+                contextRoot: Config.contextRoot
             }
         },
-        components: {},
+        components: {
+            'loading-status': LoadingStatus
+        },
         created: function () {
             var self = this;
 
@@ -30,9 +40,11 @@ var TraineeHomeApp = (function () {
             })
                 .then(function (response) {
                     return response.json();
+                    self.assignmentsLoading = false;
                 })
                 .then(function (json) {
                     self.userAssignments = json;
+                    self.assignmentsLoading = false;
                 });
         }
     };

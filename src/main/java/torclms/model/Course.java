@@ -38,8 +38,9 @@ public class Course implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade =  CascadeType.PERSIST)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
     @JsonManagedReference("courseStages")
+    @OrderBy("stepOrder ASC")
     Set<Stage> stages = new HashSet<>();
 
     @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)

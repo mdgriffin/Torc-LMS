@@ -334,6 +334,7 @@
             addStage: function () {
                 var newStage = Util.clone(BLANK_STAGE);
                 newStage.uid = Util.guid();
+                newStage.stepOrder = this.course.stages.length;
 
                 this.course.stages.push(newStage);
                 this.currentStageIndex = this.course.stages.length - 1;

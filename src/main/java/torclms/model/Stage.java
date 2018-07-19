@@ -33,7 +33,7 @@ public class Stage implements Serializable {
     @JsonBackReference("courseStages")
     private Course course;
 
-    @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference("stageQuestions")
     Set<Question> questions = new HashSet<>();
 

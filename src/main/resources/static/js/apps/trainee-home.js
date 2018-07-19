@@ -13,6 +13,7 @@ var TraineeHomeApp = (function () {
                         <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
                         <div class="userAssignments-single-body">
                             <h3>{{ assignment.assignedCourse.title }}</h3>
+                            <h4>Deadline: {{ assignment.deadline | dateFormat }}</h4>
                             <a :href="'course/' + assignment.assignedCourse.courseId">Start Course</a>
                         </div>
                     </div>
@@ -33,6 +34,11 @@ var TraineeHomeApp = (function () {
         },
         components: {
             'loading-status': LoadingStatus
+        },
+        filters: {
+            dateFormat: function (date) {
+                return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
+            }
         },
         created: function () {
             var self = this;

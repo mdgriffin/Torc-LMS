@@ -9,7 +9,8 @@ var TraineeHomeApp = (function () {
         
                 <div class="userAssignments">
                     <div v-for="assignment in userAssignments" class="userAssignments-single">
-                        <img :src="contextRoot + '/images/placeholder.jpeg'" alt="">
+                        <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
+                        <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
                         <div class="userAssignments-single-body">
                             <h3>{{ assignment.assignedCourse.title }}</h3>
                             <a :href="'course/' + assignment.assignedCourse.courseId">Start Course</a>
@@ -26,7 +27,8 @@ var TraineeHomeApp = (function () {
             return {
                 assignmentsLoading: true,
                 userAssignments: [],
-                contextRoot: Config.contextRoot
+                contextRoot: Config.contextRoot,
+                cdnUrl: Config.cdnUrl
             }
         },
         components: {

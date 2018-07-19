@@ -7,6 +7,7 @@ var Config = (function () {
         assignedCoursesApiUrl: contextRoot + '/api/courses/assigned',
         assignCourseApiUrl: contextRoot + '/api/courses/assign',
         usersApiUrl: contextRoot + '/api/users',
-        traineesApiUrl: contextRoot + '/api/users?trainees=true'
+        traineesApiUrl: contextRoot + '/api/users?trainees=true',
+        cdnUrl: 'https://storage.googleapis.com/torc-lms.appspot.com'
     }
 })();

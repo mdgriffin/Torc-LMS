@@ -241,6 +241,10 @@
                     '<input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': course.wasValidated && !validCourseTitle}]"/>',
                     '<div class="invalid-feedback" >Course Title is required</div>',
                 '</div>',
+                '<div class="form-group">',
+                    '<label>Course Image</label>',
+                    '<input type="text" v-model="course.imageName" class="form-control"/>',
+                '</div>',
                 '<div class="courseCreator-stages">',
                     '<ul class="nav nav-tabs courseCreator-stages-tabs">',
                         '<li class="nav-item" v-for="(stage, stageIndex) in stages">',
@@ -264,6 +268,7 @@
                 default: function () {
                     return {
                         title: '',
+                        imageName: '',
                         stages: [],
                         wasValidated: false
                     }

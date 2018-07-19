@@ -24,6 +24,8 @@ public class Course implements Serializable {
     @NotBlank
     private String title;
 
+    private String imageName;
+
     @Column(name = "date_created", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -86,5 +88,13 @@ public class Course implements Serializable {
 
     public void setStages(Set<Stage> stages) {
         this.stages = stages;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

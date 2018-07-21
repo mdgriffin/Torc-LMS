@@ -87,7 +87,7 @@ var AssignCourse = (function () {
                 var self = this;
 
                 if (self.canSave) {
-                    fetch(Config.assignCourseApiUrl, {
+                    fetch(Config.assignedCoursesApiUrl, {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {

@@ -64,8 +64,7 @@ public class CourseController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: Change to /courses/assigned
-    @PostMapping("/courses/assign")
+    @PostMapping("/courses/assigned")
     public User assignStage (@RequestBody UserCourseAssignment assignment) {
         Course course = courseService.findCourseById(assignment.getCourseId()).orElseThrow(() -> new ResourceNotFoundException("Course", "id", assignment.getCourseId()));
         User user = userService.findById(assignment.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", assignment.getUserId()));

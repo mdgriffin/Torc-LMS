@@ -6,11 +6,19 @@ import torclms.model.Stage;
 import torclms.model.User;
 import torclms.model.UserAssignment;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
+
     User findUserByEmail(String email);
+
     void saveUser(User user, UserRole userRole);
-    User assignCourse(User user, Course course);
+
     Optional<User> findById (Long userId);
+
+    User assignCourse(User user, Course course);
+
+    List<UserAssignment> findAssignmentsByUserId (Long userId);
+
 }

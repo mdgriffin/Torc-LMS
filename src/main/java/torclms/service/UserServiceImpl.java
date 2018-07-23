@@ -1,8 +1,6 @@
 package torclms.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +9,9 @@ import org.springframework.stereotype.Service;
 import torclms.entity.TestCompletionDeadline;
 import torclms.entity.UserRole;
 import torclms.model.*;
+import torclms.repository.CourseRepository;
 import torclms.repository.RoleRepository;
+import torclms.repository.UserAssignmentRepository;
 import torclms.repository.UserRepository;
 
 @Service("UserService")
@@ -19,8 +19,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
+
+    //@Autowired
+    //private CourseRepository courseRepository;
+
+    @Autowired
+    private UserAssignmentRepository assignmentRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -46,14 +53,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User assignCourse(User user, Course course) {
-        UserAssignment assignment = new UserAssignment();
-
-        assignment.setAssignedUser(user);
-        assignment.setAssignedCourse(course);
-        assignment.setDeadline(TestCompletionDeadline.getDate());
+        UserAssignment assignment = new UserAssignment(user, course, TestCompletionDeadline.getDate());
 
         user.getAssignedCourses().add(assignment);
 
         return userRepository.save(user);
     }
+
+    public List<UserAssignment> findAssignmentsByUserId (Long userId) {
+        return assignmentRepository.findUserAssignments(userId, new Date(), TestCompletionDeadline.getDate());
+    }
+
 }

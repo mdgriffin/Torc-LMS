@@ -2,9 +2,12 @@ package torclms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import torclms.entity.TestCompletionDeadline;
 import torclms.model.Course;
+import torclms.model.UserAssignment;
 import torclms.repository.CourseRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +26,12 @@ public class CourseServiceImpl implements CourseService {
         return courseRepo.findById(courseId);
     }
 
-    public Course saveCourse (Course cource) {
-        return courseRepo.save(cource);
+    public Course saveCourse (Course course) {
+        return courseRepo.save(course);
+    }
+
+    public List<Course> getAssignedCourses (Long userId) {
+        return courseRepo.findAssignedCourses(userId, new Date(), TestCompletionDeadline.getDate());
     }
 
 }

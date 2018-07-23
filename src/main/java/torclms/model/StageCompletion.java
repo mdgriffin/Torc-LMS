@@ -33,6 +33,11 @@ public class StageCompletion {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean completed;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_assignment_id")
+    @JsonBackReference
+    private UserAssignment userAssignment;
+
     public StageCompletion(Stage stage, User user, boolean completed) {
         this.stage = stage;
         this.user = user;
@@ -82,5 +87,13 @@ public class StageCompletion {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public UserAssignment getUserAssignment() {
+        return userAssignment;
+    }
+
+    public void setUserAssignment(UserAssignment userAssignment) {
+        this.userAssignment = userAssignment;
     }
 }

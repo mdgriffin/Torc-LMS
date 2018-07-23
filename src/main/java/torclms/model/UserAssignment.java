@@ -4,12 +4,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import torclms.entity.AssignmentStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "User_Assignment")
@@ -17,6 +21,7 @@ public class UserAssignment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "user_assignment_id")
     private Long userAssignmentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,6 +34,10 @@ public class UserAssignment implements Serializable {
     //@JsonBackReference("courseAssignedUser")
     private Course assignedCourse;
 
+    @OneToMany(mappedBy="userAssignment", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<StageCompletion> stageCompletions = new HashSet<>();
+
     @Column(name = "assigned_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -38,9 +47,27 @@ public class UserAssignment implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
 
+    @Column(name = "last_updated", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    private Date lastUpdated;
+
+    /*
     @Column(name="locked", columnDefinition = "TINYINT DEFAULT 0", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean locked;
+    */
+
+    @Column(name= "status", nullable = true)
+    private AssignmentStatus status;
+
+    public UserAssignment() {}
+
+    public UserAssignment(User user, Course course, Date deadline) {
+        setAssignedUser(user);
+        setAssignedCourse(course);
+        setDeadline(deadline);
+    }
 
     public User getAssignedUser() {
         return assignedUser;
@@ -82,11 +109,32 @@ public class UserAssignment implements Serializable {
         this.userAssignmentId = userAssignmentId;
     }
 
-    public boolean isLocked() {
-        return locked;
+    public Set<StageCompletion> getStageCompletions() {
+        return stageCompletions;
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    public void setStageCompletions(Set<StageCompletion> stageCompletions) {
+        this.stageCompletions = stageCompletions;
     }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public AssignmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AssignmentStatus status) {
+        this.status = status;
+    }
+
+    public boolean isLocked() {
+        return this.status.equals(AssignmentStatus.LOCKED);
+    }
+
 }

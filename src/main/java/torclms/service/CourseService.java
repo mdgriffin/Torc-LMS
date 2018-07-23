@@ -1,6 +1,7 @@
 package torclms.service;
 
 import torclms.model.Course;
+import torclms.model.UserAssignment;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +13,6 @@ public interface CourseService {
     List<Course> findAll ();
 
     Course saveCourse (Course course);
+
+    List<Course> getAssignedCourses (Long userId);
 }

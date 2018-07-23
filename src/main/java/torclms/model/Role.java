@@ -21,6 +21,13 @@ public class Role {
     @JsonBackReference("userRoles")
     private Set<User> users = new HashSet<>();
 
+    public Role () {
+    }
+
+    public Role (String role) {
+        setRole(role);
+    }
+
     public int getRoleId() {
         return roleId;
     }

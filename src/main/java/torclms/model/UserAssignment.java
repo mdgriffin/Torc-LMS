@@ -52,21 +52,16 @@ public class UserAssignment implements Serializable {
     @UpdateTimestamp
     private Date lastUpdated;
 
-    /*
-    @Column(name="locked", columnDefinition = "TINYINT DEFAULT 0", nullable = true)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean locked;
-    */
-
     @Column(name= "status", nullable = true)
     private AssignmentStatus status;
 
     public UserAssignment() {}
 
-    public UserAssignment(User user, Course course, Date deadline) {
+    public UserAssignment(User user, Course course, Date deadline, AssignmentStatus status) {
         setAssignedUser(user);
         setAssignedCourse(course);
         setDeadline(deadline);
+        setStatus(status);
     }
 
     public User getAssignedUser() {

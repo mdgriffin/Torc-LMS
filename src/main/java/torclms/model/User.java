@@ -57,7 +57,14 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<UserAssignment> assignedCourses;
+    private Set<UserAssignment> assignedCourses = new HashSet<>();
+
+    public User () {}
+
+    public User (String firstname, String surname) {
+        setFirstname(firstname);
+        setSurname(surname);
+    }
 
     public Long getUserId() {
         return userId;

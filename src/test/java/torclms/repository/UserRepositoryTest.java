@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import torclms.entity.AssignmentStatus;
 import torclms.entity.UserRole;
 import torclms.model.Course;
 import torclms.model.Role;
@@ -54,7 +55,7 @@ public class UserRepositoryTest {
         Course course = new Course();
         course.setTitle("Example Course Title");
 
-        UserAssignment assignment = new UserAssignment(user, course, new Date());
+        UserAssignment assignment = new UserAssignment(user, course, new Date(), AssignmentStatus.INCOMPLETE);
 
         entityManager.persist(course);
         Long userId = (Long)entityManager.persistAndGetId(user);

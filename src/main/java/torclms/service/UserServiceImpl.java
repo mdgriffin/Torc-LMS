@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import torclms.entity.AssignmentStatus;
 import torclms.entity.TestCompletionDeadline;
 import torclms.entity.UserRole;
 import torclms.model.*;
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User assignCourse(User user, Course course) {
-        UserAssignment assignment = new UserAssignment(user, course, TestCompletionDeadline.getDate());
+        UserAssignment assignment = new UserAssignment(user, course, TestCompletionDeadline.getDate(), AssignmentStatus.INCOMPLETE);
 
         user.getAssignedCourses().add(assignment);
 

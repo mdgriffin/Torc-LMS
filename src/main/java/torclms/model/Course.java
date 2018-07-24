@@ -50,6 +50,12 @@ public class Course implements Serializable {
     @JsonIgnore
     private Set<UserAssignment> assignedUsers;
 
+    public Course () {}
+
+    public Course (String title) {
+        setTitle(title);
+    }
+
     public int getCourseId() {
         return courseId;
     }

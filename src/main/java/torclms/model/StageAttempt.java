@@ -10,21 +10,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Stage_Completion")
-public class StageCompletion {
+@Table(name = "Stage_Attempts")
+public class StageAttempt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "stage_completion_id")
-    private int stageCompletionId;
+    @Column(name = "stage_attempt_id")
+    private int stageAttemptId;
 
     @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="stage_id", nullable=false)
     private Stage stage;
-
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
 
     @Column(name = "date_attempted")
     private Date dateAttempted;
@@ -38,10 +34,10 @@ public class StageCompletion {
     @JsonBackReference
     private UserAssignment userAssignment;
 
-    public StageCompletion(Stage stage, User user, boolean completed) {
-        this.stage = stage;
-        this.user = user;
-        this.completed = completed;
+    public StageAttempt(UserAssignment userAssignment, Stage stage, boolean completed) {
+        setUserAssignment(userAssignment);
+        setStage(stage);
+        setCompleted(completed);
     }
 
     @PrePersist
@@ -49,12 +45,12 @@ public class StageCompletion {
         dateAttempted = new Date();
     }
 
-    public int getStageCompletionId() {
-        return stageCompletionId;
+    public int getStageAttemptId() {
+        return stageAttemptId;
     }
 
-    public void setStageCompletionId(int stageCompletionId) {
-        this.stageCompletionId = stageCompletionId;
+    public void setStageAttemptId(int stageAttemptId) {
+        this.stageAttemptId = stageAttemptId;
     }
 
     public Stage getStage() {
@@ -63,14 +59,6 @@ public class StageCompletion {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Date getDateAttempted() {

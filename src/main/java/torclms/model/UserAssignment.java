@@ -3,13 +3,10 @@ package torclms.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import torclms.entity.AssignmentStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,7 +33,7 @@ public class UserAssignment implements Serializable {
 
     @OneToMany(mappedBy="userAssignment", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<StageCompletion> stageCompletions = new HashSet<>();
+    private Set<StageAttempt> stageAttempts = new HashSet<>();
 
     @Column(name = "assigned_on", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,6 +49,7 @@ public class UserAssignment implements Serializable {
     @UpdateTimestamp
     private Date lastUpdated;
 
+    @Enumerated(EnumType.STRING)
     @Column(name= "status", nullable = true)
     private AssignmentStatus status;
 
@@ -104,12 +102,12 @@ public class UserAssignment implements Serializable {
         this.userAssignmentId = userAssignmentId;
     }
 
-    public Set<StageCompletion> getStageCompletions() {
-        return stageCompletions;
+    public Set<StageAttempt> getStageAttempts() {
+        return stageAttempts;
     }
 
-    public void setStageCompletions(Set<StageCompletion> stageCompletions) {
-        this.stageCompletions = stageCompletions;
+    public void setStageAttempts(Set<StageAttempt> stageAttempts) {
+        this.stageAttempts = stageAttempts;
     }
 
     public Date getLastUpdated() {

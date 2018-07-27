@@ -62,11 +62,6 @@ public class UserAssignmentController {
         return userAssignmentService.attemptStage(user, stageAttemptDto);
     }
 
-    @GetMapping("/assignments/attempt-stage")
-    public ResponseEntity getAttemptStage () {
-        return ResponseEntity.ok().build();
-    }
-
     /*
     // Get all assignments for user with id
     //@GetMapping("/assignments/users/{userId}

@@ -36,6 +36,8 @@ public class StageAttempt {
     @JsonBackReference
     private UserAssignment userAssignment;
 
+    public StageAttempt () {}
+
     public StageAttempt(UserAssignment userAssignment, Stage stage, boolean completed) {
         setUserAssignment(userAssignment);
         setStage(stage);

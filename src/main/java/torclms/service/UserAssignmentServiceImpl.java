@@ -33,9 +33,9 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
         Stage stage = assignment.getAssignedCourse()
             .getStages()
-            .stream().filter(val -> val.getCourseId() == stageAttemptDto.getCourseId())
+            .stream().filter(val -> val.getStageId()== stageAttemptDto.getStageId())
             .findFirst()
-            .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getCourseId()));
+            .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getStageId()));
 
         assignment.getStageAttempts().add(new StageAttempt(assignment, stage, stageAttemptDto.isCompleted()));
 

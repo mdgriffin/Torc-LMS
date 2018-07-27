@@ -39,7 +39,6 @@ return {
     template: template,
     props: ['questions'],
     data: function () {
-        console.log(this.questions);
         return {
             //duration: this.countdownduration,
             questionIndex: 0,

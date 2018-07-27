@@ -49,7 +49,6 @@ var CourseStage = (function () {
         props: ['courseId', 'stage', 'stageDuration', 'lastStage'],
         template: template,
         data: function () {
-            notifyStageAttempt(this.courseId, this.stage.stageId, false);
             return {
                 timeRemaining: this.stageDuration,
                 fsm: CourseStageFSM()

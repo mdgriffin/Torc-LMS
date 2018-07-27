@@ -1,5 +1,7 @@
 var Quiz = (function ()  {
 
+const PASS_PERCENTAGE = 0.7;
+
 var template = `
     <div class="quiz">
         <div class="quiz-questions" v-if="!quizCompleted">
@@ -26,7 +28,8 @@ var template = `
             <button @click="seeResults" v-if="allQuestionsAnswered">Finish</button>
         </div>
         <div class="quiz-overview" v-if="quizCompleted">
-            <h3>Quiz Over</h3>
+            <h3>Quiz {{ quizPassed? 'Passed' : 'Failed' }}</h3>
+            
             <h4>You got {{numRight}} / {{numQuestions}} Questions Right</h4>
         </div>
     </div>
@@ -98,7 +101,7 @@ return {
             return this.numRightOptions > 1;
         },
         quizPassed: function () {
-            return this.numRight == this.numQuestions;
+            return this.numRight / this.numQuestions >= PASS_PERCENTAGE;
         }
     },
     methods: {

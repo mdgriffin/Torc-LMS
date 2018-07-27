@@ -18,6 +18,8 @@ var TraineeHomeApp = (function () {
                         </div>
                     </div>
                 </div>
+                
+                <div class="alert alert-info" v-if="!assignmentsLoading && userAssignments.length === 0">There are currently no assigned courses</div>
             </div>
         </article>
     `
@@ -47,13 +49,22 @@ var TraineeHomeApp = (function () {
                 credentials: "include"
             })
                 .then(function (response) {
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    }
+
+                    self.assignmentsLoading = false;
+                })
+                .catch(error => {
+                    console.error('Error', error);
                     self.assignmentsLoading = false;
                 })
                 .then(function (json) {
-                    self.userAssignments = json;
-                    self.assignmentsLoading = false;
-                });
+                    if (json) {
+                        self.userAssignments = json;
+                        self.assignmentsLoading = false;
+                    }
+                })
         }
     };
 

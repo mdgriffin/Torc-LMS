@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import torclms.dto.StageAttemptDto;
 import torclms.entity.AssignmentStatus;
+import torclms.helper.GenerateAssignments;
 import torclms.model.Course;
 import torclms.model.User;
 import torclms.model.UserAssignment;
@@ -54,7 +55,7 @@ public class UserAssignmentControllerTest {
 
     private User testUser;
 
-    private static int NUM_ASSIGNMENTS = 10;
+    private static final int NUM_ASSIGNMENTS = 10;
 
     @Before
     public void setup () {
@@ -69,7 +70,7 @@ public class UserAssignmentControllerTest {
         ArgumentCaptor<Long> assignmentUserIdCaptor = ArgumentCaptor.forClass(Long.class);
 
         given(userService.findUserByEmail(userEmailCaptor.capture())).willReturn(testUser);
-        given(userService.findAssignmentsByUserId(assignmentUserIdCaptor.capture())).willReturn(generateAssignments(NUM_ASSIGNMENTS));
+        given(userService.findAssignmentsByUserId(assignmentUserIdCaptor.capture())).willReturn(GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser));
 
         mvc.perform(get("/api/assignments/active-user").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -87,7 +88,7 @@ public class UserAssignmentControllerTest {
         ArgumentCaptor<StageAttemptDto> stageAttemptCaptor = ArgumentCaptor.forClass(StageAttemptDto.class);
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
 
-        UserAssignment assignment = generateAssignments(1).get(0);
+        UserAssignment assignment = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser).get(0);
         StageAttemptDto attemptDto = new StageAttemptDto(1, 1, true);
 
         given(userService.findUserByEmail(userEmailCaptor.capture())).willReturn(testUser);
@@ -99,16 +100,6 @@ public class UserAssignmentControllerTest {
 
         verify(userService).findUserByEmail(userEmailCaptor.capture());
         verify(userAssignmentService).attemptStage(userArgumentCaptor.capture(), stageAttemptCaptor.capture());
-    }
-
-    private List<UserAssignment> generateAssignments (int numAssignments) {
-        List<UserAssignment> assignments = new ArrayList<>();
-
-        for (int i = 0;i < numAssignments; i++) {
-            assignments.add(new UserAssignment(testUser, new Course("Course " + i), new Date(), AssignmentStatus.INCOMPLETE));
-        }
-
-        return  assignments;
     }
 
     public static String asJsonString(final Object obj) {

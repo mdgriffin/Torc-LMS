@@ -20,7 +20,6 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Autowired
     private UserService userService;
 
-
     @Override
     public UserAssignment attemptStage(User user, StageAttemptDto stageAttemptDto) {
         List<UserAssignment> userAssignments = userService.findUserAssignmentsByCourseId(user.getUserId(), stageAttemptDto.getCourseId());

@@ -14,4 +14,7 @@ public interface UserAssignmentRepository  extends JpaRepository<UserAssignment,
     @Query("SELECT a FROM UserAssignment a INNER JOIN a.assignedUser u WHERE u.userId = :userId  AND a.assignedOn <= :startDate AND a.deadline <= :endDate ")
     List<UserAssignment> findUserAssignments (@Param("userId") Long userId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    @Query("SELECT a FROM UserAssignment a INNER JOIN a.assignedUser u WHERE u.userId = :userId  AND a.assignedCourse.courseId = :courseId  AND a.assignedOn <= :startDate AND a.deadline <= :endDate ")
+    List<UserAssignment> findUserAssignmentsByCourseId (@Param("userId") Long userId, @Param("courseId") int courseId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
 }

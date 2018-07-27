@@ -2,6 +2,7 @@ package torclms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class StageAttempt {
 
     @Column(name="completed", columnDefinition = "TINYINT DEFAULT 1", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")
+    @JsonProperty(value="completed")
     private boolean completed;
 
     @ManyToOne(fetch = FetchType.LAZY)

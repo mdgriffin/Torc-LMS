@@ -7,6 +7,8 @@ var Config = (function () {
         assignedCoursesApiUrl: contextRoot + '/api/assignments/active-user',
         usersApiUrl: contextRoot + '/api/users',
         traineesApiUrl: contextRoot + '/api/users?trainees=true',
-        cdnUrl: 'https://storage.googleapis.com/torc-lms.appspot.com'
+        cdnUrl: 'https://storage.googleapis.com/torc-lms.appspot.com',
+        attemptStageUrl: contextRoot + '/api/assignments/attempt-stage'
     }
+
 })();

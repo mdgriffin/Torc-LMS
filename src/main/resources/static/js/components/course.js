@@ -46,9 +46,10 @@ var CourseStage = (function () {
     `
 
     return {
-        props: ['stage', 'stageDuration', 'lastStage'],
+        props: ['courseId', 'stage', 'stageDuration', 'lastStage'],
         template: template,
         data: function () {
+            notifyStageAttempt(this.courseId, this.stage.stageId, false);
             return {
                 timeRemaining: this.stageDuration,
                 fsm: CourseStageFSM()
@@ -74,12 +75,15 @@ var CourseStage = (function () {
             },
             onCountdownComplete: function () {
                 this.fsm.countdownComplete();
+                notifyStageAttempt(this.courseId, this.stage.stageId, false);
                 this.$emit('fail');
             },
             onQuizPass: function () {
+                notifyStageAttempt(this.courseId, this.stage.stageId, true);
                 this.fsm.quizPassed();
             },
             onQuizFail: function () {
+                notifyStageAttempt(this.courseId, this.stage.stageId, false);
                 this.fsm.quizFailed();
             },
             rewatchVideo: function () {
@@ -113,6 +117,21 @@ var CourseStage = (function () {
         }
     }
 
+    function notifyStageAttempt (courseId, stageId, completed) {
+        fetch(Config.attemptStageUrl, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"courseId": courseId, "stageId": stageId, "completed": completed})
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function () {
+            alert("An error has occured, please try again");
+        });
+    }
+
 })();
 
 var Course = (function () {
@@ -125,7 +144,7 @@ var Course = (function () {
             
             <div class="card">
                 <div class="card-body">
-                    <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
+                    <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
                 
                     <div class="course-completed" v-if="courseCompleted">
                         <h3>Congratulations! You Have Completed This Course</h3>

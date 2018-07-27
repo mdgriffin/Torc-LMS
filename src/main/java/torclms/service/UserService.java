@@ -21,4 +21,6 @@ public interface UserService {
 
     List<UserAssignment> findAssignmentsByUserId (Long userId);
 
+    List<UserAssignment> findUserAssignmentsByCourseId (Long userId, int courseId);
+
 }

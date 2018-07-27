@@ -52,5 +52,10 @@ public class UserServiceTest {
         assertEquals(COURSE_TITLE, assignment.getAssignedCourse().getTitle());
     }
 
+    @Test
+    public void whenAttemptingStage_withValidStageId_stageAttemptedAddedToStageAttempts () {
+        // TODO
+    }
+
 
 }

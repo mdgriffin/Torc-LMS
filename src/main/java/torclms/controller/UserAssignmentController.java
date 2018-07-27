@@ -1,14 +1,22 @@
 package torclms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import torclms.dto.StageAttemptDto;
 import torclms.dto.UserCourseAssignment;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
+import torclms.model.StageAttempt;
 import torclms.model.User;
 import torclms.model.UserAssignment;
 import torclms.service.CourseService;
+import torclms.service.UserAssignmentService;
+import torclms.service.UserAssignmentServiceImpl;
 import torclms.service.UserService;
 
 import java.security.Principal;
@@ -23,6 +31,9 @@ public class UserAssignmentController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private UserAssignmentService userAssignmentService;
 
     @PostMapping("/assignments/active-user")
     public User assignStage (@RequestBody UserCourseAssignment assignment) {
@@ -44,9 +55,16 @@ public class UserAssignmentController {
         return userAssignments;
     };
 
+    @PostMapping("/assignments/attempt-stage")
+    public UserAssignment postAttemptStage (@RequestBody StageAttemptDto stageAttemptDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        return userAssignmentService.attemptStage(user, stageAttemptDto);
+    }
+
     @GetMapping("/assignments/attempt-stage")
-    public UserAssignment attemptStage () {
-        return null;
+    public ResponseEntity getAttemptStage () {
+        return ResponseEntity.ok().build();
     }
 
     /*

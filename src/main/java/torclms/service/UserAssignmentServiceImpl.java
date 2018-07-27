@@ -1,20 +1,45 @@
 package torclms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import torclms.model.Stage;
-import torclms.model.StageAttempt;
-import torclms.model.UserAssignment;
+import org.springframework.stereotype.Service;
+import torclms.dto.StageAttemptDto;
+import torclms.exception.ResourceNotFoundException;
+import torclms.model.*;
 import torclms.repository.StageAttemptRepository;
+import torclms.repository.UserAssignmentRepository;
 
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Autowired
-    private StageAttemptRepository stageAttemptRepository;
+    private UserAssignmentRepository userAssignmentRepository;
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
-    public StageAttempt attemptStage(UserAssignment assignment, Stage stage, boolean completed) {
-        StageAttempt completion = new StageAttempt(assignment, stage, completed);
-        return stageAttemptRepository.save(completion);
+    public UserAssignment attemptStage(User user, StageAttemptDto stageAttemptDto) {
+        List<UserAssignment> userAssignments = userService.findUserAssignmentsByCourseId(user.getUserId(), stageAttemptDto.getCourseId());
+
+        if (userAssignments.size() == 0) {
+            throw new ResourceNotFoundException("UserAssignment", "id", null);
+        }
+
+        UserAssignment assignment  = userAssignments.get(0);
+
+        Stage stage = assignment.getAssignedCourse()
+            .getStages()
+            .stream().filter(val -> val.getCourseId() == stageAttemptDto.getCourseId())
+            .findFirst()
+            .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getCourseId()));
+
+        assignment.getStageAttempts().add(new StageAttempt(assignment, stage, stageAttemptDto.isCompleted()));
+
+        return userAssignmentRepository.save(assignment);
     }
 
 }

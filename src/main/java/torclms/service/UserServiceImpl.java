@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService {
         return assignmentRepository.findUserAssignments(userId, new Date(), TestCompletionDeadline.getDate());
     }
 
+    @Override
+    public List<UserAssignment> findUserAssignmentsByCourseId(Long userId, int courseId) {
+        return assignmentRepository.findUserAssignmentsByCourseId(userId, courseId, new Date(), TestCompletionDeadline.getDate());
+    }
+
 }

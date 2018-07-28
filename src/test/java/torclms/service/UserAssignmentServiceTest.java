@@ -13,12 +13,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import torclms.dto.StageAttemptDto;
 import torclms.helper.GenerateAssignments;
-import torclms.model.Course;
-import torclms.model.Stage;
-import torclms.model.User;
-import torclms.model.UserAssignment;
+import torclms.model.*;
 import torclms.repository.UserAssignmentRepository;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +49,6 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    @WithMockUser(username="test@example.com",roles={"ADMIN", "MANAGER", "TRAINEE"})
     public void whenAttemptingStage_withValidAssignment_attemptedAddedToAssignment () {
         List<UserAssignment> assignmentList = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser);
         StageAttemptDto stageAttemptDto = new StageAttemptDto(1, 1, true);
@@ -85,6 +82,56 @@ public class UserAssignmentServiceTest {
         UserAssignment savedAssignment = assignmentArgumentCaptor.getValue();
 
         assertEquals(savedAssignment.getStageAttempts().size(), 1);
+    }
+
+    @Test
+    public void whenGettingNumAttemptsRemaining_withCorrectAttempts_correctAttemptsReturned () {
+        UserAssignment assignment = new UserAssignment();
+        assignment.setLastUpdated(new Date(2018, 5, 1));
+        Set<StageAttempt> stageAttempts = new HashSet<>();
+        stageAttempts.addAll(generateAttempts(10, assignment, generateStage(1), true, new Date(2018, 5, 1)));
+
+        assignment.setStageAttempts(stageAttempts);
+
+        int numAttemptsRemaining = userAssignmentService.numAttemptsRemaining(assignment, 1);
+
+        assertEquals(2, numAttemptsRemaining);
+    }
+
+
+    @Test
+    public void whenGettingNumAttemptsRemaining_withMixedAttempts_correctAttemptsReturned () {
+        UserAssignment assignment = new UserAssignment();
+        assignment.setLastUpdated(new Date(2018, 5, 1));
+        Set<StageAttempt> stageAttempts = new HashSet<>();
+        stageAttempts.addAll(generateAttempts(10, assignment, generateStage(1), true, new Date(2018, 5, 1)));
+        stageAttempts.addAll(generateAttempts(10, assignment, generateStage(1), false, new Date(2018, 5, 1)));
+
+        assignment.setStageAttempts(stageAttempts);
+
+        assertEquals(20, assignment.getStageAttempts().size());
+
+        int numAttemptsRemaining = userAssignmentService.numAttemptsRemaining(assignment, 1);
+
+        assertEquals(0, numAttemptsRemaining);
+    }
+
+    private static Set<StageAttempt> generateAttempts (int numAttempts, UserAssignment assignment, Stage stage, boolean completed, Date dateAttempted) {
+        Set<StageAttempt> attempts = new HashSet<>();
+
+        for (int i = 0; i < numAttempts; i++) {
+            StageAttempt attempt = new StageAttempt(assignment, stage, completed);
+            attempt.setDateAttempted(dateAttempted);
+            attempts.add(attempt);
+        }
+
+        return attempts;
+    }
+
+    private static Stage generateStage (int stageId) {
+        Stage stage = new Stage();
+        stage.setStageId(stageId);
+        return stage;
     }
 
 }

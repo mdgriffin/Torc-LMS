@@ -10,4 +10,6 @@ public interface UserAssignmentService {
 
     UserAssignment attemptStage (User user, StageAttemptDto stageAttemptDto);
 
+    int numAttemptsRemaining(UserAssignment assignment, int stageId);
+
 }

@@ -9,6 +9,7 @@ import torclms.model.*;
 import torclms.repository.StageAttemptRepository;
 import torclms.repository.UserAssignmentRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,9 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private  StageService stageService;
+
     private static final int NUM_STAGE_ATTEMPTS = 2;
 
     @Override
@@ -35,15 +39,29 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
         UserAssignment assignment  = userAssignments.get(0);
 
-        Stage stage = assignment.getAssignedCourse()
-            .getStages()
-            .stream().filter(val -> val.getStageId()== stageAttemptDto.getStageId())
-            .findFirst()
-            .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getStageId()));
+        if (assignment.getStatus().equals(AssignmentStatus.INCOMPLETE)) {
+            Stage stage = assignment.getAssignedCourse()
+                    .getStages()
+                    .stream().filter(val -> val.getStageId()== stageAttemptDto.getStageId())
+                    .findFirst()
+                    .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getStageId()));
+            Stage lastStage = stageService.getLastStage(assignment.getAssignedCourse().getStages());
 
-        assignment.getStageAttempts().add(new StageAttempt(assignment, stage, stageAttemptDto.isCompleted()));
+            StageAttempt attempt = new StageAttempt(assignment, stage, stageAttemptDto.isCompleted());
+            attempt.setDateAttempted(new Date());
 
-        return userAssignmentRepository.save(assignment);
+            assignment.getStageAttempts().add(attempt);
+
+            if (stageAttemptDto.isCompleted() && lastStage.getStageId() == stageAttemptDto.getStageId()) {
+                assignment.setStatus(AssignmentStatus.COMPLETED);
+            } else if (numAttemptsRemaining(assignment, stageAttemptDto.getStageId()) == 0) {
+                assignment.setStatus(AssignmentStatus.LOCKED);
+            }
+
+            return userAssignmentRepository.save(assignment);
+        }
+
+        return assignment;
     }
 
     @Override

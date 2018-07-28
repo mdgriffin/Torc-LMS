@@ -2,6 +2,6 @@ package torclms.entity;
 
 public enum AssignmentStatus {
     INCOMPLETE,
-    COMPLETE,
+    COMPLETED,
     LOCKED;
 }

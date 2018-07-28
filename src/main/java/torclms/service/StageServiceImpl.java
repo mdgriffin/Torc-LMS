@@ -6,6 +6,7 @@ import torclms.model.Stage;
 import torclms.repository.StageRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StageServiceImpl implements  StageService {
@@ -19,5 +20,13 @@ public class StageServiceImpl implements  StageService {
 
     public Optional<Stage> getStageById (int stageId) {
         return stageRepo.findById(stageId);
+    }
+
+    @Override
+    public Stage getLastStage(Set<Stage> stages) {
+        return stages
+            .stream()
+            .reduce((a, b) -> a.getStepOrder() > b.getStepOrder()? a : b)
+            .get();
     }
 }

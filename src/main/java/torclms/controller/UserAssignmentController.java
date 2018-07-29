@@ -35,6 +35,11 @@ public class UserAssignmentController {
     @Autowired
     private UserAssignmentService userAssignmentService;
 
+    @GetMapping("/assignments/{assignmentId}")
+    public UserAssignment getAssignment (@PathVariable(value = "assignmentId") Long assignmentId) {
+        return userAssignmentService.getAssignmentById(assignmentId).orElseThrow(() -> new ResourceNotFoundException("UserAssignment", "id", assignmentId));
+    }
+
     @PostMapping("/assignments/active-user")
     public User assignStage (@RequestBody UserCourseAssignment assignment) {
         Course course = courseService.findCourseById(assignment.getCourseId()).orElseThrow(() -> new ResourceNotFoundException("Course", "id", assignment.getCourseId()));

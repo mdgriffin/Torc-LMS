@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import torclms.model.User;
+import torclms.model.UserAssignment;
 import torclms.service.CourseService;
+import torclms.service.UserAssignmentService;
 import torclms.service.UserService;
 
 @Controller
 @RequestMapping("/learn")
 public class TraineeController {
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping(value={"/", "/home"})
     public ModelAndView home () {
@@ -26,11 +25,10 @@ public class TraineeController {
         return modelAndView;
     }
 
-
-    @GetMapping("/course/{courseid}")
-    public ModelAndView viewCourse (@PathVariable(value = "courseid") Long courseId) {
+    @GetMapping("/assignment/{assignmentId}")
+    public ModelAndView getAssignment (@PathVariable(value = "assignmentId") Long assignmentId) {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("learn/course");
+        mv.setViewName("learn/assignment");
         return mv;
     }
 

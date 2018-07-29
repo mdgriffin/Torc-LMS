@@ -30,6 +30,12 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     private static final int NUM_STAGE_ATTEMPTS = 2;
 
     @Override
+    public Optional<UserAssignment> getAssignmentById(Long assignmentId) {
+        UserAssignment assignment = userAssignmentRepository.getOne(assignmentId);
+        return Optional.of(assignment);
+    }
+
+    @Override
     public UserAssignment attemptStage(User user, StageAttemptDto stageAttemptDto) {
         List<UserAssignment> userAssignments = userService.findUserAssignmentsByCourseId(user.getUserId(), stageAttemptDto.getCourseId());
 

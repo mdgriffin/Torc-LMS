@@ -14,7 +14,7 @@ var TraineeHomeApp = (function () {
                         <div class="userAssignments-single-body">
                             <h3>{{ assignment.assignedCourse.title }}</h3>
                             <h4>Deadline: {{ assignment.deadline | dateFormat }}</h4>
-                            <a :href="'course/' + assignment.assignedCourse.courseId">Start Course</a>
+                            <a :href="'assignment/' + assignment.userAssignmentId">Start Course</a>
                         </div>
                     </div>
                 </div>

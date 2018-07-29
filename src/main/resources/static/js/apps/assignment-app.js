@@ -23,17 +23,16 @@ var AssignmentApp = (function () {
         },
         created: function () {
             var self = this;
-            // get the course from the rest service
             var assignmentId = parseInt(window.location.href.substring(window.location.href.lastIndexOf('/') + 1));
             fetch(Config.assignmentsdApiUrl + '/' + assignmentId, {
                 credentials: 'include'
             })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (assignment) {
-                    self.assignment = assignment;
-                });
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (assignment) {
+                self.assignment = assignment;
+            });
         }
     }
 

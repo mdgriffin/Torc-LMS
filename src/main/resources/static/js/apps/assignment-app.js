@@ -1,10 +1,10 @@
-var CourseApp = (function () {
+var AssignmentApp = (function () {
 
     var template =  `
         <div class="courseApp">
             <loading-status v-if="assignment === null"></loading-status>
             <div class="course-stageContainer" v-if="assignment !== null">
-                <course :course="assignment.assignedCourse"></course>
+                <assignment :assignment="assignment"></assignment>
             </div>
         </div>
     `;
@@ -18,7 +18,7 @@ var CourseApp = (function () {
             }
         },
         components: {
-            'course': Course,
+            'assignment': Assignment,
             'loading-status': LoadingStatus
         },
         created: function () {
@@ -39,4 +39,4 @@ var CourseApp = (function () {
 
 })();
 
-new Vue(CourseApp).$mount('#courseApp');
+new Vue(AssignmentApp).$mount('#assignmentApp');

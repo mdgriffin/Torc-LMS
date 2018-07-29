@@ -1,4 +1,4 @@
-var CourseStageFSM = function () {
+var AssignmentStageFSM = function () {
     var fsm = new StateMachine({
         init: 'video',
         transitions: [
@@ -17,23 +17,23 @@ var CourseStageFSM = function () {
     return fsm;
 };
 
-var CourseStage = (function () {
+var AssignmentStage = (function () {
 
     var template = `
-        <div class="course-stage">
+        <div class="assignment-stage">
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
             <h3>{{stage.title}}</h3>
-            <div class="course-stage-video" v-if="fsm.state === 'video'">
+            <div class="assignment-stage-video" v-if="fsm.state === 'video'">
                 <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
             </div>
-            <div class="course-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
+            <div class="assignment-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
                 <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Process to Quiz</button>
             </div>
-            <div class="course-stage-quiz" v-if="fsm.state === 'takeQuiz' || fsm.state == 'quizFail' || fsm.state == 'quizPass'">
+            <div class="assignment-stage-quiz" v-if="fsm.state === 'takeQuiz' || fsm.state == 'quizFail' || fsm.state == 'quizPass'">
                 <quiz ref="quiz" :questions="stage.questions" v-on:quiz-pass="onQuizPass" v-on:quiz-fail="onQuizFail"></quiz>
             </div>
-            <div class="course-stage-completed" v-if="fsm.state == 'quizFail' || fsm.state == 'quizPass'">
+            <div class="assignment-stage-completed" v-if="fsm.state == 'quizFail' || fsm.state == 'quizPass'">
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="rewatchVideo">Rewatch Video</button>
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="retakeQuiz">Retake Quiz</button>
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">{{lastStage? 'Complete Stage' : 'Process to next stage'}}</button>
@@ -51,7 +51,7 @@ var CourseStage = (function () {
         data: function () {
             return {
                 timeRemaining: this.stageDuration,
-                fsm: CourseStageFSM()
+                fsm: AssignmentStageFSM()
             }
         },
         filters: {
@@ -133,7 +133,7 @@ var CourseStage = (function () {
 
 })();
 
-var Course = (function () {
+var Assignment = (function () {
 
     const STAGE_DURATION = 1000 * 60 * 15;
 
@@ -143,7 +143,7 @@ var Course = (function () {
             
             <div class="card">
                 <div class="card-body">
-                    <course-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></course-stage>
+                    <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                 
                     <div class="course-completed" v-if="courseCompleted">
                         <h3>Congratulations! You Have Completed This Course</h3>
@@ -155,7 +155,7 @@ var Course = (function () {
     `
 
     return {
-        props: ['course'],
+        props: ['assignment'],
         template: template,
         data: function () {
             return {
@@ -164,6 +164,9 @@ var Course = (function () {
             }
         },
         computed: {
+            course: function () {
+                return this.assignment.assignedCourse;
+            },
             courseCompleted: function () {
                 return this.currentStageIndex >= this.course.stages.length
             }
@@ -180,7 +183,7 @@ var Course = (function () {
             }
         },
         components: {
-            'course-stage': CourseStage,
+            'assignment-stage': AssignmentStage,
             'loading-status': LoadingStatus
         }
     }

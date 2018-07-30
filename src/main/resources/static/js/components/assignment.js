@@ -74,16 +74,15 @@ var AssignmentStage = (function () {
             },
             onCountdownComplete: function () {
                 this.fsm.countdownComplete();
-                notifyStageAttempt(this.courseId, this.stage.stageId, false);
-                this.$emit('fail');
+                this.$emit('fail', this.stage.stageId);
             },
             onQuizPass: function () {
-                notifyStageAttempt(this.courseId, this.stage.stageId, true);
                 this.fsm.quizPassed();
+                this.$emit('pass', this.stage.stageId);
             },
             onQuizFail: function () {
-                notifyStageAttempt(this.courseId, this.stage.stageId, false);
                 this.fsm.quizFailed();
+                this.$emit('fail', this.stage.stageId);
             },
             rewatchVideo: function () {
                 this.fsm.rewatchVideo();
@@ -116,20 +115,6 @@ var AssignmentStage = (function () {
         }
     }
 
-    function notifyStageAttempt (courseId, stageId, completed) {
-        fetch(Config.attemptStageUrl, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"courseId": courseId, "stageId": stageId, "completed": completed})
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function () {
-            alert("An error has occured, please try again");
-        });
-    }
 
 })();
 
@@ -143,14 +128,21 @@ var Assignment = (function () {
             
             <div class="card">
                 <div class="card-body">
-                    <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
+                    <p><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
+                    
+                    <div class="assignment-stageContainer" v-if="assignment.status === 'INCOMPLETE'">
+                        <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
+                    </div>
                 
-                    <div class="course-completed" v-if="courseCompleted">
+                    <div class="assignment-completed" v-if="courseCompleted">
                         <h3>Congratulations! You Have Completed This Course</h3>
+                    </div>
+                    
+                    <div class="assignment-locked" v-if="assignment.status === 'LOCKED'">
+                        <h3>Course Locked: Too Many Failed Attempts</h3>
                     </div>
                 </div>
             </div>
-            
         </div>
     `
 
@@ -169,11 +161,28 @@ var Assignment = (function () {
             },
             courseCompleted: function () {
                 return this.currentStageIndex >= this.course.stages.length
+            },
+            numAttemptsRemaining: function () {
+                var stage = this.course.stages[this.currentStageIndex];
+
+                // loop over the attempts
+                // check that the date is greater than the last updated date of the assignment
+                return 2 - this.assignment.stageAttempts
+                    .filter(attempt => {
+                        return attempt.stage.stageId === stage.stageId &&
+                            moment(attempt.dateAttempted).isSameOrAfter(this.assignment.lastUpdated) &&
+                            !attempt.completed;
+                    }).length;
+
+                //return numRemaining >= 0? numRemaining : 0;
             }
         },
         methods: {
-            stageFail: function () {
-                alert("Fail!");
+            stageFail: function (stageId) {
+                this.notifyStageAttempt(this.course.courseId, stageId, false);
+            },
+            stagePass: function (stageId) {
+                this.notifyStageAttempt(this.course.courseId, stageId, true);
             },
             stageComplete: function () {
                 this.currentStageIndex++;
@@ -185,6 +194,27 @@ var Assignment = (function () {
         components: {
             'assignment-stage': AssignmentStage,
             'loading-status': LoadingStatus
+        },
+        created: function () {
+            var self = this;
+
+            self.notifyStageAttempt = function (courseId, stageId, completed) {
+                fetch(Config.attemptStageUrl, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({"courseId": courseId, "stageId": stageId, "completed": completed})
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (assignment) {
+                    Vue.set(self.assignment, 'status', assignment.status);
+                    Vue.set(self.assignment, 'stageAttempts', assignment.stageAttempts);
+                }).catch(function () {
+                    alert("An error has occured, please try again");
+                });
+            }
         }
     }
 

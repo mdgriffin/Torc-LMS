@@ -68,11 +68,17 @@ public class UserAssignmentController {
         return userAssignmentService.attemptStage(user, stageAttemptDto);
     }
 
+    // TODO: Only admin and manager should be able to access this route
     @GetMapping("/assignments/status/{assignmentStatus}")
     public List<UserAssignment> getUserAssignmentsByStatus (@PathVariable(value = "assignmentStatus") AssignmentStatus assignmentStatus) {
         return userAssignmentService.getAssignmentsByStatus(assignmentStatus);
     }
 
+    // TODO: Only manager should be able to access this route
+    @PostMapping("assignments/unlock/{assignmentId}")
+    public UserAssignment unlockAssignment (@PathVariable(value = "assignmentId") Long assignmentId) {
+        return userAssignmentService.unlockAssignment(assignmentId);
+    }
 
     /*
     // Get all assignments for user with id

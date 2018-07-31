@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import torclms.dto.StageAttemptDto;
 import torclms.entity.AssignmentStatus;
+import torclms.entity.TestCompletionDeadline;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.*;
 import torclms.repository.StageAttemptRepository;
@@ -87,6 +88,20 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Override
     public List<UserAssignment> getAssignmentsByStatus(AssignmentStatus assignmentStatus) {
         return userAssignmentRepository.findByStatus(assignmentStatus);
+    }
+
+    @Override
+    public UserAssignment unlockAssignment(Long assignmentId) {
+        UserAssignment assignment = userAssignmentRepository.findById(assignmentId).orElseThrow(() -> new ResourceNotFoundException("UserAssignment", "id", assignmentId));
+
+        if (!assignment.getStatus().equals(AssignmentStatus.LOCKED)) {
+            throw new IllegalArgumentException("Assignment must be locked");
+        }
+
+        assignment.setStatus(AssignmentStatus.INCOMPLETE);
+        assignment.setDeadline(TestCompletionDeadline.getDate());
+
+        return userAssignmentRepository.save(assignment);
     }
 
 }

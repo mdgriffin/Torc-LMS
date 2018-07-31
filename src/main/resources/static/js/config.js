@@ -6,6 +6,7 @@ var Config = (function () {
         coursesApiUrl: contextRoot + '/api/courses',
         assignmentsdApiUrl: contextRoot + '/api/assignments',
         assignmentsByStatusApiUrl: contextRoot + '/api/assignments/status',
+        assignmentsUnlockApiUrl: contextRoot + '/api/assignments/unlock',
         assignedCoursesApiUrl: contextRoot + '/api/assignments/active-user',
         usersApiUrl: contextRoot + '/api/users',
         traineesApiUrl: contextRoot + '/api/users?trainees=true',

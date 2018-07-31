@@ -20,4 +20,6 @@ public interface UserAssignmentService {
 
     List<UserAssignment> getAssignmentsByStatus (AssignmentStatus assignmentStatus);
 
+    UserAssignment unlockAssignment (Long assignmentId);
+
 }

@@ -10,20 +10,18 @@
 
         <div class="section">
 
-            <article class="card">
-                <div class="card-header">
-                    <p th:utext="${userName}"></p>
-                </div>
-                <div class="card-body">
-                    <p class="admin-message-text text-center" th:utext="${managerMessage}"></p>
-                </div>
-            </article>
+            <div id="managerHomeApp"></div><!-- #traineeHomeApp -->
 
         </div>
 
     </div>
 
     <div th:replace="~{fragments/footer :: content}"></div>
+
+    <th:block th:include="fragments/footer :: vueResources"></th:block>
+
+    <script th:src="@{/js/components/loading-status.js}"></script>
+    <script th:src="@{/js/apps/manager-home.js}"></script>
 
 </body>
 </html>

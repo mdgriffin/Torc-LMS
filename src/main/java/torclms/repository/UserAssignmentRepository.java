@@ -3,6 +3,7 @@ package torclms.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import torclms.entity.AssignmentStatus;
 import torclms.model.Course;
 import torclms.model.UserAssignment;
 
@@ -16,5 +17,7 @@ public interface UserAssignmentRepository  extends JpaRepository<UserAssignment,
 
     @Query("SELECT a FROM UserAssignment a INNER JOIN a.assignedUser u WHERE u.userId = :userId  AND a.assignedCourse.courseId = :courseId  AND a.assignedOn <= :startDate AND a.deadline <= :endDate ")
     List<UserAssignment> findUserAssignmentsByCourseId (@Param("userId") Long userId, @Param("courseId") int courseId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+    List<UserAssignment> findByStatus (AssignmentStatus assignmentStatus);
 
 }

@@ -84,4 +84,9 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         return NUM_STAGE_ATTEMPTS - toIntExact(numFailedAttempts);
     }
 
+    @Override
+    public List<UserAssignment> getAssignmentsByStatus(AssignmentStatus assignmentStatus) {
+        return userAssignmentRepository.findByStatus(assignmentStatus);
+    }
+
 }

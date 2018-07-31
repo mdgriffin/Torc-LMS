@@ -61,10 +61,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    // TODO: Move to assignment service
     public List<UserAssignment> findAssignmentsByUserId (Long userId) {
         return assignmentRepository.findUserAssignments(userId, new Date(), TestCompletionDeadline.getDate());
     }
 
+    // TODO: Move to assignment service
     @Override
     public List<UserAssignment> findUserAssignmentsByCourseId(Long userId, int courseId) {
         return assignmentRepository.findUserAssignmentsByCourseId(userId, courseId, new Date(), TestCompletionDeadline.getDate());

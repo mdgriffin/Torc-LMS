@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import torclms.dto.StageAttemptDto;
 import torclms.dto.UserCourseAssignment;
+import torclms.entity.AssignmentStatus;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
 import torclms.model.StageAttempt;
@@ -66,6 +67,12 @@ public class UserAssignmentController {
         User user = userService.findUserByEmail(auth.getName());
         return userAssignmentService.attemptStage(user, stageAttemptDto);
     }
+
+    @GetMapping("/assignments/status/{assignmentStatus}")
+    public List<UserAssignment> getUserAssignmentsByStatus (@PathVariable(value = "assignmentStatus") AssignmentStatus assignmentStatus) {
+        return userAssignmentService.getAssignmentsByStatus(assignmentStatus);
+    }
+
 
     /*
     // Get all assignments for user with id

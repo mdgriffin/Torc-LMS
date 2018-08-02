@@ -1,5 +1,6 @@
 package torclms.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
@@ -46,8 +47,7 @@ public class Course implements Serializable {
     Set<Stage> stages = new HashSet<>();
 
     @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference("courseAssignedUser")
-    @JsonIgnore
+    @JsonBackReference("courseAssignedUser")
     private Set<UserAssignment> assignedUsers;
 
     public Course () {}
@@ -102,5 +102,13 @@ public class Course implements Serializable {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public Set<UserAssignment> getAssignedUsers() {
+        return assignedUsers;
+    }
+
+    public void setAssignedUsers(Set<UserAssignment> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 }

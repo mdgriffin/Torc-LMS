@@ -20,7 +20,6 @@ import javax.persistence.Entity;
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-//@JsonIgnoreProperties(value = {"regiseredOn"}, allowGetters = true)
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +57,7 @@ public class User implements Serializable {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private Set<UserAssignment> assignedCourses = new HashSet<>();
 
     public User () {}

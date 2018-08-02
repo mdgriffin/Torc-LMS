@@ -19,6 +19,8 @@ public interface UserService {
 
     User assignCourse(User user, Course course);
 
+    List<User> findUsersWithLockedAssignments ();
+
     List<UserAssignment> findAssignmentsByUserId (Long userId);
 
     List<UserAssignment> findUserAssignmentsByCourseId (Long userId, int courseId);

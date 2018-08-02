@@ -28,6 +28,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     // Get All Users
     @GetMapping("/users")
     public List<User> getAllUser(@RequestParam(value = "trainees", required = false, defaultValue = "false") boolean trainee) {
@@ -73,6 +76,11 @@ public class UserController {
         userRepository.delete(user);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/users/locked-assignments")
+    public List<User> getUsersWithLockedAssignments () {
+        return userService.findUsersWithLockedAssignments();
     }
 
 }

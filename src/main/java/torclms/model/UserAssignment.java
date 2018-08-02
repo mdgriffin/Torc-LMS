@@ -23,12 +23,12 @@ public class UserAssignment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    //@JsonBackReference
+    @JsonBackReference
     private User assignedUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
-    //@JsonBackReference("courseAssignedUser")
+    @JsonManagedReference("courseAssignedUser")
     private Course assignedCourse;
 
     @OneToMany(mappedBy="userAssignment", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)

@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u from User u inner join u.roles r where r.role = :role")
     List<User> getUsersByRole (@Param("role") String role);
+
+    @Query("SELECT u from User u INNER JOIN u.assignedCourses a WHERE a.status = 'LOCKED'")
+    List<User> getUsersWithLockedAssignments ();
 }

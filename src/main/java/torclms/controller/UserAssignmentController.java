@@ -71,7 +71,11 @@ public class UserAssignmentController {
     // TODO: Only admin and manager should be able to access this route
     @GetMapping("/assignments/status/{assignmentStatus}")
     public List<UserAssignment> getUserAssignmentsByStatus (@PathVariable(value = "assignmentStatus") AssignmentStatus assignmentStatus) {
-        return userAssignmentService.getAssignmentsByStatus(assignmentStatus);
+        List<UserAssignment> assignments = userAssignmentService.getAssignmentsByStatus(assignmentStatus);
+
+        assignments.forEach(assignment -> assignment.getAssignedUser());
+
+        return assignments;
     }
 
     // TODO: Only manager should be able to access this route
@@ -79,23 +83,5 @@ public class UserAssignmentController {
     public UserAssignment unlockAssignment (@PathVariable(value = "assignmentId") Long assignmentId) {
         return userAssignmentService.unlockAssignment(assignmentId);
     }
-
-    /*
-    // Get all assignments for user with id
-    //@GetMapping("/assignments/users/{userId}
-
-    public List<Course> getCoursesAssignedToUser (@PathVariable(value = "userId") Long userId) {
-        //List<Course> assignedCourses = courseRepo.findAssignedCourses(userId, new Date(), TestCompletionDeadline.getDate());
-
-        // TODO: Should only be accessible to the user who is assigned courses or users with role or admin
-        List<Course> assignedCourses = courseService.getAssignedCourses(userId);
-
-        if (assignedCourses.size() == 0) {
-            throw new ResourceNotFoundException("User", "id", userId);
-        }
-
-        return assignedCourses;
-    };
-    */
 
 }

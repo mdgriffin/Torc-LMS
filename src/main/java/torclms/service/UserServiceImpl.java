@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public List<User> findUsersWithLockedAssignments() {
+        return userRepository.getUsersWithLockedAssignments();
+    }
+
     // TODO: Move to assignment service
     public List<UserAssignment> findAssignmentsByUserId (Long userId) {
         return assignmentRepository.findUserAssignments(userId, new Date(), TestCompletionDeadline.getDate());

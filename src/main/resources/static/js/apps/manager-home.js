@@ -12,7 +12,7 @@ var ManagerHomeApp = (function () {
                     <h4 v-if="!lockedUsersLoading && lockedUsers.length === 0" class="muted">No Locked User Assignments Found</h4>
                     
                     <div class="lockedUsers-single" v-for="(user, userIndex) in lockedUsers">
-                        <h4>User: {{user.firstname}} {{user.surname}}</h4>
+                        <h4>{{user.firstname}} {{user.surname}}</h4>
                         
                         <div :class="['lockedUsers-assignment', isUnlocking(assignment.userAssignmentId) ? 'lockedUsers-assignment-unlocking' : '']" v-for="(assignment, assignmentIndex) in user.assignedCourses" v-if="assignment.status === 'LOCKED'">
                             <p>Course: {{assignment.assignedCourse.title}}</p>

@@ -8,7 +8,7 @@ var TraineeHomeApp = (function () {
                 <loading-status v-if="assignmentsLoading"></loading-status>
         
                 <div class="userAssignments">
-                    <div v-for="assignment in userAssignments" class="userAssignments-single">
+                    <div v-for="assignment in userAssignments" class="userAssignments-single" v-if="assignment.status === 'INCOMPLETE'">
                         <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
                         <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
                         <div class="userAssignments-single-body">

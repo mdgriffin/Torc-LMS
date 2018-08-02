@@ -4,17 +4,20 @@ var ManagerHomeApp = (function () {
         <article class="card">
             <div class="card-body">
         
-                <div class="lockedAssignments">
+                <div class="lockedUsers">
                     <h3>Locked Assignments</h3>
                     
-                    <loading-status v-if="lockedAssignmentsLoading"></loading-status>
+                    <loading-status v-if="lockedUsersLoading"></loading-status>
                     
-                    <h4 v-if="!lockedAssignmentsLoading && lockedAssignments.length === 0" class="muted">No Locked User Assignments Found</h4>
+                    <h4 v-if="!lockedUsersLoading && lockedUsers.length === 0" class="muted">No Locked User Assignments Found</h4>
                     
-                    <div :class="['lockedAssignments-single', isUnlocking(assignment.userAssignmentId) ? 'lockedAssignments-single-unlocking' : '']" v-for="(assignment, assignmentIndex) in lockedAssignments">
-                        <h4>User: {{assignment.assignedUser.firstname}} {{assignment.assignedUser.surname}}</h4>
-                        <p>Course: {{assignment.assignedCourse.title}}</p>
-                        <button class="btn btn-outline-secondary" @click="unlockAssignment(assignment.userAssignmentId)">Unlock</button>
+                    <div class="lockedUsers-single" v-for="(user, userIndex) in lockedUsers">
+                        <h4>User: {{user.firstname}} {{user.surname}}</h4>
+                        
+                        <div :class="['lockedUsers-assignment', isUnlocking(assignment.userAssignmentId) ? 'lockedUsers-assignment-unlocking' : '']" v-for="(assignment, assignmentIndex) in user.assignedCourses" v-if="assignment.status === 'LOCKED'">
+                            <p>Course: {{assignment.assignedCourse.title}}</p>
+                            <button class="btn btn-outline-secondary" @click="unlockAssignment(assignment.userAssignmentId)">Unlock</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,8 +28,8 @@ var ManagerHomeApp = (function () {
         template: template,
         data: function () {
             return {
-                lockedAssignments: [],
-                lockedAssignmentsLoading: true,
+                lockedUsers: [],
+                lockedUsersLoading: true,
                 unlocking: []
             }
         },
@@ -44,7 +47,11 @@ var ManagerHomeApp = (function () {
                     return response.json();
                 })
                 .then(updatedAssignment => {
-                    self.lockedAssignments = self.lockedAssignments.filter(assignment => assignment.userAssignmentId != updatedAssignment.userAssignmentId);
+                    self.lockedUsers = self.lockedUsers.filter(user => {
+                        user.assignedCourses = user.assignedCourses.filter(assignment => assignment.userAssignmentId != updatedAssignment.userAssignmentId)
+
+                        return user.assignedCourses.length > 0;
+                    });
                 })
                 .catch(error => {
                     console.error(error);
@@ -60,24 +67,24 @@ var ManagerHomeApp = (function () {
         created: function () {
             var self = this;
 
-            fetch(Config.assignmentsByStatusApiUrl + '/LOCKED', {
+            fetch(Config.usersWithLockedAssignmentsApiUrl, {
                 credentials: "include"
             })
             .then(function (response) {
                 if (response.ok) {
                     return response.json();
                 }
-                self.lockedAssignmentsLoading = false;
+                self.lockedUsersLoading = false;
             })
             .catch(error => {
                 console.error('Error', error);
-                self.lockedAssignmentsLoading = false;
+                self.lockedUsersLoading = false;
             })
             .then(function (json) {
                 console.log(json);
                 if (json) {
-                    self.lockedAssignments = json;
-                    self.lockedAssignmentsLoading = false;
+                    self.lockedUsers = json;
+                    self.lockedUsersLoading = false;
                 }
             });
         }

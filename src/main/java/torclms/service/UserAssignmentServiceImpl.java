@@ -104,4 +104,16 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         return userAssignmentRepository.save(assignment);
     }
 
+    @Override
+    public int changeStatusOfExpiredAssignments() {
+        List<UserAssignment> expiredAssignments = userAssignmentRepository.findExpiredAssignments();
+
+        expiredAssignments.stream().forEach(assignment -> {
+            assignment.setStatus(AssignmentStatus.LOCKED);
+            userAssignmentRepository.save(assignment);
+        });
+
+        return expiredAssignments.size();
+    }
+
 }

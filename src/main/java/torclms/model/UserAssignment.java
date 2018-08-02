@@ -130,4 +130,8 @@ public class UserAssignment implements Serializable {
         return this.status.equals(AssignmentStatus.LOCKED);
     }
 
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdated = new Date();
+    }
 }

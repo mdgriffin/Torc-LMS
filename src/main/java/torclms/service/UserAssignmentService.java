@@ -22,4 +22,6 @@ public interface UserAssignmentService {
 
     UserAssignment unlockAssignment (Long assignmentId);
 
+    int changeStatusOfExpiredAssignments ();
+
 }

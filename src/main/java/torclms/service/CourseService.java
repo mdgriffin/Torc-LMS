@@ -14,5 +14,4 @@ public interface CourseService {
 
     Course saveCourse (Course course);
 
-    List<Course> getAssignedCourses (Long userId);
 }

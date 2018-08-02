@@ -21,17 +21,12 @@ public class CourseServiceImpl implements CourseService {
         return courseRepo.findAll();
     }
 
-
     public Optional<Course> findCourseById (int courseId) {
         return courseRepo.findById(courseId);
     }
 
     public Course saveCourse (Course course) {
         return courseRepo.save(course);
-    }
-
-    public List<Course> getAssignedCourses (Long userId) {
-        return courseRepo.findAssignedCourses(userId, new Date(), TestCompletionDeadline.getDate());
     }
 
 }

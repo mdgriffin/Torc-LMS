@@ -15,8 +15,6 @@ public class UserAssignmentLockCheck {
 
     private static final Logger log = LoggerFactory.getLogger(UserAssignmentLockCheck.class);
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
     @Autowired
     private UserAssignmentService userAssignmentService;
 

@@ -9,9 +9,17 @@
 
     <p>Here is your weekly trainee activity summary:</p>
 
-    <p>
-        Regards, <br />
-        &emsp; <em>Team Torc</em>
+    <h3>Locked Courses</h3>
+
+    <div th:each="user : ${users}">
+        <h3 th:text="${user.firstname} + ' ' +  ${user.surname}"></h3>
+
+        <ul>
+            <li th:each="assignment : ${user.assignedCourses}" th:text="${assignment.assignedCourse.title} + ' : ' + ${assignment.status}"></li>
+        </ul>
+    </div>
+
+    <p>Regards, <br />&emsp; <em>Team Torc</em>
     </p>
 </body>
 </html>

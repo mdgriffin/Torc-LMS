@@ -19,9 +19,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import torclms.entity.AssignmentStatus;
+import torclms.model.User;
+import torclms.service.UserService;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class WeeklyProgressEmail {
@@ -30,9 +35,9 @@ public class WeeklyProgressEmail {
 
     private static final String SERVICE_URL = "https://api.mailgun.net/v3/sandboxc6c799a970144339bafd9f2602a780ad.mailgun.org/messages";
 
-    private static final String SMTP_LOGIN = "postmaster@sandboxc6c799a970144339bafd9f2602a780ad.mailgun.org";
+    //private static final String SMTP_LOGIN = "postmaster@sandboxc6c799a970144339bafd9f2602a780ad.mailgun.org";
 
-    private static final String PASSWORD = "4rhe-nc9erz2";
+    //private static final String PASSWORD = "4rhe-nc9erz2";
 
     private static final String API_KEY = "key-9kkpn7g9-vf94ponbx5ai5c9nqc36ej9";
 
@@ -41,8 +46,11 @@ public class WeeklyProgressEmail {
     @Autowired
     private TemplateEngine emailTemplateEngine;
 
-    @Scheduled(cron = "30 30 16 ? * FRI")
-    //@Scheduled(cron = "0 0/3 * ? * *")
+    @Autowired
+    private UserService userService;
+
+    //@Scheduled(cron = "30 30 16 ? * FRI")
+    @Scheduled(cron = "0 0/3 * ? * *")
     private void sendWeeklyMail () throws UnirestException {
         log.info("SENDING EMAIL");
         final String emailHtmlContent = getReportHtml();
@@ -62,8 +70,20 @@ public class WeeklyProgressEmail {
     }
 
     private String getReportHtml () {
+
+        List<User> users = userService.findUsersWithRecentAssignments();
+
         final Context ctx = new Context();
+
+        /*
+        List<User> lockedUsers = users.stream().filter(user -> {
+           user.setAssignedCourses(user.getAssignedCourses().stream().filter(assignment -> assignment.getStatus() == AssignmentStatus.LOCKED).collect(Collectors.toSet()));
+           return user.getAssignedCourses().size() > 0;
+        }).collect(Collectors.toList());
+        */
+
         ctx.setVariable("name", "John Doe");
+        ctx.setVariable("users", users);
 
         return this.emailTemplateEngine.process(WEEKLY_REPORT_TEMPLATE_NAME, ctx);
     }

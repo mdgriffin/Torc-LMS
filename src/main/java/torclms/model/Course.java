@@ -37,7 +37,7 @@ public class Course implements Serializable {
         dateCreated = new Date();
     }
 
-    @Column(columnDefinition = "TINYINT", nullable = true)
+    @Column(columnDefinition = "TINYINT DEFAULT 1", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 

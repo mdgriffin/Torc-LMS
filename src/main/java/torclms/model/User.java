@@ -43,7 +43,7 @@ public class User implements Serializable {
     @CreatedDate
     private Date registeredOn;
 
-    @Column(columnDefinition = "TINYINT", nullable = true)
+    @Column(columnDefinition = "TINYINT DEFAULT 1", nullable = true)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 

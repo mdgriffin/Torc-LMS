@@ -44,17 +44,21 @@ var ManagerHomeApp = (function () {
                     credentials: 'same-origin'
                 })
                 .then(response => {
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error(response.statusText);
+                    }
                 })
                 .then(updatedAssignment => {
                     self.lockedUsers = self.lockedUsers.filter(user => {
                         user.assignedCourses = user.assignedCourses.filter(assignment => assignment.userAssignmentId != updatedAssignment.userAssignmentId)
-
                         return user.assignedCourses.length > 0;
                     });
                 })
                 .catch(error => {
                     console.error(error);
+                    alert("An error has occurred, please try again");
                 })
             },
             isUnlocking: function (userAssignmentId) {
@@ -69,23 +73,25 @@ var ManagerHomeApp = (function () {
 
             fetch(Config.usersWithLockedAssignmentsApiUrl, {
                 credentials: "include"
-            })
-            .then(function (response) {
+            }) .then(response => {
+                self.lockedUsersLoading = false;
+
                 if (response.ok) {
                     return response.json();
+                } else {
+                    throw Error(response.statusText);
                 }
-                self.lockedUsersLoading = false;
             })
-            .catch(error => {
-                console.error('Error', error);
-                self.lockedUsersLoading = false;
-            })
-            .then(function (json) {
-                console.log(json);
+            .then(json => {
                 if (json) {
                     self.lockedUsers = json;
                     self.lockedUsersLoading = false;
                 }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("An error has occured, please try again");
+                self.lockedUsersLoading = false;
             });
         }
     }

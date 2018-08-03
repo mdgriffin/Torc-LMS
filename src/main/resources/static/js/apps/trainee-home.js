@@ -47,24 +47,22 @@ var TraineeHomeApp = (function () {
 
             fetch(Config.assignedCoursesApiUrl, {
                 credentials: "include"
+            }).then(response => {
+                self.assignmentsLoading = false;
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw Error(response.statusText);
+                }
+            }) .then(json => {
+                if (json) {
+                    self.userAssignments = json;
+                }
+            }).catch(error => {
+                console.error('Error', error);
+                self.assignmentsLoading = false;
+                alert("An error has occurred, please try again");
             })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    }
-
-                    self.assignmentsLoading = false;
-                })
-                .catch(error => {
-                    console.error('Error', error);
-                    self.assignmentsLoading = false;
-                })
-                .then(function (json) {
-                    if (json) {
-                        self.userAssignments = json;
-                        self.assignmentsLoading = false;
-                    }
-                })
         }
     };
 

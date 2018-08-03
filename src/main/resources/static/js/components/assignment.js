@@ -206,12 +206,17 @@ var Assignment = (function () {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({"courseId": courseId, "stageId": stageId, "completed": completed})
-                }).then(function (response) {
-                    return response.json();
-                }).then(function (assignment) {
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                }).then(assignment => {
                     Vue.set(self.assignment, 'status', assignment.status);
                     Vue.set(self.assignment, 'stageAttempts', assignment.stageAttempts);
-                }).catch(function () {
+                }).catch(error => {
+                    console.error(error);
                     alert("An error has occured, please try again");
                 });
             }

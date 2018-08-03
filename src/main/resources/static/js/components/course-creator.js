@@ -291,6 +291,7 @@
         },
         methods: {
             saveCourse: function () {
+                var self = this;
                 this.course.wasValidated = true;
 
                 if (this.isValid()) {
@@ -302,15 +303,16 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(this.course)
-                    }).then(function (response) {
-                        //console.log(response);
-                        alert("Course Saved Successfully");
-
-                        return response.json();
-                    }).then(function (resData) {
-                        console.log(resData);
-                    }).catch(function () {
-                        alert("An error has occured, please try again");
+                    }).then(response => {
+                        if (response.ok) {
+                            self.clearForm()
+                            alert("Course Saved Successfully");
+                        } else {
+                            throw Error(response.statusText);
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                        alert("An error has occurred, please try again");
                     });
                 } else {
                     alert("Please correct validation errors and submit again");

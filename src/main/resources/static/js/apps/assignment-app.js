@@ -27,12 +27,20 @@ var AssignmentApp = (function () {
             fetch(Config.assignmentsdApiUrl + '/' + assignmentId, {
                 credentials: 'include'
             })
-            .then(function (response) {
-                return response.json();
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw Error(response.statusText);
+                }
             })
-            .then(function (assignment) {
+            .then(assignment => {
                 self.assignment = assignment;
-            });
+            })
+            .catch(error => {
+                console.error(error);
+                alert("An error has occurred, please try again");
+            })
         }
     }
 

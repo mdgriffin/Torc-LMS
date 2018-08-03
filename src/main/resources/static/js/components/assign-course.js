@@ -94,13 +94,15 @@ var AssignCourse = (function () {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({'userId': self.selectedUser.userId, 'courseId': self.selectedCourse.courseId})
-                    }).then(function (response) {
-                        console.log(response);
-                        // TODO: Replace with nicer alert
-                        alert("Course Assigned Successfully");
-                        return response.json();
+                    }).then(response => {
+                        if (response.ok) {
+                            alert("Course Assigned Successfully");
+                            return response.json();
+                        } else {
+                            throw Error(response.statusText);
+                        }
                     })
-                    .then(function (json) {
+                    .then(json => {
                         var userIndex = self.users.findIndex(function (user) {
                             return user.userId === json.userId;
                         });
@@ -112,8 +114,9 @@ var AssignCourse = (function () {
                         if (userIndex  == self.selectedUserIndex) {
                             self.selectedUserIndex = null;
                         }
-                    }).catch(function () {
-                        alert("An error has occured, please try again");
+                    }).catch(error => {
+                        console.error(error);
+                        alert("An error has occurred, please try again");
                     });
                 }
             }

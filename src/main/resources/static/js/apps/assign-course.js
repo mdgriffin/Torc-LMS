@@ -12,22 +12,36 @@ var app = new Vue({
 
         fetch(Config.traineesApiUrl, {
             credentials: 'same-origin'
-        })
-            .then(function (response) {
+        }).then(response => {
+            if (response.ok) {
                 return response.json();
-            })
-            .then(function (json) {
-                self.users = json;
-            });
+            } else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(json => {
+            self.users = json;
+        })
+        .catch(error => {
+            console.error(error);
+            alert("An error has occured, please try again");
+        })
 
         fetch(Config.coursesApiUrl, {
             credentials: 'same-origin'
-        })
-            .then(function (response) {
+        }).then(response => {
+            if (response.ok) {
                 return response.json();
-            })
-            .then(function (json) {
-                self.courses = json;
-            });
+            } else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(json => {
+            self.courses = json;
+        })
+        .catch(error => {
+            console.error(error);
+            alert("An error has occurred, please try again");
+        })
     }
 });

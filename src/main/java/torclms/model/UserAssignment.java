@@ -44,7 +44,7 @@ public class UserAssignment implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
 
-    @Column(name = "last_updated", nullable = false, updatable = false)
+    @Column(name = "last_updated", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date lastUpdated;
@@ -130,8 +130,4 @@ public class UserAssignment implements Serializable {
         return this.status.equals(AssignmentStatus.LOCKED);
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        lastUpdated = new Date();
-    }
 }

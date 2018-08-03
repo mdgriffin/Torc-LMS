@@ -47,7 +47,8 @@ public class Course implements Serializable {
     Set<Stage> stages = new HashSet<>();
 
     @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference("courseAssignedUser")
+    //@JsonBackReference("courseAssignedUser")
+    @JsonIgnore
     private Set<UserAssignment> assignedUsers;
 
     public Course () {}

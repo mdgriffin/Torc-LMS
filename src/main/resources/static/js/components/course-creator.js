@@ -141,29 +141,30 @@
         }
     });
 
-    var stageTemplate = [
-        '<div class="courseCreator-stageSingle">',
-            '<div class="form-group">',
-                '<label>Stage Title</label>',
-                '<input type="text" v-model="title" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />',
-                '<div class="invalid-feedback" >Stage Title is required</div>',
-            '</div>',
-            '<div class="form-group">',
-                '<label>Video URL</label>',
-                '<input type="text" v-model="videoUrl" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validVideoUrl}]" />',
-                '<div class="invalid-feedback">Video URL is required</div>',
-            '</div>',
-            '<div class="courseCreator-questions">',
-                '<ul class="nav nav-tabs">',
-                    '<li class="nav-item" v-for="(question, questionIndex) in questions">',
-                        '<a :class="[\'nav-link\', {active: currentQuestionIndex === questionIndex}]" @click="changeQuestion(questionIndex)">Question {{questionIndex + 1}} <button class="btn btn-clear" @click.stop="removeQuestion(questionIndex)"><i class="fas fa-trash-alt"></i></button></a>',
-                    '</li>',
-                    '<li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>',
-                '</ul>',
-                '<course-creator-question ref="questionsEls" v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="question.uid" v-show="currentQuestionIndex === questionIndex"></course-creator-question>',
-            '</div>',
-        '</div>'
-    ].join("");
+    var stageTemplate = `
+        <div class="courseCreator-stageSingle">
+        <div class="alert alert-danger" v-if="wasValidated && !validNumStages">At least 6 questions must be asked per stage</div>
+            <div class="form-group">
+                <label>Stage Title</label>
+                <input type="text" v-model="title" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />
+                <div class="invalid-feedback" >Stage Title is required</div>
+            </div>
+            <div class="form-group">
+                <label>Video URL</label>
+                <input type="text" v-model="videoUrl" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validVideoUrl}]" />
+                <div class="invalid-feedback">Video URL is required</div>
+            </div>
+            <div class="courseCreator-questions">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item" v-for="(question, questionIndex) in questions">
+                        <a :class="[\'nav-link\', {active: currentQuestionIndex === questionIndex}]" @click="changeQuestion(questionIndex)">Question {{questionIndex + 1}} <button class="btn btn-clear" @click.stop="removeQuestion(questionIndex)"><i class="fas fa-trash-alt"></i></button></a>
+                    </li>
+                    <li class="nav-item nav-buttonContainer"><button class="btn btn-secondary" @click="addQuestion">Add Question  <i class="fas fa-plus-circle"></i></button></li>
+                </ul>
+                <course-creator-question ref="questionsEls" v-for="(question, questionIndex) in questions" :stageindex="stageindex" :questionindex="questionIndex" :course="course" :key="question.uid" v-show="currentQuestionIndex === questionIndex"></course-creator-question>
+            </div>
+        </div>
+    `;
 
     Vue.component('course-creator-stage', {
         props: ['stageindex', 'course'],
@@ -206,7 +207,7 @@
                     })
                 }
 
-                return childrenValid && this.validQuestionTitle && this.validVideoUrl;
+                return childrenValid && this.validQuestionTitle && this.validVideoUrl && this.validNumStages;
             }
         },
         computed: {
@@ -222,6 +223,10 @@
             validVideoUrl: function () {
                 return this.videoUrl.length > 0;
             }
+            ,
+            validNumStages: function () {
+                return this.questions.length > 5;
+            }
         },
         watch: {
             title: function (newVal) {
@@ -233,34 +238,35 @@
         }
     });
 
-    var template = [
-        '<div :class="[\'courseCreator\', {wasValidated: course.wasValidated}]">',
-            '<div class="courseCreator-form">',
-                '<div class="form-group">',
-                    '<label>Course Title</label>',
-                    '<input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': course.wasValidated && !validCourseTitle}]"/>',
-                    '<div class="invalid-feedback" >Course Title is required</div>',
-                '</div>',
-                '<div class="form-group">',
-                    '<label>Course Image</label>',
-                    '<input type="text" v-model="course.imageName" class="form-control"/>',
-                '</div>',
-                '<div class="courseCreator-stages">',
-                    '<ul class="nav nav-tabs courseCreator-stages-tabs">',
-                        '<li class="nav-item" v-for="(stage, stageIndex) in stages">',
-                            '<a :class="[\'nav-link\', {active: stageIndex === currentStageIndex}]" @click="changeStage(stageIndex)">Stage {{stageIndex + 1}} <button class="btn btn-clear" @click.stop="removeStage(stageIndex)"><i class="fas fa-trash-alt"></i></button></a>',
-                        '</li>',
-                        '<li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>',
-                    '</ul>',
-                    '<course-creator-stage ref="courseStageEls" v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>',
-                '</div>', // courseCreator-stages
-                '<div class="courseCreator-actions">',
-                    '<button @click="saveCourse" class="btn btn-primary">Save</button>',
-                    '<button @click="clearForm" class="btn btn-secondary">Clear Form</button>',
-                '</div>', // courseCreator-actions
-            '</div>', // courseCreator-form
-        '</div>', // courseCreator
-    ].join('');
+    var template = `
+        <div :class="[\'courseCreator\', {wasValidated: course.wasValidated}]">
+            <div class="courseCreator-form">
+                
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': course.wasValidated && !validCourseTitle}]"/>
+                    <div class="invalid-feedback" >Course Title is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Course Image</label>
+                    <input type="text" v-model="course.imageName" class="form-control"/>
+                </div>
+                <div class="courseCreator-stages">
+                    <ul class="nav nav-tabs courseCreator-stages-tabs">
+                        <li class="nav-item" v-for="(stage, stageIndex) in stages">
+                            <a :class="[\'nav-link\', {active: stageIndex === currentStageIndex}]" @click="changeStage(stageIndex)">Stage {{stageIndex + 1}} <button class="btn btn-clear" @click.stop="removeStage(stageIndex)"><i class="fas fa-trash-alt"></i></button></a>
+                        </li>
+                        <li class="nav-item nav-buttonContainer"><button class="btn btn-primary" @click="addStage">Add a Stage  <i class="fas fa-plus-circle"></i></button></li>
+                    </ul>
+                    <course-creator-stage ref="courseStageEls" v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>
+                </div>
+                <div class="courseCreator-actions">
+                    <button @click="saveCourse" class="btn btn-primary">Save</button>
+                    <button @click="clearForm" class="btn btn-secondary">Clear Form</button>
+                </div>
+            </div>
+        </div>
+    `
 
     Vue.component('course-creator', {
         props: {

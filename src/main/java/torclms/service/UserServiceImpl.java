@@ -24,9 +24,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    //@Autowired
-    //private CourseRepository courseRepository;
-
     @Autowired
     private UserAssignmentRepository assignmentRepository;
 
@@ -64,6 +61,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersWithLockedAssignments() {
         return userRepository.getUsersWithLockedAssignments();
+    }
+
+    @Override
+    public List<User> findUsersWithRecentAssignments() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        return userRepository.getUsersWithAssignmentActivityInDateRange(calendar.getTime(), new Date());
     }
 
     // TODO: Move to assignment service

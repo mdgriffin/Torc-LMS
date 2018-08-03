@@ -56,7 +56,7 @@ public class User implements Serializable {
     @JsonManagedReference("userRoles")
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy="assignedUser", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="assignedUser", fetch = FetchType.EAGER, cascade =  CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<UserAssignment> assignedCourses = new HashSet<>();
 

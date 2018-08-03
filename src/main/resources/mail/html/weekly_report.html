@@ -9,8 +9,6 @@
 
     <p>Here is your weekly trainee activity summary:</p>
 
-    <h3>Locked Courses</h3>
-
     <div th:each="user : ${users}">
         <h3 th:text="${user.firstname} + ' ' +  ${user.surname}"></h3>
 

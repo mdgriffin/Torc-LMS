@@ -49,8 +49,8 @@ public class WeeklyProgressEmail {
     @Autowired
     private UserService userService;
 
-    //@Scheduled(cron = "30 30 16 ? * FRI")
-    @Scheduled(cron = "0 0/3 * ? * *")
+    @Scheduled(cron = "30 15 10 ? * FRI")
+    //@Scheduled(cron = "0 0/3 * ? * *")
     private void sendWeeklyMail () throws UnirestException {
         log.info("SENDING EMAIL");
         final String emailHtmlContent = getReportHtml();

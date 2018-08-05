@@ -2,12 +2,11 @@ package torclms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import torclms.entity.TestCompletionDeadline;
 import torclms.model.Course;
-import torclms.model.UserAssignment;
 import torclms.repository.CourseRepository;
+import torclms.tasks.ProcessTextToSpeech;
+import torclms.tasks.ExecutorService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public Course saveCourse (Course course) {
-        return courseRepo.save(course);
+        Course savedCourse = courseRepo.save(course);
+
+        ExecutorService executorService = ExecutorService.getInstance();
+        executorService.addJob(new ProcessTextToSpeech(savedCourse));
+
+        return savedCourse;
     }
 
 }

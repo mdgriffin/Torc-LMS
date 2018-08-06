@@ -24,7 +24,7 @@ var app = new Vue({
             self.loadingCourses = false;
             self.courses = json;
         })
-        .error(error => {
+        .catch(error => {
             console.error(error);
             alert("An error has occurred, please try again");
         });

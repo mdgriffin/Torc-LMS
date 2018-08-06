@@ -25,6 +25,9 @@ public class Course implements Serializable {
     @NotBlank
     private String title;
 
+    @Column(name = "title_audio")
+    private String titleAudio;
+
     private String imageName;
 
     @Column(name = "date_created", updatable = false)
@@ -46,7 +49,7 @@ public class Course implements Serializable {
     @OrderBy("stepOrder ASC")
     Set<Stage> stages = new HashSet<>();
 
-    @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
     //@JsonBackReference("courseAssignedUser")
     @JsonIgnore
     private Set<UserAssignment> assignedUsers;
@@ -71,6 +74,14 @@ public class Course implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitleAudio() {
+        return titleAudio;
+    }
+
+    public void setTitleAudio(String titleAudio) {
+        this.titleAudio = titleAudio;
     }
 
     public Date getDateCreated() {

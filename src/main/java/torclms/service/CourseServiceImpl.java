@@ -28,7 +28,7 @@ public class CourseServiceImpl implements CourseService {
         Course savedCourse = courseRepo.save(course);
 
         ExecutorService executorService = ExecutorService.getInstance();
-        executorService.addJob(new ProcessTextToSpeech(savedCourse));
+        executorService.addJob(new ProcessTextToSpeech(savedCourse, courseRepo));
 
         return savedCourse;
     }

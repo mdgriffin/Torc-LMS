@@ -27,6 +27,9 @@ public class Question implements Serializable {
     @NotBlank
     private String explanation;
 
+    @Column(name="explanation_audio")
+    private String explanationAudio;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="stage_id", nullable=false)
     @JsonBackReference("stageQuestions")
@@ -58,6 +61,14 @@ public class Question implements Serializable {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public String getExplanationAudio() {
+        return explanationAudio;
+    }
+
+    public void setExplanationAudio(String explanationAudio) {
+        this.explanationAudio = explanationAudio;
     }
 
     public Set<QuestionOption> getOptions() {

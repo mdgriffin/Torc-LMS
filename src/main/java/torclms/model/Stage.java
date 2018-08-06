@@ -21,6 +21,9 @@ public class Stage implements Serializable {
     @NotBlank
     private String title;
 
+    @Column(name = "title_audio")
+    private String titleAudio;
+
     @NotBlank
     @Column(name="video_url")
     private String videoUrl;
@@ -54,6 +57,14 @@ public class Stage implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitleAudio() {
+        return titleAudio;
+    }
+
+    public void setTitleAudio(String titleAudio) {
+        this.titleAudio = titleAudio;
     }
 
     public String getVideoUrl() {

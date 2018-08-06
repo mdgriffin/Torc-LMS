@@ -12,19 +12,23 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import torclms.dto.SpeechApiAudioConfigOptions;
 import torclms.dto.SpeechApiInputOptions;
 import torclms.dto.SpeechApiOptions;
 import torclms.dto.SpeechApiVoiceOptions;
 import torclms.model.Course;
+import torclms.repository.CourseRepository;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
+@Component
 public class ProcessTextToSpeech implements Runnable {
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     private Course course;
 
@@ -34,24 +38,58 @@ public class ProcessTextToSpeech implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(UserAssignmentLockCheck.class);
 
-    public ProcessTextToSpeech (Course course) {
+    public ProcessTextToSpeech () {
+    }
+
+    public ProcessTextToSpeech (Course course, CourseRepository courseRepository) {
         this.course = course;
+        this.courseRepository = courseRepository;
     }
 
     @Override
     public void run () {
         log.info("Run by the executor service for course: " + course.getTitle());
+
+        String courseTitleAudioFileName = processTextAndGetFileName(this.course.getTitle());
+        this.course.setTitleAudio(courseTitleAudioFileName);
+
+        this.course.getStages().forEach(stage -> {
+            String stageTitleAudioFileName =  processTextAndGetFileName(stage.getTitle());
+            stage.setTitleAudio(stageTitleAudioFileName);
+
+            stage.getQuestions().forEach(question -> {
+                String questionTitleAudioFileName = processTextAndGetFileName(question.getQuestion());
+                question.setQuestionAudio(questionTitleAudioFileName);
+
+                String questionExplanationAudioFileName = processTextAndGetFileName(question.getExplanation());
+                question.setExplanationAudio(questionExplanationAudioFileName);
+
+                question.getOptions().forEach(option -> {
+                    String optionTextAudioFileName = processTextAndGetFileName(option.getText());
+                    option.setTextAudio(optionTextAudioFileName);
+                });
+            });
+        });
+
+        courseRepository.save(this.course);
+    }
+
+    public String processTextAndGetFileName (String text) {
         String fileName = UUID.randomUUID().toString() + ".mp3";
 
-        /*
         try {
-            String audioContent = getAudioContent(this.course.getTitle());
-            byte[] decodedAudio = Base64.getMimeDecoder().decode(audioContent);
-            uploadFileToCdn(fileName, decodedAudio);
+            String audioContent = getAudioContent(text);
+
+            if (audioContent.length() > 0) {
+                byte[] decodedAudio = Base64.getMimeDecoder().decode(audioContent);
+                uploadFileToCdn(fileName, decodedAudio);
+            }
         } catch (Exception exc) {
             exc.printStackTrace();
+            fileName = "";
         }
-        */
+
+        return fileName;
     }
 
     private String getAudioContent (String text) throws UnirestException, JsonProcessingException, UnsupportedEncodingException {
@@ -59,7 +97,7 @@ public class ProcessTextToSpeech implements Runnable {
 
         String apiOptions = new SpeechApiOptions(
             new SpeechApiInputOptions(text),
-            new SpeechApiVoiceOptions("en-GB-Standard-A", "en-gb", "FEMALE"),
+            new SpeechApiVoiceOptions("en-US-Wavenet-C", "en-us", "FEMALE"),
             new SpeechApiAudioConfigOptions("MP3")
         ).toJson();
 
@@ -82,7 +120,7 @@ public class ProcessTextToSpeech implements Runnable {
 
         storage.create(
             BlobInfo
-                .newBuilder("torc-lms.appspot.com", fileName)
+                .newBuilder("torc-lms.appspot.com", "audio/" + fileName)
                     .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
                 .build(),
             fileContent

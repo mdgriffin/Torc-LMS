@@ -50,23 +50,28 @@ public class ProcessTextToSpeech implements Runnable {
     public void run () {
         log.info("Run by the executor service for course: " + course.getTitle());
 
-        String courseTitleAudioFileName = processTextAndGetFileName(this.course.getTitle());
-        this.course.setTitleAudio(courseTitleAudioFileName);
+        this.course.setTitleAudio(processTextAndGetFileName(this.course.getTitle()));
 
         this.course.getStages().forEach(stage -> {
-            String stageTitleAudioFileName =  processTextAndGetFileName(stage.getTitle());
-            stage.setTitleAudio(stageTitleAudioFileName);
+
+            if (stage.getTitleAudio() == null || stage.getTitleAudio().length() == 0) {
+                stage.setTitleAudio(processTextAndGetFileName(stage.getTitle()));
+            }
 
             stage.getQuestions().forEach(question -> {
-                String questionTitleAudioFileName = processTextAndGetFileName(question.getQuestion());
-                question.setQuestionAudio(questionTitleAudioFileName);
 
-                String questionExplanationAudioFileName = processTextAndGetFileName(question.getExplanation());
-                question.setExplanationAudio(questionExplanationAudioFileName);
+                if (question.getQuestionAudio() == null || question.getQuestionAudio().length() == 0) {
+                    question.setQuestionAudio(processTextAndGetFileName(question.getQuestion()));
+                }
+
+                if (question.getExplanationAudio() == null || question.getExplanationAudio().length() == 0) {
+                    question.setExplanationAudio(processTextAndGetFileName(question.getExplanation()));
+                }
 
                 question.getOptions().forEach(option -> {
-                    String optionTextAudioFileName = processTextAndGetFileName(option.getText());
-                    option.setTextAudio(optionTextAudioFileName);
+                    if (option.getTextAudio() == null || option.getTextAudio().length() == 0) {
+                        option.setTextAudio(processTextAndGetFileName(option.getText()));
+                    }
                 });
             });
         });

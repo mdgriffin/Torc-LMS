@@ -262,7 +262,7 @@
 
     Vue.component('course-creator', {
         props: {
-            course: {
+            courseData: {
                 default: function () {
                     return {
                         title: '',
@@ -276,6 +276,7 @@
         template: template,
         data: function () {
             return {
+                course: Util.clone(this.courseData),
                 currentStageIndex: null
             }
         },

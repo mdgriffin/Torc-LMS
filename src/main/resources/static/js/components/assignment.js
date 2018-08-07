@@ -22,7 +22,10 @@ var AssignmentStage = (function () {
     var template = `
         <div class="assignment-stage">
             <p>Time Remaining: {{timeRemaining | formatTime}}</p>
-            <h3>{{stage.title}}</h3>
+            <h3>
+                {{stage.title}}
+                <audio-player v-if="stage.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + stage.titleAudio"></audio-player>
+            </h3>
             <div class="assignment-stage-video" v-if="fsm.state === 'video'">
                 <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
@@ -99,6 +102,7 @@ var AssignmentStage = (function () {
             }
         },
         components: {
+            'audio-player': AudioPlayer,
             'video-player': VideoPlayer,
             'quiz': Quiz
         },
@@ -124,7 +128,10 @@ var Assignment = (function () {
 
     var template = `
         <div class="course">
-            <h2 class="pageTitle">{{course.title}}</h2>
+            <h2 class="pageTitle">
+                {{course.title}}
+                <audio-player v-if="course.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + course.titleAudio"></audio-player>
+            </h2>
             
             <div class="card">
                 <div class="card-body">
@@ -192,6 +199,7 @@ var Assignment = (function () {
             }
         },
         components: {
+            'audio-player': AudioPlayer,
             'assignment-stage': AssignmentStage,
             'loading-status': LoadingStatus
         },

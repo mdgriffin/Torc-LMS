@@ -7,7 +7,10 @@ var template = `
         <div class="quiz-questions" v-if="!quizCompleted">
             <h2>Knowledge Check</h2>
             <div class="quiz-question">
-                <h3>{{question.question}}</h3>
+                <h3>
+                    {{question.question}}
+                    <audio-player v-if="question.questionAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + question.questionAudio"></audio-player>
+                </h3>
                 <div class="quiz-question-wrongAnswer" v-if="questionAnswered && !answerCorrect">
                     <p>Wrong Answer!</p>
                 </div>

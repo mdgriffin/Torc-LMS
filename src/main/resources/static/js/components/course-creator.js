@@ -143,7 +143,7 @@
 
     var stageTemplate = `
         <div class="courseCreator-stageSingle">
-        <div class="alert alert-danger" v-if="wasValidated && !validNumStages">At least 6 questions must be asked per stage</div>
+        <div class="alert alert-danger" v-if="wasValidated && !validNumQuestions">At least 6 questions must be asked per stage</div>
             <div class="form-group">
                 <label>Stage Title</label>
                 <input type="text" v-model="title" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validQuestionTitle}]" />
@@ -207,7 +207,7 @@
                     })
                 }
 
-                return childrenValid && this.validQuestionTitle && this.validVideoUrl && this.validNumStages;
+                return childrenValid && this.validQuestionTitle && this.validVideoUrl && this.validNumQuestions;
             }
         },
         computed: {
@@ -224,8 +224,9 @@
                 return this.videoUrl.length > 0;
             }
             ,
-            validNumStages: function () {
-                return this.questions.length > 5;
+            validNumQuestions: function () {
+                //return this.questions.length > 5;
+                return true;
             }
         },
         watch: {

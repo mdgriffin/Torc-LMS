@@ -33,7 +33,7 @@ var template = `
             <button @click="seeResults" v-if="allQuestionsAnswered">Finish</button>
         </div>
         <div class="quiz-overview" v-if="quizCompleted">
-            <h3>Quiz {{ quizPassed? 'Passed' : 'Failed' }}</h3>
+            <h3>Knowledge Check {{ quizPassed? 'Passed' : 'Failed' }}</h3>
             
             <h4>You got {{numRight}} / {{numQuestions}} Questions Right</h4>
         </div>

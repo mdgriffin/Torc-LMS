@@ -6268,6 +6268,22 @@ span.required {
   margin-top: 3em;
   margin-bottom: 3em; }
 
+/* === Audio Player Component */
+.audioPlayer {
+  display: inline; }
+
+.audioPlayer audio {
+  display: none; }
+
+.audioPlayer button {
+  border: none;
+  background: none;
+  color: green;
+  font-size: 1.2em; }
+
+.audioPlayer button:focus {
+  outline: none; }
+
 /* === Quiz Component === */
 .quiz-question-wrongAnswer p,
 .quiz-question-correctAnswer p {

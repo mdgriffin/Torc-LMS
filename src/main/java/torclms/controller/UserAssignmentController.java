@@ -54,10 +54,6 @@ public class UserAssignmentController {
         User user = userService.findUserByEmail(authUser.getName());
         List<UserAssignment> userAssignments = userService.findAssignmentsByUserId(user.getUserId());
 
-        if (userAssignments.size() == 0) {
-            throw new ResourceNotFoundException("User", "id", user.getUserId());
-        }
-
         return userAssignments;
     };
 

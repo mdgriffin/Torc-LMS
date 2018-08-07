@@ -225,8 +225,7 @@
             }
             ,
             validNumQuestions: function () {
-                //return this.questions.length > 5;
-                return true;
+                return this.questions.length > 5;
             }
         },
         watch: {
@@ -242,7 +241,7 @@
     var template = `
         <div :class="[\'courseCreator\', {wasValidated: course.wasValidated}]">
             <div class="courseCreator-form">
-                
+                <div class="alert alert-warning" v-if="course.wasValidated && !isValid()">Please fix any validation errors and submit again</div>
                 <div class="form-group">
                     <label>Course Title</label>
                     <input type="text" v-model="course.title" :class="[\'form-control\', {\'is-invalid\': course.wasValidated && !validCourseTitle}]"/>
@@ -321,8 +320,6 @@
                         console.error(error);
                         alert("An error has occurred, please try again");
                     });
-                } else {
-                    alert("Please correct validation errors and submit again");
                 }
             },
             isValid: function () {

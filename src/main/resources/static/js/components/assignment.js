@@ -31,7 +31,7 @@ var AssignmentStage = (function () {
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
             </div>
             <div class="assignment-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
-                <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Process to Knowledge Check</button>
+                <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Proceed to Knowledge Check</button>
             </div>
             <div class="assignment-stage-quiz" v-if="fsm.state === 'takeQuiz' || fsm.state == 'quizFail' || fsm.state == 'quizPass'">
                 <quiz ref="quiz" :questions="stage.questions" v-on:quiz-pass="onQuizPass" v-on:quiz-fail="onQuizFail"></quiz>

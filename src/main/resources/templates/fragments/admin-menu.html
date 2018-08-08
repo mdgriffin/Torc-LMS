@@ -4,7 +4,7 @@
 <body>
 
     <div th:fragment="navbar">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="primaryNav">
 
             <div class="navbar-brand">
                 <a>Team Torc LMS</a>
@@ -18,9 +18,20 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active"><a class="nav-link" th:href="@{/admin/home}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/users/new}">Register User</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/courses}">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/courses/new}">Create Course</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/admin/users/new}">Register User</a>
+                            <a class="dropdown-item" href="#">Users</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Courses</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/admin/courses}">Courses</a>
+                            <a class="dropdown-item" th:href="@{/admin/courses/new}">Create Course</a>
+                        </div>
+                    </li>
                     <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
                 </ul>
             </div>

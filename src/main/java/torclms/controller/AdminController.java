@@ -43,9 +43,13 @@ public class AdminController {
         return "admin/create-course";
     }
 
+    @GetMapping("/users")
+    public String getUsers(Model model){
+        return "admin/users";
+    }
+
     @GetMapping("/users/new")
     public String registration(Model model){
-        //model.addAttribute("vm", new UserRegistrationVM());
         model.addAttribute("user", new User());
         model.addAttribute("roles", UserRole.values());
 

@@ -1,5 +1,4 @@
 (function () {
-
     let navDropdowns = document.querySelectorAll('#primaryNav .nav-item.dropdown');
 
     navDropdowns.forEach(navDropdown => {
@@ -13,7 +12,6 @@
                 dropdownEl.classList.remove('show')
             }
         });
-
     });
 
 })();

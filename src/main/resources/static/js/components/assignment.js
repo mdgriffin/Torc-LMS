@@ -1,5 +1,5 @@
 var AssignmentStageFSM = function () {
-    var fsm = new StateMachine({
+    return new StateMachine({
         init: 'video',
         transitions: [
             {name: 'watchVideo', from: 'video', to: 'confirmQuiz'},
@@ -13,8 +13,6 @@ var AssignmentStageFSM = function () {
         ],
         methods: {}
     });
-
-    return fsm;
 };
 
 var AssignmentStage = (function () {

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import torclms.entity.UserRole;
+import torclms.exception.ResourceNotFoundException;
 import torclms.model.User;
 import torclms.service.UserService;
 
@@ -52,8 +53,20 @@ public class AdminController {
     public String registration(Model model){
         model.addAttribute("user", new User());
         model.addAttribute("roles", UserRole.values());
+        model.addAttribute("actionUrl", "/admin/users/new");
 
-        return "registration";
+        return "admin/user-form";
+    }
+
+    @GetMapping("/users/{userId}")
+    public String viewUser(@PathVariable Long userId, Model model) {
+        User user = userService.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+
+        model.addAttribute("user", user);
+        model.addAttribute("roles", UserRole.values());
+        model.addAttribute("actionUrl", "/admin/users/" + userId);
+
+        return "admin/user-form";
     }
 
     @PostMapping("/users/new")
@@ -68,13 +81,13 @@ public class AdminController {
         }
 
         if (bindingResult.hasErrors() || !UserRole.contains(roleName)) {
-            modelAndView.setViewName("registration");
+            modelAndView.setViewName("admin/user-form");
         } else {
             UserRole userRole = UserRole.valueOf(roleName);
             userService.saveUser(user, userRole);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
+            modelAndView.setViewName("admin/user-form");
         }
 
         return modelAndView;

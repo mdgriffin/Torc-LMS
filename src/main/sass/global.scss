@@ -508,35 +508,34 @@ span.required {
 
 /* === Course List Component === */
 
-.courseList-single {
+.itemList-single {
   border: 1px solid rgba(0, 0, 0, 0.125);
   padding: 0.5em;
   margin-bottom: 1em;
 }
 
-.courseList-single:last-child {
+.itemList-single:last-child {
   margin-bottom: 0;
 }
 
-.courseList-single.is-deleting {
+.itemList-single.is-deleting {
   border: 1px solid red;
   opacity: 0.25;
 }
 
-.courseList-single p {
+.itemList-single p {
   margin: 0;
 }
 
-.courseList-single-body {
+.itemList-single-actions {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 
-.courseList-single-actions {
-  display: flex;
-  justify-content: flex-end;
+.itemList-single-actions button {
+  margin-left: 5px;
 }
-
 
 /* Trainee Home */
 

@@ -1,14 +1,16 @@
-var CourseList = (function () {
+var UserList = (function () {
 
     var template = `
-    <div class="itemList courseList" >
-        <div :class="['itemList-single', {'is-deleting': course.isDeleting }]" v-for="course, courseIndex in courseList">
+    <div class="itemList userList" >
+        <div :class="['itemList-single', {'is-deleting': user.isDeleting }]" v-for="user, userIndex in userList">
             <div class="row">
                 <div class="itemList-single-body col-sm-10">
-                    <p>{{course.title}}</p>
+                    <p>{{user.firstname}} {{user.surname}}</p>
+                    <p>{{user.roles[0].role}}</p>
                 </div>
                 <div class="itemList-single-actions col-sm-2">
-                    <button class="btn btn-outline-danger" v-on:click="deleteCourse(courseIndex)"><i class="fas fa-minus-circle"></i></button>
+                    <a class="btn btn-outline-info" :href="usersUrl + '/' + user.userId">Edit</a>
+                    <button class="btn btn-outline-danger" v-on:click="disableUser(user.userId)"><i class="fas fa-minus-circle"></i></button>
                 </div>
             </div>
         </div>
@@ -16,19 +18,26 @@ var CourseList = (function () {
     `;
 
     return {
-        props: ['courses'],
+        props: ['users'],
         template: template,
         data: function () {
             return {
-                courseList: this.courses
+                userList: this.users
+            }
+        },
+        computed: {
+            usersUrl: function () {
+                return Config.adminUsersUrl;
             }
         },
         methods: {
-            deleteCourse: function (courseIndex) {
+            disableUser: function (userId) {
+                alert("Disabling user...")
+                /*
                 var self = this;
-                var courseId = this.courseList[courseIndex].courseId;
+                var courseId = this.itemList[courseIndex].courseId;
 
-                Vue.set(this.courseList[courseIndex], 'isDeleting', true);
+                Vue.set(this.itemList[courseIndex], 'isDeleting', true);
 
                 fetch(Config.coursesApiUrl + '/' + courseId, {
                     method: 'DELETE',
@@ -41,7 +50,7 @@ var CourseList = (function () {
                     if (response.ok) {
                         alert("Course Deleted Successfully");
 
-                        self.courseList = self.courseList.filter(course => {
+                        self.itemList = self.itemList.filter(course => {
                             return course.courseId != courseId;
                         });
                     } else {
@@ -51,6 +60,7 @@ var CourseList = (function () {
                     console.error(error);
                     alert("An error has occurred, please try again");
                 });
+                */
             }
         }
     }

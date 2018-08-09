@@ -14,7 +14,7 @@
 
         <div class="card">
             <div class="card-body">
-                <div id="userManageApp">
+                <div id="userManagerApp">
                     <loading-status v-if="loadingCourses"></loading-status>
                     <course-list v-if="courses.length > 0" :courses="courses"></course-list>
                 </div>
@@ -31,6 +31,8 @@
 
 <script th:src="@{/js/store.js}"></script>
 <script th:src="@{/js/components/loading-status.js}"></script>
+<script th:src="@{/js/components/user-list.js}"></script>
+<script th:src="@{/js/apps/user-manager.js}"></script>
 
 </body>
 </html>

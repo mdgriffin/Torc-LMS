@@ -12,7 +12,8 @@ var Config = (function () {
         usersWithLockedAssignmentsApiUrl: contextRoot + '/api/users/locked-assignments',
         traineesApiUrl: contextRoot + '/api/users?trainees=true',
         cdnUrl: 'https://storage.googleapis.com/torc-lms.appspot.com',
-        attemptStageUrl: contextRoot + '/api/assignments/attempt-stage'
+        attemptStageUrl: contextRoot + '/api/assignments/attempt-stage',
+        adminUsersUrl: contextRoot + '/admin/users'
     }
 
 })();

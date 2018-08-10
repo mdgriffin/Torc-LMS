@@ -74,8 +74,6 @@ var ManagerHomeApp = (function () {
             fetch(Config.usersWithLockedAssignmentsApiUrl, {
                 credentials: "include"
             }) .then(response => {
-                self.lockedUsersLoading = false;
-
                 if (response.ok) {
                     return response.json();
                 } else {
@@ -85,8 +83,8 @@ var ManagerHomeApp = (function () {
             .then(json => {
                 if (json) {
                     self.lockedUsers = json;
-                    self.lockedUsersLoading = false;
                 }
+                self.lockedUsersLoading = false;
             })
             .catch(error => {
                 console.error(error);

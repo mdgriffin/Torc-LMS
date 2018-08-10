@@ -33,7 +33,6 @@ var UserManagerApp = (function () {
                 }
             })
                 .then(json => {
-                    console.log(json)
                     self.loadingUsers = false;
                     self.users = json;
                 })

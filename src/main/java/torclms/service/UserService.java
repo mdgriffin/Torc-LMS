@@ -13,7 +13,9 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
-    void saveUser(User user, UserRole userRole);
+    User createUser (User user, UserRole userRole);
+
+    User saveUser(User user);
 
     Optional<User> findById (Long userId);
 

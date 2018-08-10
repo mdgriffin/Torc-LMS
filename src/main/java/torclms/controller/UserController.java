@@ -41,41 +41,10 @@ public class UserController {
         }
     }
 
-    // Create a new User
-    @PostMapping("/users")
-    public User createUser(@Valid @RequestBody User user) {
-        return userRepository.save(user);
-    }
-
-    // Get a Single User
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(value = "id") Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-    }
-
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable(value = "id") Long userId,
-                           @Valid @RequestBody User userDetails) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-        user.setFirstname(userDetails.getFirstname());
-        user.setSurname(userDetails.getSurname());
-
-        User updatedUser = userRepository.save(user);
-        return updatedUser;
-    }
-
-    // Delete a User
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-        userRepository.delete(user);
-
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/users/locked-assignments")

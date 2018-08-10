@@ -121,6 +121,10 @@ public class AdminController {
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             }
 
+            if (user.getRoles().size() == 0) {
+                user.setRoles(dbUser.getRoles());
+            }
+
             User updatedUser = userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been updated successfully");
             modelAndView.addObject("user", updatedUser);

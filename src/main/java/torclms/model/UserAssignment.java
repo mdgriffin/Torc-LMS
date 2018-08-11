@@ -53,6 +53,9 @@ public class UserAssignment implements Serializable {
     @Column(name= "status", nullable = true)
     private AssignmentStatus status;
 
+    @Column(name = "current_stage_id")
+    private Integer currentStageId;
+
     public UserAssignment() {}
 
     public UserAssignment(User user, Course course, Date deadline, AssignmentStatus status) {
@@ -124,6 +127,14 @@ public class UserAssignment implements Serializable {
 
     public void setStatus(AssignmentStatus status) {
         this.status = status;
+    }
+
+    public Integer getCurrentStageId() {
+        return currentStageId;
+    }
+
+    public void setCurrentStageId(int currentStageId) {
+        this.currentStageId = currentStageId;
     }
 
     public boolean isLocked() {

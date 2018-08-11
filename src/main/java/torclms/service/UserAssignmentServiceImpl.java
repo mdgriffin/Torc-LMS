@@ -52,6 +52,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
                     .stream().filter(val -> val.getStageId()== stageAttemptDto.getStageId())
                     .findFirst()
                     .orElseThrow(() -> new ResourceNotFoundException("Stage", "id", stageAttemptDto.getStageId()));
+
             Stage lastStage = stageService.getLastStage(assignment.getAssignedCourse().getStages());
 
             StageAttempt attempt = new StageAttempt(assignment, stage, stageAttemptDto.isCompleted());
@@ -63,12 +64,25 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
                 assignment.setStatus(AssignmentStatus.COMPLETED);
             } else if (numAttemptsRemaining(assignment, stageAttemptDto.getStageId()) == 0) {
                 assignment.setStatus(AssignmentStatus.LOCKED);
+            } else if (stageAttemptDto.isCompleted()) {
+                Stage nextStage = getNextStage(assignment.getAssignedCourse().getStages(), stage);
+                assignment.setCurrentStageId(nextStage.getStageId());
             }
 
             return userAssignmentRepository.save(assignment);
         }
 
         return assignment;
+    }
+
+    private Stage getNextStage (List<Stage> stages, Stage comparisonStage) {
+        int stageIndex = stages.indexOf(comparisonStage);
+
+        if (stageIndex < stages.size() - 1) {
+            return stages.get(stageIndex + 1);
+        }
+
+        return comparisonStage;
     }
 
     @Override

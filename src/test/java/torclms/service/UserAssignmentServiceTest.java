@@ -62,7 +62,7 @@ public class UserAssignmentServiceTest {
         assignedCourseStage.setStepOrder(0);
         assignedCourseStage.setStageId(1);
 
-        Set<Stage> assignedCourseStages = new HashSet<>();
+        List<Stage> assignedCourseStages = new ArrayList<>();
         assignedCourseStages.add(assignedCourseStage);
 
         assignedCourse.setCourseId(1);

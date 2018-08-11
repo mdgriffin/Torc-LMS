@@ -9,9 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "courses")
@@ -47,7 +45,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @JsonManagedReference("courseStages")
     @OrderBy("stepOrder ASC")
-    Set<Stage> stages = new HashSet<>();
+    List<Stage> stages = new ArrayList<>();
 
     @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
     //@JsonBackReference("courseAssignedUser")
@@ -100,11 +98,11 @@ public class Course implements Serializable {
         this.enabled = enabled;
     }
 
-    public Set<Stage> getStages() {
+    public List<Stage> getStages() {
         return stages;
     }
 
-    public void setStages(Set<Stage> stages) {
+    public void setStages(List<Stage> stages) {
         this.stages = stages;
     }
 

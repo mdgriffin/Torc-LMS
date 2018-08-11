@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import torclms.helper.GenerateStages;
 import torclms.model.Stage;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +24,7 @@ public class StageServiceTest {
 
     @Test
     public void whenGettingLastStage_correctStageReturned () {
-        Set<Stage> stages = GenerateStages.getStageList(NUM_STAGES);
+        List<Stage> stages = GenerateStages.getStageList(NUM_STAGES);
 
         assertEquals(NUM_STAGES, stages.size());
         Stage lastStage = stageService.getLastStage(stages);

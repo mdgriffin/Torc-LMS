@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import torclms.model.Stage;
 import torclms.repository.StageRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class StageServiceImpl implements  StageService {
     }
 
     @Override
-    public Stage getLastStage(Set<Stage> stages) {
+    public Stage getLastStage(List<Stage> stages) {
         return stages
             .stream()
             .reduce((a, b) -> a.getStepOrder() > b.getStepOrder()? a : b)

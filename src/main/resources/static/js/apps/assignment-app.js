@@ -4,7 +4,7 @@ var AssignmentApp = (function () {
         <div class="courseApp">
             <loading-status v-if="assignment === null"></loading-status>
             <div class="course-stageContainer" v-if="assignment !== null">
-                <assignment :assignment="assignment"></assignment>
+                <assignment :assignment="assignment" :stage-index="currentStageIndex"></assignment>
             </div>
         </div>
     `;
@@ -20,6 +20,22 @@ var AssignmentApp = (function () {
         components: {
             'assignment': Assignment,
             'loading-status': LoadingStatus
+        },
+        computed: {
+            currentStageIndex: function () {
+                if (this.assignment.currentStageId) {
+                    let currentStageIndex = -1;
+                    this.assignment.assignedCourse.stages.forEach((stage, stageIndex) => {
+                        if (stage.stageId === this.assignment.currentStageId) {
+                            currentStageIndex = stageIndex;
+                        }
+                    });
+                    if (currentStageIndex !== -1) {
+                        return currentStageIndex;
+                    }
+                }
+                return 0;
+            }
         },
         created: function () {
             var self = this;

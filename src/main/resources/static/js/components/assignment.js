@@ -152,12 +152,18 @@ var Assignment = (function () {
     `
 
     return {
-        props: ['assignment'],
+        props: {
+            assignment: Object,
+            stageIndex: {
+                type: Number,
+                default: 0
+            }
+        },
         template: template,
         data: function () {
             return {
                 stageDuration: STAGE_DURATION,
-                currentStageIndex: 0
+                currentStageIndex: this.stageIndex
             }
         },
         computed: {

@@ -86,7 +86,7 @@ var TraineeHomeApp = (function () {
         },
         methods: {
             getCurrentStageIndex: function (assignmentIndex) {
-                let assignment = this.userAssignments[assignmentIndex];
+                let assignment = this.incompleteAssignments[assignmentIndex];
 
                 if (assignment.currentStageId) {
                     let currentStageIndex = -1;

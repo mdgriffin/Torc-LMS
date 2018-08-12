@@ -2,7 +2,7 @@ package torclms.dto;
 
 public class StageAttemptDto {
 
-    private int courseId;
+    private Long userAssignmentId;
 
     private int stageId;
 
@@ -10,18 +10,18 @@ public class StageAttemptDto {
 
     public StageAttemptDto () {}
 
-    public StageAttemptDto(int courseId, int stageId, boolean completed) {
-        this.courseId = courseId;
+    public StageAttemptDto(Long userAssignmentId, int stageId, boolean completed) {
+        this.userAssignmentId = userAssignmentId;
         this.stageId = stageId;
         this.completed = completed;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public Long getUserAssignmentId() {
+        return userAssignmentId;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setUserAssignmentId(Long userAssignmentId) {
+        this.userAssignmentId = userAssignmentId;
     }
 
     public int getStageId() {

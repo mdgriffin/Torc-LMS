@@ -49,6 +49,7 @@ public class UserAssignmentServiceTest {
     private Stage assignedCourseStage;
 
     private ArgumentCaptor<Long> userIdCaptor;
+    private ArgumentCaptor<Long> userAssignmentIdCaptor;
     private ArgumentCaptor<Integer> courseIdCaptor;
     private ArgumentCaptor<UserAssignment> assignmentArgumentCaptor;
 
@@ -68,7 +69,8 @@ public class UserAssignmentServiceTest {
         assignedCourse.setCourseId(1);
         assignedCourse.setStages(assignedCourseStages);
 
-        userIdCaptor  = ArgumentCaptor.forClass(Long.class);
+        userIdCaptor = ArgumentCaptor.forClass(Long.class);
+        userAssignmentIdCaptor = ArgumentCaptor.forClass(Long.class);
         courseIdCaptor = ArgumentCaptor.forClass(Integer.class);
         assignmentArgumentCaptor = ArgumentCaptor.forClass(UserAssignment.class);
     }
@@ -76,10 +78,10 @@ public class UserAssignmentServiceTest {
     @Test
     public void whenAttemptingStage_withValidAssignment_attemptedAddedToAssignment () {
         List<UserAssignment> assignmentList = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser);
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1, 1, true);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true);
         assignmentList.get(0).setAssignedCourse(assignedCourse);
 
-        given(userService.findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture())).willReturn(assignmentList);
+        given(userAssignmentRepository.getOne(userAssignmentIdCaptor.capture())).willReturn(assignmentList.get(0));
         given(userAssignmentRepository.save(assignmentArgumentCaptor.capture())).willReturn(GenerateAssignments.getAssignment(testUser, assignedCourse));
 
         assertEquals(assignmentList.get(0).getStageAttempts().size(), 0);
@@ -87,7 +89,7 @@ public class UserAssignmentServiceTest {
 
         userAssignmentService.attemptStage(testUser, stageAttemptDto);
 
-        verify(userService).findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture());
+        verify(userAssignmentRepository).getOne(userAssignmentIdCaptor.capture());
         verify(userAssignmentRepository).save(assignmentArgumentCaptor.capture());
 
         UserAssignment savedAssignment = assignmentArgumentCaptor.getValue();
@@ -99,14 +101,16 @@ public class UserAssignmentServiceTest {
     @Test
     public void whenAttemptingStage_withValidAssignmentAndOneAttemptRemaining_courseLocked () {
         List<UserAssignment> assignmentList = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser);
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1, 1, false);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, false);
         assignmentList.get(0).setAssignedCourse(assignedCourse);
         StageAttempt failedAttempt = new StageAttempt(assignmentList.get(0), assignedCourseStage, false);
         failedAttempt.setDateAttempted(new Date());
         assignmentList.get(0).getStageAttempts().add(failedAttempt);
         assignmentList.get(0).setLastUpdated(new Date());
 
-        given(userService.findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture())).willReturn(assignmentList);
+        //given(userService.findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture())).willReturn(assignmentList);
+
+        given(userAssignmentRepository.getOne(userAssignmentIdCaptor.capture())).willReturn(assignmentList.get(0));
         given(userAssignmentRepository.save(assignmentArgumentCaptor.capture())).willReturn(GenerateAssignments.getAssignment(testUser, assignedCourse));
 
         assertEquals(1, assignmentList.get(0).getStageAttempts().size());
@@ -114,7 +118,8 @@ public class UserAssignmentServiceTest {
 
         userAssignmentService.attemptStage(testUser, stageAttemptDto);
 
-        verify(userService).findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture());
+        //verify(userService).findUserAssignmentsByCourseId(userIdCaptor.capture(), courseIdCaptor.capture());
+        verify(userAssignmentRepository).getOne(userAssignmentIdCaptor.capture());
         verify(userAssignmentRepository).save(assignmentArgumentCaptor.capture());
 
         UserAssignment savedAssignment = assignmentArgumentCaptor.getValue();
@@ -125,7 +130,7 @@ public class UserAssignmentServiceTest {
 
     @Test(expected = ResourceNotFoundException.class)
     public void whenAttemptingStage_noAssignmentFound_exceptionThrown () {
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1, 1, true);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true);
         List<UserAssignment> emptyUserAssignments = new ArrayList<>();
 
         given(userService.findUserAssignmentsByCourseId(any(Long.class), any(Integer.class))).willReturn(emptyUserAssignments);

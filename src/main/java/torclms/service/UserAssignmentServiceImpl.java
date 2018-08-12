@@ -38,13 +38,11 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Override
     public UserAssignment attemptStage(User user, StageAttemptDto stageAttemptDto) {
-        List<UserAssignment> userAssignments = userService.findUserAssignmentsByCourseId(user.getUserId(), stageAttemptDto.getCourseId());
+        UserAssignment assignment = userAssignmentRepository.getOne(stageAttemptDto.getUserAssignmentId());
 
-        if (userAssignments.size() == 0) {
+        if (assignment == null) {
             throw new ResourceNotFoundException("UserAssignment", "id", null);
         }
-
-        UserAssignment assignment  = userAssignments.get(0);
 
         if (assignment.getStatus().equals(AssignmentStatus.INCOMPLETE)) {
             Stage stage = assignment.getAssignedCourse()

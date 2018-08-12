@@ -201,10 +201,10 @@ var Assignment = (function () {
         },
         methods: {
             stageFail: function (stageId) {
-                this.notifyStageAttempt(this.course.courseId, stageId, false);
+                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, false);
             },
             stagePass: function (stageId) {
-                this.notifyStageAttempt(this.course.courseId, stageId, true);
+                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, true);
             },
             stageComplete: function () {
                 this.currentStageIndex++;
@@ -221,14 +221,14 @@ var Assignment = (function () {
         created: function () {
             var self = this;
 
-            self.notifyStageAttempt = function (courseId, stageId, completed) {
+            self.notifyStageAttempt = function (userAssignmentId, stageId, completed) {
                 fetch(Config.attemptStageUrl, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({"courseId": courseId, "stageId": stageId, "completed": completed})
+                    body: JSON.stringify({"userAssignmentId": userAssignmentId, "stageId": stageId, "completed": completed})
                 }).then(response => {
                     if (response.ok) {
                         return response.json();

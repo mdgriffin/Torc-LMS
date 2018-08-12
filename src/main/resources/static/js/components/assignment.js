@@ -80,23 +80,42 @@ var AssignmentStage = (function () {
             onQuizPass: function () {
                 this.fsm.quizPassed();
                 this.$emit('pass', this.stage.stageId);
+                this.stopTimer();
             },
             onQuizFail: function () {
                 this.fsm.quizFailed();
                 this.$emit('fail', this.stage.stageId);
+                this.stopTimer();
             },
             rewatchVideo: function () {
                 this.fsm.rewatchVideo();
                 this.timeRemaining = this.stageDuration;
+                this.startTimer();
             },
             retakeQuiz: function () {
                 this.fsm.retakeTest();
-                // TODO: Should be total duration - video duration
                 this.timeRemaining = this.stageDuration / 2;
+                this.timeRemaining = this.stageDuration;
                 this.$refs.quiz.reset();
             },
             nextStage: function () {
                 this.$emit('complete');
+            },
+            startTimer: function () {
+                if (!this._timer) {
+                    this._timer = setInterval((function () {
+                        this.timeRemaining -= 1000;
+
+                        if (this.timeRemaining <= 0) {
+                            this.stopTimer();
+                            this.onCountdownComplete();
+                        }
+                    }).bind(this), 1000);
+                }
+            },
+            stopTimer: function () {
+                clearInterval(this._timer);
+                this._timer = null;
             }
         },
         components: {
@@ -105,15 +124,7 @@ var AssignmentStage = (function () {
             'quiz': Quiz
         },
         created: function () {
-            var self = this;
-            var timer = setInterval(function () {
-                self.timeRemaining -= 1000;
-
-                if (self.timeRemaining <= 0) {
-                    clearInterval(timer);
-                    self.onCountdownComplete();
-                }
-            }, 1000)
+            this.startTimer();
         }
     }
 

@@ -145,7 +145,8 @@ var Assignment = (function () {
             <div class="card">
                 <div class="card-body">
                     <div class="assignment-stageContainer" v-if="courseIncomplete">
-                        <p><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
+                        <p class="assignment-progressBar">{{}} / {{}}</p>
+                        <p class="assignment-attemptsRemaining"><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
                         <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                     </div>
 
@@ -190,18 +191,18 @@ var Assignment = (function () {
                 return this.assignment.status == 'COMPLETED' || this.currentStageIndex >= this.course.stages.length
             },
             numAttemptsRemaining: function () {
-                var stage = this.course.stages[this.currentStageIndex];
+                if (this.currentStageIndex >= this.course.stages.length) {
+                    return 0;
+                }
 
-                // loop over the attempts
-                // check that the date is greater than the last updated date of the assignment
+                let stage = this.course.stages[this.currentStageIndex];
+
                 return 2 - this.assignment.stageAttempts
                     .filter(attempt => {
                         return attempt.stage.stageId === stage.stageId &&
                             moment(attempt.dateAttempted).isSameOrAfter(this.assignment.lastUpdated) &&
                             !attempt.completed;
                     }).length;
-
-                //return numRemaining >= 0? numRemaining : 0;
             }
         },
         methods: {

@@ -1,6 +1,12 @@
 var store = new Vuex.Store({
-    state: {},
-    mutations: {},
+    state: {
+        traineeUsers: []
+    },
+    mutations: {
+        setTraineeUsers: function (state, traineeUsers) {
+            state.traineeUsers = traineeUsers
+        }
+    },
     getters: {
         /*
         getQuestionTitle: function (state) {
@@ -9,7 +15,24 @@ var store = new Vuex.Store({
             }
         },
         */
-
+        getTraineeUsers: function (state) {
+            return state.traineeUsers;
+        }
     },
-    actions: { }
+    actions: {
+        retrieveTraineeUsers: function (context) {
+            return fetch(Config.traineesApiUrl, {
+                credentials: 'same-origin'
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw Error(response.statusText);
+                }
+            })
+            .then(traineeUsers => {
+                context.commit('setTraineeUsers', traineeUsers)
+            });
+        }
+    }
 });

@@ -104,7 +104,6 @@ const BarChart = (function () {
             this.renderChart(this.chartData, this.options)
         }
     }
-
 })();
 
 const ManagerStats = (function () {
@@ -145,11 +144,57 @@ const ManagerStats = (function () {
 
 })();
 
+const UserPage = (function () {
+
+    let template = `
+        <div>
+            <loading-status v-if="traineeUsersLoading"></loading-status>
+            <div v-if="!traineeUsersLoading">
+                 <h3>Users</h3>
+                <user-list :users="traineeUsers"></user-list>
+            </div>
+           
+        </div>
+    `;
+
+    return {
+        template: template,
+        data: function () {
+            return {
+                traineeUsersLoading: true
+            }
+        },
+        computed: {
+            traineeUsers: function () {
+                return this.$store.state.traineeUsers;
+            }
+        },
+        components: {
+            'loading-status': LoadingStatus,
+            'user-list': UserList
+        },
+        created: function () {
+            this.$store.dispatch('retrieveTraineeUsers')
+                .then(() => {
+                    this.traineeUsersLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.traineeUsersLoading = false;
+                    alert('An error has occured, please reload and try again');
+                })
+        },
+        store: store
+    };
+
+})();
+
 const ManagerApp = (function () {
 
     const routes = [
         { path: '/', redirect: '/locked' },
         { path: '/locked', component: LockedAssignments },
+        { path: '/users', component: UserPage },
         { path: '/statistics', component: ManagerStats}
     ]
 
@@ -166,10 +211,15 @@ const ManagerApp = (function () {
                             <router-link to="/locked" class="nav-link" :active-class="'active'">Assignment Unlock</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link to="/users" class="nav-link" :active-class="'active'">Users</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/statistics" class="nav-link" :active-class="'active'">Statistics</router-link>
                         </li>
                     </ul>
-                    <router-view></router-view>
+                    <div class="mt-3 mb-3">
+                        <router-view></router-view>
+                    </div>
                 </div>
             </article>
         </div>

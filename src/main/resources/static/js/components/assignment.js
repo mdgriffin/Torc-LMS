@@ -145,8 +145,7 @@ var Assignment = (function () {
             <div class="card">
                 <div class="card-body">
                     <div class="assignment-stageContainer" v-if="courseIncomplete">
-                        <p class="assignment-progressBar">{{}} / {{}}</p>
-                        <p class="assignment-attemptsRemaining"><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
+                        <p class="assignment-progressBar">Stage {{ currentStageIndex + 1}} of {{numStages}} <i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
                         <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                     </div>
 
@@ -203,6 +202,9 @@ var Assignment = (function () {
                             moment(attempt.dateAttempted).isSameOrAfter(this.assignment.lastUpdated) &&
                             !attempt.completed;
                     }).length;
+            },
+            numStages: function () {
+                return this.course.stages.length;
             }
         },
         methods: {

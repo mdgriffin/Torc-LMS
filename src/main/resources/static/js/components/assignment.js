@@ -144,17 +144,16 @@ var Assignment = (function () {
             
             <div class="card">
                 <div class="card-body">
-                    <p><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
-                    
-                    <div class="assignment-stageContainer" v-if="assignment.status === 'INCOMPLETE'">
+                    <div class="assignment-stageContainer" v-if="courseIncomplete">
+                        <p><i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
                         <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                     </div>
-                
+
                     <div class="assignment-completed" v-if="courseCompleted">
                         <h3>Congratulations! You Have Completed This Course</h3>
                     </div>
-                    
-                    <div class="assignment-locked" v-if="assignment.status === 'LOCKED'">
+
+                    <div class="assignment-locked" v-if="courseLocked">
                         <h3>Course Locked: Too Many Failed Attempts</h3>
                     </div>
                 </div>
@@ -181,8 +180,14 @@ var Assignment = (function () {
             course: function () {
                 return this.assignment.assignedCourse;
             },
+            courseLocked: function () {
+                return this.assignment.status === 'LOCKED';
+            },
+            courseIncomplete: function () {
+                return this.assignment.status === 'INCOMPLETE' && this.currentStageIndex < this.course.stages.length
+            },
             courseCompleted: function () {
-                return this.currentStageIndex >= this.course.stages.length
+                return this.assignment.status == 'COMPLETED' || this.currentStageIndex >= this.course.stages.length
             },
             numAttemptsRemaining: function () {
                 var stage = this.course.stages[this.currentStageIndex];

@@ -4,17 +4,7 @@
 <head th:replace="~{fragments/header :: head}"></head>
 <body>
 
-    <th:block th:include="fragments/manager-menu :: navbar"></th:block>
-
-    <div class="container">
-
-        <div class="section">
-
-            <div id="managerApp"></div><!-- #managerApp -->
-
-        </div>
-
-    </div>
+    <div id="managerApp"></div><!-- #managerApp -->
 
     <div th:replace="~{fragments/footer :: content}"></div>
 
@@ -25,6 +15,7 @@
     <script th:src="@{/js/components/loading-status.js}"></script>
     <script th:src="@{/js/components/user-list.js}"></script>
     <script th:src="@{/js/components/assign-course.js}"></script>
+    <script th:src="@{/js/components/main-nav.js}"></script>
     <script th:src="@{/js/apps/manager-app.js}"></script>
 
 </body>

@@ -1,21 +1,31 @@
 const LockedAssignments = (function () {
 
     var template = `
-        <div class="lockedUsers">
-            <h3>Locked Assignments</h3>
+        <div class="lockedUsers container">
+            <div class="section">
+
+                <h2 class="pageTitle">Locked Assignments</h2>
             
-            <loading-status v-if="lockedUsersLoading"></loading-status>
-            
-            <h4 v-if="!lockedUsersLoading && lockedUsers.length === 0" class="muted">No Locked User Assignments Found</h4>
-            
-            <div class="lockedUsers-single" v-for="(user, userIndex) in lockedUsers">
-                <h4>{{user.firstname}} {{user.surname}}</h4>
+                <div class="card">
+                    <div class="card-body">
+                        
+                        <loading-status v-if="lockedUsersLoading"></loading-status>
+                    
+                        <h4 v-if="!lockedUsersLoading && lockedUsers.length === 0" class="muted">No Locked User Assignments Found</h4>
                 
-                <div :class="['lockedUsers-assignment', isUnlocking(assignment.userAssignmentId) ? 'lockedUsers-assignment-unlocking' : '']" v-for="(assignment, assignmentIndex) in user.assignedCourses" v-if="assignment.status === 'LOCKED'">
-                    <p>Course: {{assignment.assignedCourse.title}}</p>
-                    <button class="btn btn-outline-secondary" @click="unlockAssignment(assignment.userAssignmentId)">Unlock</button>
+                        <div class="lockedUsers-single" v-for="(user, userIndex) in lockedUsers">
+                            <h4>{{user.firstname}} {{user.surname}}</h4>
+                            
+                            <div :class="['lockedUsers-assignment', isUnlocking(assignment.userAssignmentId) ? 'lockedUsers-assignment-unlocking' : '']" v-for="(assignment, assignmentIndex) in user.assignedCourses" v-if="assignment.status === 'LOCKED'">
+                                <p>Course: {{assignment.assignedCourse.title}}</p>
+                                <button class="btn btn-outline-secondary" @click="unlockAssignment(assignment.userAssignmentId)">Unlock</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            
             </div>
+            
         </div>
     `;
 
@@ -109,8 +119,14 @@ const BarChart = (function () {
 const ManagerStats = (function () {
 
     const  template = `
-        <div>
-            <bar-chart :chart-data="chartData"></bar-chart>
+        <div class="managerStats container">
+            <div class="section">
+                <h2 class="pageTitle">Statistics</h2>
+                <div class="card">
+                    <div class="card-body"></div>
+                        <bar-chart :chart-data="chartData"></bar-chart>
+                    </div>
+                </div>
         </div>
     `
 
@@ -147,13 +163,19 @@ const ManagerStats = (function () {
 const UserPage = (function () {
 
     let template = `
-        <div>
-            <loading-status v-if="traineeUsersLoading"></loading-status>
-            <div v-if="!traineeUsersLoading">
-                 <h3>Users</h3>
-                <user-list :users="traineeUsers"></user-list>
+        <div class="userPage container">
+            <div class="section">
+                <h2 class="pageTitle">Users</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <loading-status v-if="traineeUsersLoading"></loading-status>
+                        <div v-if="!traineeUsersLoading">
+                             
+                            <user-list :users="traineeUsers"></user-list>
+                        </div>
+                    </div>
+                </div>
             </div>
-           
         </div>
     `;
 
@@ -192,11 +214,17 @@ const UserPage = (function () {
 const AssignCoursePage = (function () {
 
     const template = `
-        <div id="assignStagePage">
-            <assign-course :users="traineeUsers" :courses="courses"></assign-course>
+        <div class="assignStagePage container">
+            <div class="section">
+                <h2 class="pageTitle">Course Assign</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <assign-course :users="traineeUsers" :courses="courses"></assign-course>
+                    </div>
+                </div>
+            </div>
         </div>
     `;
-
 
     return {
         template: template,
@@ -261,32 +289,16 @@ const ManagerApp = (function () {
 
     template = `
         <div class="managerApp">
-            <article class="card">
-                <div class="card-body">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <router-link to="/locked" class="nav-link" :active-class="'active'">Assignment Unlock</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/users" class="nav-link" :active-class="'active'">Users</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/statistics" class="nav-link" :active-class="'active'">Statistics</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/assign-course" class="nav-link" :active-class="'active'">Assign Course</router-link>
-                        </li>
-                    </ul>
-                    <div class="mt-3 mb-3">
-                        <router-view></router-view>
-                    </div>
-                </div>
-            </article>
+            <main-nav></main-nav>
+            <router-view></router-view>
         </div>
     `
 
     return {
         template: template,
+        components: {
+            'main-nav': MainNav
+        },
         router: router
     }
 

@@ -12,13 +12,12 @@ var store = new Vuex.Store({
         }
     },
     getters: {
-        /*
-        getQuestionTitle: function (state) {
-            return function (stageid, questionid) {
-                return state.course.stages[stageid].questions[questionid].question;
+        getTrainee: function (state) {
+            return function (userId) {
+                let user = state.traineeUsers.filter(user => user.userId === userId);
+                return user.length > 0 ? user[0] : null;
             }
         },
-        */
         getTraineeUsers: function (state) {
             return state.traineeUsers;
         },
@@ -28,18 +27,15 @@ var store = new Vuex.Store({
     },
     actions: {
         retrieveTraineeUsers: function (context) {
-            return fetch(Config.traineesApiUrl, {
-                credentials: 'same-origin'
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw Error(response.statusText);
-                }
-            })
-            .then(traineeUsers => {
-                context.commit('setTraineeUsers', traineeUsers)
-            });
+            if (context.state.traineeUsers.length === 0) {
+                return UserApi.getTraineeUsers()
+                    .then(function (traineeUsers) {
+                        context.commit('setTraineeUsers', traineeUsers)
+                    });
+            } else {
+                return Promise.resolve();
+            }
+
         },
         retrieveCourses: function (context) {
             return fetch(Config.coursesApiUrl, {

@@ -170,8 +170,11 @@ const UserPage = (function () {
                     <div class="card-body">
                         <loading-status v-if="traineeUsersLoading"></loading-status>
                         <div v-if="!traineeUsersLoading">
-                             
-                            <user-list :users="traineeUsers"></user-list>
+                            <user-list :users="traineeUsers">
+                                <template slot="actions" slot-scope="slotProps">
+                                    <router-link :to="'/users/' + slotProps.user.userId" class="btn btn-outline-secondary">View</router-link>
+                                </template>
+                            </user-list>
                         </div>
                     </div>
                 </div>
@@ -208,6 +211,52 @@ const UserPage = (function () {
         },
         store: store
     };
+
+})();
+
+const UserSinglePage = (function () {
+
+    const template = `
+        <div class="p-userSingle container">
+            <div class="section">
+                <loading-status v-if="traineeLoading"></loading-status>
+                <div class="card"  v-if="!traineeLoading">
+                    <div class="card-body">
+                            <h2>{{user.firstname}} {{user.surname}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `
+
+    return {
+        template: template,
+        data: function () {
+            return {
+                traineeLoading: true
+            }
+        },
+        computed: {
+            user: function () {
+                return this.$store.getters.getTrainee(parseInt(this.$route.params.id));
+            }
+        },
+        components: {
+            'loading-status': LoadingStatus
+        },
+        created: function () {
+            this.$store.dispatch('retrieveTraineeUsers')
+                .then(() => {
+                    this.traineeLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.traineeLoading = false;
+                    alert('An error has occured, please reload and try again');
+                });
+        },
+        store: store
+    }
 
 })();
 
@@ -279,6 +328,7 @@ const ManagerApp = (function () {
         { path: '/', redirect: '/locked' },
         { path: '/locked', component: LockedAssignments },
         { path: '/users', component: UserPage },
+        { path: '/users/:id', component: UserSinglePage },
         { path: '/statistics', component: ManagerStats },
         { path: '/assign-course', component: AssignCoursePage }
     ]

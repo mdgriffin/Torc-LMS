@@ -37,7 +37,7 @@ var AssignmentStage = (function () {
             <div class="assignment-stage-completed" v-if="fsm.state == 'quizFail' || fsm.state == 'quizPass'">
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="rewatchVideo">Rewatch Video</button>
                 <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizFail'" v-on:click="retakeQuiz">Retake Knowledge Check</button>
-                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">{{lastStage? 'Complete Stage' : 'Process to next stage'}}</button>
+                <button class="btn btn-primary btn-lg" v-if="fsm.state === 'quizPass'" v-on:click="nextStage">{{lastStage? 'Complete Stage' : 'Proceed to next stage'}}</button>
             </div>
             <div class="course-state-timesUp" v-if="fsm.state === 'timesUp'">
                 <h3>Times Up!</h3>

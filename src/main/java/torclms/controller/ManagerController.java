@@ -28,9 +28,4 @@ public class ManagerController {
         return modelAndView;
     }
 
-
-    @GetMapping("/assign-course")
-    public String assignCourse () {
-        return "manage/assign-course";
-    }
 }

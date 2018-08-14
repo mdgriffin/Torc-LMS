@@ -1,4 +1,4 @@
-var LockedAssignments = (function () {
+const LockedAssignments = (function () {
 
     var template = `
         <div class="lockedUsers">
@@ -189,13 +189,70 @@ const UserPage = (function () {
 
 })();
 
+const AssignCoursePage = (function () {
+
+    const template = `
+        <div id="assignStagePage">
+            <assign-course :users="traineeUsers" :courses="courses"></assign-course>
+        </div>
+    `;
+
+
+    return {
+        template: template,
+        data: function () {
+            return {
+                traineeUsersLoading: true,
+                coursesLoading: true
+            }
+        },
+        computed: {
+            traineeUsers: function () {
+                return this.traineeUsersLoading? null : this.$store.state.traineeUsers;
+            },
+            courses: function () {
+                return this.coursesLoading? null : this.$store.state.courses;
+            },
+            isloading: function () {
+                return this.traineeUsersLoading && this.coursesLoading;
+            }
+        },
+        components: {
+            'assign-course': AssignCourse
+        },
+        created: function () {
+            this.$store.dispatch('retrieveTraineeUsers')
+                .then(() => {
+                    this.traineeUsersLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.traineeUsersLoading = false;
+                    alert('An error has occured, please reload and try again');
+                });
+
+            this.$store.dispatch('retrieveCourses')
+                .then(() => {
+                    this.coursesLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.coursesLoading = false;
+                    alert('An error has occured, please reload and try again');
+                })
+        },
+        store: store
+    };
+})();
+
 const ManagerApp = (function () {
 
     const routes = [
         { path: '/', redirect: '/locked' },
         { path: '/locked', component: LockedAssignments },
         { path: '/users', component: UserPage },
-        { path: '/statistics', component: ManagerStats}
+        { path: '/statistics', component: ManagerStats },
+        { path: '/assign-course', component: AssignCoursePage }
     ]
 
     const router = new VueRouter({
@@ -215,6 +272,9 @@ const ManagerApp = (function () {
                         </li>
                         <li class="nav-item">
                             <router-link to="/statistics" class="nav-link" :active-class="'active'">Statistics</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/assign-course" class="nav-link" :active-class="'active'">Assign Course</router-link>
                         </li>
                     </ul>
                     <div class="mt-3 mb-3">

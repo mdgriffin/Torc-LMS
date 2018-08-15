@@ -191,6 +191,7 @@ const UserPage = (function () {
         },
         computed: {
             traineeUsers: function () {
+                console.log(this.$store.state.traineeUsers);
                 return this.$store.state.traineeUsers;
             }
         },
@@ -220,9 +221,18 @@ const UserSinglePage = (function () {
         <div class="p-userSingle container">
             <div class="section">
                 <loading-status v-if="traineeLoading"></loading-status>
+                <h2 class="pageTitle" v-if="!traineeLoading">{{user.firstname}} {{user.surname}}</h2>
                 <div class="card"  v-if="!traineeLoading">
                     <div class="card-body">
-                            <h2>{{user.firstname}} {{user.surname}}</h2>
+                            <h3>Course History</h3>
+                            <div class="itemList">
+                                <div class="itemList-single" v-for="assignment in user.assignedCourses">
+                                    <h4>{{assignment.assignedCourse.title}}</h4>
+                                    <p>Current Status: {{ assignment.status}}</p>
+                                    <p>Assigned On {{assignment.assignedOn | formatDate }}</p>
+                                    <p v-if="assignment.status === 'INCOMPLETE'">Due On {{assignment.deadline | formatDate }}</p>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -239,6 +249,11 @@ const UserSinglePage = (function () {
         computed: {
             user: function () {
                 return this.$store.getters.getTrainee(parseInt(this.$route.params.id));
+            }
+        },
+        filters: {
+            formatDate: function (date) {
+                return moment(date).format('h:mmA D/MM/YYYY')
             }
         },
         components: {

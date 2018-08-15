@@ -18,10 +18,10 @@ var store = new Vuex.Store({
                 return user.length > 0 ? user[0] : null;
             }
         },
-        getTraineeUsers: function (state) {
+        traineeUsers: function (state) {
             return state.traineeUsers;
         },
-        getCourses: function (state) {
+        courses: function (state) {
             return state.courses;
         }
     },

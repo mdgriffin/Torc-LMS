@@ -43,7 +43,14 @@ public class AdminController {
     }
 
     @GetMapping("/courses/new")
-    public String createCourse () {
+    public String createCourse (Model model) {
+        model.addAttribute("courseId", -1);
+        return "admin/create-course";
+    }
+
+    @GetMapping("/courses/{courseId}")
+    public String editCourse (Model model, @PathVariable int courseId) {
+        model.addAttribute("courseId", courseId);
         return "admin/create-course";
     }
 

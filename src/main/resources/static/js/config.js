@@ -13,7 +13,8 @@ var Config = (function () {
         traineesApiUrl: contextRoot + '/api/users?trainees=true',
         cdnUrl: 'https://storage.googleapis.com/torc-lms.appspot.com',
         attemptStageUrl: contextRoot + '/api/assignments/attempt-stage',
-        adminUsersUrl: contextRoot + '/admin/users'
+        adminUsersUrl: contextRoot + '/admin/users',
+        adminCoursesUrl: contextRoot + '/admin/courses'
     }
 
 })();

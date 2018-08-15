@@ -8,6 +8,7 @@ var CourseList = (function () {
                     <p>{{course.title}}</p>
                 </div>
                 <div class="itemList-single-actions col-sm-2">
+                    <a class="btn btn-outline-secondary" :href="coursesUrl + course.courseId">Edit Course</a>
                     <button class="btn btn-outline-danger" v-on:click="deleteCourse(courseIndex)"><i class="fas fa-minus-circle"></i></button>
                 </div>
             </div>
@@ -21,6 +22,11 @@ var CourseList = (function () {
         data: function () {
             return {
                 courseList: this.courses
+            }
+        },
+        computed: {
+            coursesUrl: function () {
+                return Config.adminCoursesUrl + '/'
             }
         },
         methods: {

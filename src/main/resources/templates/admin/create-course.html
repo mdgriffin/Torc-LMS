@@ -10,13 +10,12 @@
 
         <div class="section">
 
-            <h2 class="pageTitle">Create Course</h2>
+            <h2 class="pageTitle" th:if="${courseId >= 0}">Edit Course</h2>
+            <h2 class="pageTitle" th:unless="${courseId >= 0}">Create Course</h2>
 
             <div class="card">
                 <div class="card-body">
-                    <div id="courseCreatorApp">
-                        <course-creator></course-creator>
-                    </div>
+                    <div id="courseCreatorApp"></div>
                 </div>
             </div>
 
@@ -28,7 +27,17 @@
 
     <th:block th:include="fragments/footer :: vueResources"></th:block>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var pathVariables = {};
+        pathVariables.courseId = /*[[${courseId}]]*/ '-1';
+        console.log('CourseId is: ' + pathVariables.courseId );
+        /*]]>*/
+    </script>
+
+    <script th:src="@{/js/api/courses-api.js}"></script>
     <script th:src="@{/js/store.js}"></script>
+    <script th:src="@{/js/components/loading-status.js}"></script>
     <script th:src="@{/js/components/course-creator.js}"></script>
     <script th:src="@{/js/apps/course-creator.js}"></script>
 

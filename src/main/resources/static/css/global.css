@@ -6533,7 +6533,8 @@ span.required {
   justify-content: flex-end;
   align-items: center; }
 
-.itemList-single-actions button {
+.itemList-single-actions button,
+.itemList-single-actions a{
   margin-left: 5px; }
 
 /* Trainee Home */

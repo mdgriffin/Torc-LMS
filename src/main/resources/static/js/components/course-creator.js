@@ -165,7 +165,7 @@
             return {
                 title: this.course.stages[this.stageindex].title,
                 videoUrl: this.course.stages[this.stageindex].videoUrl,
-                currentQuestionIndex: null
+                currentQuestionIndex: this.course.stages[this.stageindex].questions.length > 0? 0 : null
             };
         },
         methods: {
@@ -277,7 +277,7 @@
         data: function () {
             return {
                 course: Util.clone(this.courseData),
-                currentStageIndex: null
+                currentStageIndex: this.courseData.stages.length > 0? 0 : null
             }
         },
         computed: {

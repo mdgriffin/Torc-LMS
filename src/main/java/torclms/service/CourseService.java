@@ -14,4 +14,6 @@ public interface CourseService {
 
     Course saveCourse (Course course);
 
+    Course updateCourse (int courseId, Course course);
+
 }

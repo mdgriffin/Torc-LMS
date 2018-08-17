@@ -35,8 +35,8 @@ public class Question implements Serializable {
     @JsonBackReference("stageQuestions")
     private Stage stage;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade =  CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference("questionOptions")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @JsonManagedReference("questionOptions")
     Set<QuestionOption> options = new HashSet<>();
 
     public int getQuestionId() {

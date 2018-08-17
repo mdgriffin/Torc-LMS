@@ -50,6 +50,11 @@ public class CourseController {
         return course;
     }
 
+    @PutMapping("/courses/{courseId}")
+    public Course updateCourse (@RequestBody @Valid Course course) {
+        return courseService.updateCourse(course.getCourseId(), course);
+    }
+
     @DeleteMapping("/courses/{courseId}")
     public ResponseEntity deleteCourseById (@PathVariable(value = "courseId") int courseId) {
         Course course = courseService.findCourseById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));

@@ -199,7 +199,7 @@
                     })
                 }
 
-                return childrenValid && this.validQuestionTitle && this.validVideoUrl && this.validNumQuestions;
+                return childrenValid && this.validQuestionTitle && this.validVideoUrl;// && this.validNumQuestions;
             }
         },
         computed: {
@@ -297,8 +297,8 @@
                 this.course.wasValidated = true;
 
                 if (this.isValid()) {
-                    fetch(Config.coursesApiUrl, {
-                        method: 'POST',
+                    fetch(Config.coursesApiUrl + (this.course.courseId? '/' + this.course.courseId : ''), {
+                        method: (this.course.courseId? 'PUT' :'POST'),
                         credentials: 'same-origin',
                         headers: {
                             'Accept': 'application/json',

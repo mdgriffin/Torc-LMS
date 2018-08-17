@@ -2,6 +2,7 @@ package torclms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
 import torclms.repository.CourseRepository;
 import torclms.tasks.ProcessTextToSpeech;
@@ -31,6 +32,14 @@ public class CourseServiceImpl implements CourseService {
         executorService.addJob(new ProcessTextToSpeech(savedCourse, courseRepo));
 
         return savedCourse;
+    }
+
+    @Override
+    public Course updateCourse(int courseId, Course course) {
+        Course foundCourse = courseRepo.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        course.setCourseId(foundCourse.getCourseId());
+
+        return courseRepo.save(course);
     }
 
 }

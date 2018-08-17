@@ -19,6 +19,16 @@ var Util = (function () {
         },
         escapeRegExp: function (text) {
             return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        },
+        setCourseUid: function (course) {
+            let self = this;
+            course.stages.forEach(stage => {
+                stage.uid = self.guid();
+                stage.questions.forEach(question => {
+                    question.uid = self.guid();
+                    question.options.forEach(option => option.uid = self.guid());
+                });
+            });
         }
     }
 })();

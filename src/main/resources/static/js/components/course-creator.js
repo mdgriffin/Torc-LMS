@@ -275,8 +275,11 @@
         },
         template: template,
         data: function () {
+            let course = Util.clone(this.courseData);
+            Util.setCourseUid(course);
+            course.wasValidated = false;
             return {
-                course: Util.clone(this.courseData),
+                course: course,
                 currentStageIndex: this.courseData.stages.length > 0? 0 : null
             }
         },

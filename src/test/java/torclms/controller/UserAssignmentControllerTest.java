@@ -89,7 +89,7 @@ public class UserAssignmentControllerTest {
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
 
         UserAssignment assignment = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser).get(0);
-        StageAttemptDto attemptDto = new StageAttemptDto(1L, 1, true);
+        StageAttemptDto attemptDto = new StageAttemptDto(1L, 1, true, 6,6);
 
         given(userService.findUserByEmail(userEmailCaptor.capture())).willReturn(testUser);
         given(userAssignmentService.attemptStage(userArgumentCaptor.capture(), stageAttemptCaptor.capture())).willReturn(assignment);

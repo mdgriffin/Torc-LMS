@@ -133,9 +133,9 @@ return {
         seeResults: function () {
             if (this.allQuestionsAnswered) {
                 if (this.quizPassed) {
-                    this.$emit("quiz-pass");
+                    this.$emit("quiz-pass", this.numRight);
                 } else {
-                    this.$emit("quiz-fail")
+                    this.$emit("quiz-fail", this.numRight)
                 }
                 this.quizCompleted = true;
             }

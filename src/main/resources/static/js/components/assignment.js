@@ -75,16 +75,16 @@ var AssignmentStage = (function () {
             },
             onCountdownComplete: function () {
                 this.fsm.countdownComplete();
-                this.$emit('fail', this.stage.stageId);
+                this.$emit('fail', this.stage.stageId, 0);
             },
-            onQuizPass: function () {
+            onQuizPass: function (numCorrect) {
                 this.fsm.quizPassed();
-                this.$emit('pass', this.stage.stageId);
+                this.$emit('pass', this.stage.stageId, numCorrect);
                 this.stopTimer();
             },
-            onQuizFail: function () {
+            onQuizFail: function (numCorrect) {
                 this.fsm.quizFailed();
-                this.$emit('fail', this.stage.stageId);
+                this.$emit('fail', this.stage.stageId, numCorrect);
                 this.stopTimer();
             },
             rewatchVideo: function () {
@@ -208,11 +208,13 @@ var Assignment = (function () {
             }
         },
         methods: {
-            stageFail: function (stageId) {
-                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, false);
+            stageFail: function (stageId, numCorrect) {
+                let stage = this.course.stages.find(stage => stage.stageId === stageId);
+                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, false, stage.questions.length, numCorrect);
             },
-            stagePass: function (stageId) {
-                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, true);
+            stagePass: function (stageId, numCorrect) {
+                let stage = this.course.stages.find(stage => stage.stageId === stageId);
+                this.notifyStageAttempt(this.assignment.userAssignmentId, stageId, true, stage.questions.length, numCorrect);
             },
             stageComplete: function () {
                 this.currentStageIndex++;
@@ -229,14 +231,20 @@ var Assignment = (function () {
         created: function () {
             var self = this;
 
-            self.notifyStageAttempt = function (userAssignmentId, stageId, completed) {
+            self.notifyStageAttempt = function (userAssignmentId, stageId, completed, numQuestions, numCorrect) {
                 fetch(Config.attemptStageUrl, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({"userAssignmentId": userAssignmentId, "stageId": stageId, "completed": completed})
+                    body: JSON.stringify({
+                        "userAssignmentId": userAssignmentId,
+                        "stageId": stageId,
+                        "completed": completed,
+                        "numQuestions": numQuestions,
+                        "numCorrect": numCorrect
+                    })
                 }).then(response => {
                     if (response.ok) {
                         return response.json();

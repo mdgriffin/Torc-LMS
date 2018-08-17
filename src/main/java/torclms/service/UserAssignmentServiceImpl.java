@@ -53,7 +53,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
             Stage lastStage = stageService.getLastStage(assignment.getAssignedCourse().getStages());
 
-            StageAttempt attempt = new StageAttempt(assignment, stage, stageAttemptDto.isCompleted());
+            StageAttempt attempt = new StageAttempt(assignment, stage, stageAttemptDto.isCompleted(), stageAttemptDto.getNumQuestions(), stageAttemptDto.getNumCorrect());
             attempt.setDateAttempted(new Date());
 
             assignment.getStageAttempts().add(attempt);

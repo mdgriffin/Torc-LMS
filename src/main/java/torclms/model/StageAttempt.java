@@ -31,6 +31,12 @@ public class StageAttempt {
     @JsonProperty(value="completed")
     private boolean completed;
 
+    @Column(name="num_questions")
+    private int numQuestions;
+
+    @Column(name="num_correct")
+    private int numCorrect;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_assignment_id")
     @JsonBackReference
@@ -42,6 +48,12 @@ public class StageAttempt {
         setUserAssignment(userAssignment);
         setStage(stage);
         setCompleted(completed);
+    }
+
+    public StageAttempt(UserAssignment userAssignment, Stage stage, boolean completed, int numQuestions, int numCorrect) {
+        this(userAssignment, stage, completed);
+        this.numQuestions = numQuestions;
+        this.numCorrect = numCorrect;
     }
 
     @PrePersist
@@ -87,5 +99,21 @@ public class StageAttempt {
 
     public void setUserAssignment(UserAssignment userAssignment) {
         this.userAssignment = userAssignment;
+    }
+
+    public int getNumQuestions() {
+        return numQuestions;
+    }
+
+    public void setNumQuestions(int numQuestions) {
+        this.numQuestions = numQuestions;
+    }
+
+    public int getNumCorrect() {
+        return numCorrect;
+    }
+
+    public void setNumCorrect(int numCorrect) {
+        this.numCorrect = numCorrect;
     }
 }

@@ -78,7 +78,7 @@ public class UserAssignmentServiceTest {
     @Test
     public void whenAttemptingStage_withValidAssignment_attemptedAddedToAssignment () {
         List<UserAssignment> assignmentList = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser);
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true, 6, 6);
         assignmentList.get(0).setAssignedCourse(assignedCourse);
 
         given(userAssignmentRepository.getOne(userAssignmentIdCaptor.capture())).willReturn(assignmentList.get(0));
@@ -101,7 +101,7 @@ public class UserAssignmentServiceTest {
     @Test
     public void whenAttemptingStage_withValidAssignmentAndOneAttemptRemaining_courseLocked () {
         List<UserAssignment> assignmentList = GenerateAssignments.getAssignmentList(NUM_ASSIGNMENTS, testUser);
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, false);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, false, 6, 6);
         assignmentList.get(0).setAssignedCourse(assignedCourse);
         StageAttempt failedAttempt = new StageAttempt(assignmentList.get(0), assignedCourseStage, false);
         failedAttempt.setDateAttempted(new Date());
@@ -130,7 +130,7 @@ public class UserAssignmentServiceTest {
 
     @Test(expected = ResourceNotFoundException.class)
     public void whenAttemptingStage_noAssignmentFound_exceptionThrown () {
-        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true);
+        StageAttemptDto stageAttemptDto = new StageAttemptDto(1L, 1, true, 6, 6);
         List<UserAssignment> emptyUserAssignments = new ArrayList<>();
 
         given(userService.findUserAssignmentsByCourseId(any(Long.class), any(Integer.class))).willReturn(emptyUserAssignments);

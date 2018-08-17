@@ -199,7 +199,7 @@
                     })
                 }
 
-                return childrenValid && this.validQuestionTitle && this.validVideoUrl;// && this.validNumQuestions;
+                return childrenValid && this.validQuestionTitle && this.validVideoUrl && this.validNumQuestions;
             }
         },
         computed: {
@@ -253,7 +253,7 @@
                     <course-creator-stage ref="courseStageEls" v-for="(stage, stageIndex) in stages" v-show="stageIndex === currentStageIndex" :course="course" :stageindex="stageIndex" :key="stage.uid"></course-creator-stage>
                 </div>
                 <div class="courseCreator-actions">
-                    <button @click="saveCourse" class="btn btn-primary">Save</button>
+                    <button @click="saveCourse" class="btn btn-primary">{{isUpdate? 'Update' : 'Save'}}</button>
                     <button @click="clearForm" class="btn btn-secondary">Clear Form</button>
                 </div>
             </div>
@@ -289,6 +289,9 @@
             },
             validCourseTitle: function () {
                 return this.course.title.length > 0;
+            },
+            isUpdate: function () {
+                return this.course.courseId;
             }
         },
         methods: {
@@ -297,8 +300,8 @@
                 this.course.wasValidated = true;
 
                 if (this.isValid()) {
-                    fetch(Config.coursesApiUrl + (this.course.courseId? '/' + this.course.courseId : ''), {
-                        method: (this.course.courseId? 'PUT' :'POST'),
+                    fetch(Config.coursesApiUrl + (self.isUpdate? '/' + self.course.courseId : ''), {
+                        method: (self.isUpdate? 'PUT' :'POST'),
                         credentials: 'same-origin',
                         headers: {
                             'Accept': 'application/json',
@@ -307,8 +310,10 @@
                         body: JSON.stringify(this.course)
                     }).then(response => {
                         if (response.ok) {
-                            self.clearForm()
-                            alert("Course Saved Successfully");
+                            if (!self.isUpdate) {
+                                self.clearForm();
+                            }
+                            alert('Course ' + (self.isUpdate? 'Updated' : 'Saved') + ' Successfully');
                         } else {
                             throw Error(response.statusText);
                         }

@@ -35,10 +35,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course updateCourse(int courseId, Course course) {
-        Course foundCourse = courseRepo.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
-        course.setCourseId(foundCourse.getCourseId());
-
+    public Course updateCourse(Course course) {
         return courseRepo.save(course);
     }
 

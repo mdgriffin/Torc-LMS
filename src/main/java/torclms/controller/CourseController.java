@@ -52,7 +52,7 @@ public class CourseController {
 
     @PutMapping("/courses/{courseId}")
     public Course updateCourse (@RequestBody @Valid Course course) {
-        return courseService.updateCourse(course.getCourseId(), course);
+        return courseService.updateCourse(course);
     }
 
     @DeleteMapping("/courses/{courseId}")

@@ -12,6 +12,9 @@ public interface StageService {
 
     Optional<Stage> getStageById (int stageId);
 
-    Stage getLastStage (List<Stage> stages);
+    Stage getLastStage (Set<Stage> stages);
 
+    Stage getNextStage (Set<Stage> stages, Stage comparisonStage);
+
+    List<Stage> getStagesOrderedByStepOrder (Set<Stage> stages);
 }

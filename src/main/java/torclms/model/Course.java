@@ -45,7 +45,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @JsonManagedReference("courseStages")
     @OrderBy("stepOrder ASC")
-    List<Stage> stages = new ArrayList<>();
+    Set<Stage> stages = new HashSet<>();
 
     @OneToMany(mappedBy="assignedCourse", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
     //@JsonBackReference("courseAssignedUser")
@@ -98,11 +98,11 @@ public class Course implements Serializable {
         this.enabled = enabled;
     }
 
-    public List<Stage> getStages() {
+    public Set<Stage> getStages() {
         return stages;
     }
 
-    public void setStages(List<Stage> stages) {
+    public void setStages(Set<Stage> stages) {
         this.stages = stages;
     }
 

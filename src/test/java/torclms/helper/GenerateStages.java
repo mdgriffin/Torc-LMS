@@ -9,8 +9,8 @@ import java.util.Set;
 
 public class GenerateStages {
 
-    public static List<Stage> getStageList(int numStages) {
-        List<Stage> stages = new ArrayList<>();
+    public static Set<Stage> getStageList(int numStages) {
+        Set<Stage> stages = new HashSet<>();
 
         for (int i = 0; i < numStages; i++) {
             Stage stage = new Stage();

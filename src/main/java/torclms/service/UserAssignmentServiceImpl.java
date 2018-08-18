@@ -10,9 +10,7 @@ import torclms.model.*;
 import torclms.repository.StageAttemptRepository;
 import torclms.repository.UserAssignmentRepository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Math.toIntExact;
 
@@ -63,7 +61,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
             } else if (numAttemptsRemaining(assignment, stageAttemptDto.getStageId()) == 0) {
                 assignment.setStatus(AssignmentStatus.LOCKED);
             } else if (stageAttemptDto.isCompleted()) {
-                Stage nextStage = getNextStage(assignment.getAssignedCourse().getStages(), stage);
+                Stage nextStage = stageService.getNextStage(assignment.getAssignedCourse().getStages(), stage);
                 assignment.setCurrentStageId(nextStage.getStageId());
             }
 
@@ -71,16 +69,6 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         }
 
         return assignment;
-    }
-
-    private Stage getNextStage (List<Stage> stages, Stage comparisonStage) {
-        int stageIndex = stages.indexOf(comparisonStage);
-
-        if (stageIndex < stages.size() - 1) {
-            return stages.get(stageIndex + 1);
-        }
-
-        return comparisonStage;
     }
 
     @Override

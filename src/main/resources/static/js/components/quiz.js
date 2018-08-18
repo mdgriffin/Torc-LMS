@@ -18,9 +18,17 @@ var template = `
                     <p>Right Answer!</p>
                 </div>
                 <div v-for="option, index in question.options" class="quiz-question-option">
-                    <label v-if="multipleChoice"><input type="checkbox" :value="index" :name="\'quiz_option\' + uniqueFieldId" v-model="selectedOptions" :disabled="questionAnswered"/> {{option.text}}</label>
-                    <label v-else><input type="radio" :value="index" :name="\'quiz_option\' + uniqueFieldId" v-model="selectedOptions" :disabled="questionAnswered"/> {{option.text}}</label>
-                    <audio-player v-if="option.textAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + option.textAudio"></audio-player>
+                    <label v-if="multipleChoice">
+                        <input type="checkbox" :value="index" :name="\'quiz_option\' + uniqueFieldId" v-model="selectedOptions" :disabled="questionAnswered"/>
+                        {{option.text}}
+                        <audio-player v-if="option.textAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + option.textAudio"></audio-player>
+                    </label>
+                    <label v-else>
+                        <input type="radio" :value="index" :name="\'quiz_option\' + uniqueFieldId" v-model="selectedOptions" :disabled="questionAnswered"/>
+                        {{option.text}}
+                        <audio-player v-if="option.textAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + option.textAudio"></audio-player>
+                    </label>
+                    
                 </div>
                 <div class="quiz-question-explanation" v-if="questionAnswered">
                     <h4>Explanation:</h4>
@@ -28,9 +36,11 @@ var template = `
                     <audio-player v-if="question.explanationAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + question.explanationAudio"></audio-player>
                 </div>
             </div>
-            <button @click="submitAnswer" :disabled="!canSubmit">Submit</button>
-            <button @click="nextQuestion" v-if="canClickNext">Next Question</button>
-            <button @click="seeResults" v-if="allQuestionsAnswered">Finish</button>
+            <div class="btn-group">
+                <button class="btn btn-outline-primary" @click="submitAnswer" :disabled="!canSubmit">Submit</button>
+                <button class="btn btn-outline-secondary" @click="nextQuestion" v-if="canClickNext">Next Question</button>
+                <button class="btn btn-outline-secondary" @click="seeResults" v-if="allQuestionsAnswered">Finish</button>
+            </div>
         </div>
         <div class="quiz-overview" v-if="quizCompleted">
             <h3>Knowledge Check {{ quizPassed? 'Passed' : 'Failed' }}</h3>

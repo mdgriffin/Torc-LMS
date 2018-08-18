@@ -6122,6 +6122,12 @@ a.text-dark:hover, a.text-dark:focus {
 .footer {
   text-align: center; }
 
+.s-trainee {
+  background: url("../images/funky-lines.png"); }
+
+.traineeNav h3 {
+  text-align: center; }
+
 /**
     ====================
     ****** Global ******

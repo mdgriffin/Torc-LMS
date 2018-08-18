@@ -2,15 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
-<body>
-
-    <th:block th:include="fragments/trainee-menu :: navbar"></th:block>
+<body class="s-trainee">
 
     <div class="container">
 
         <div class="section">
 
-            <div id="traineeHomeApp"></div><!-- #traineeHomeApp -->
+            <div class="card">
+
+                <th:block th:include="fragments/trainee-menu :: navbar"></th:block>
+
+                <div id="traineeHomeApp"></div><!-- #traineeHomeApp -->
+
+            </div>
 
         </div>
 

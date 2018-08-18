@@ -1,66 +1,64 @@
 var TraineeHomeApp = (function () {
 
     var template = `
-        <article class="card">
-            <div class="card-body">
-        
-                <loading-status v-if="assignmentsLoading"></loading-status>
-        
-                <div class="userAssignments" v-if="!assignmentsLoading">
+        <div class="card-body">
+    
+            <loading-status v-if="assignmentsLoading"></loading-status>
+    
+            <div class="userAssignments" v-if="!assignmentsLoading">
+            
+                <div class="userAssignments-section">
+            
+                    <h3>Assigned Course</h3>
+                    <div v-for="(assignment, assignmentIndex) in incompleteAssignments" class="userAssignments-single">
+                        <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
+                        <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
+                        <div class="userAssignments-single-body">
+                            <h4>{{ assignment.assignedCourse.title }}</h4>
+                            <h4>Deadline: {{ assignment.deadline | dateFormat }}</h4>
+                            <p>{{ getPercentageCompleted(assignmentIndex)}} completed</p>
+                            <a :href="'assignment/' + assignment.userAssignmentId">{{getCurrentStageIndex(assignmentIndex) === 0 ? 'Start' : 'Resume'}} Course</a>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" v-if="incompleteAssignments.length === 0">You are currently not assigned any course</div>
+
+                </div>
                 
-                    <div class="userAssignments-section">
+                <div class="userAssignments-section">
                 
-                        <h3>Assigned Course</h3>
-                        <div v-for="(assignment, assignmentIndex) in incompleteAssignments" class="userAssignments-single">
-                            <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
-                            <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
-                            <div class="userAssignments-single-body">
-                                <h4>{{ assignment.assignedCourse.title }}</h4>
-                                <h4>Deadline: {{ assignment.deadline | dateFormat }}</h4>
-                                <p>{{ getPercentageCompleted(assignmentIndex)}} completed</p>
-                                <a :href="'assignment/' + assignment.userAssignmentId">{{getCurrentStageIndex(assignmentIndex) === 0 ? 'Start' : 'Resume'}} Course</a>
-                            </div>
+                    <h3>Completed Assignments</h3>
+                
+                    <div v-for="(assignment, assignmentIndex) in completedAssignments" class="userAssignments-single">
+                        <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
+                        <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
+                        <div class="userAssignments-single-body">
+                            <h4>{{ assignment.assignedCourse.title }}</h4>
                         </div>
-
-                        <div class="alert alert-info" v-if="incompleteAssignments.length === 0">You are currently not assigned any course</div>
-
                     </div>
                     
-                    <div class="userAssignments-section">
-                    
-                        <h3>Completed Assignments</h3>
-                    
-                        <div v-for="(assignment, assignmentIndex) in completedAssignments" class="userAssignments-single">
-                            <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
-                            <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
-                            <div class="userAssignments-single-body">
-                                <h4>{{ assignment.assignedCourse.title }}</h4>
-                            </div>
-                        </div>
-                        
-                        <div class="alert alert-info" v-if="completedAssignments.length === 0">You have not completed any courses</div>
-                    
-                    </div>
-                    
-                    <div class="userAssignments-section" v-if="lockedAssignments.length > 0">
-                    
-                         <h3>Locked Assignments</h3>
-                        
-                        <div v-for="(assignment, assignmentIndex) in lockedAssignments" class="userAssignments-single">
-                            <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
-                            <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
-                            <div class="userAssignments-single-body">
-                                <h3>{{ assignment.assignedCourse.title }}</h3>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div class="alert alert-info" v-if="completedAssignments.length === 0">You have not completed any courses</div>
                 
                 </div>
                 
+                <div class="userAssignments-section" v-if="lockedAssignments.length > 0">
                 
+                     <h3>Locked Assignments</h3>
+                    
+                    <div v-for="(assignment, assignmentIndex) in lockedAssignments" class="userAssignments-single">
+                        <img v-if="assignment.assignedCourse.imageName !== null" :src="cdnUrl + '/images/' + assignment.assignedCourse.imageName" alt="">
+                        <img v-else :src="contextRoot + '/images/placeholder.jpeg'" alt="">
+                        <div class="userAssignments-single-body">
+                            <h3>{{ assignment.assignedCourse.title }}</h3>
+                        </div>
+                    </div>
+
+                </div>
+            
             </div>
-        </article>
+            
+            
+        </div>
     `
 
     return {

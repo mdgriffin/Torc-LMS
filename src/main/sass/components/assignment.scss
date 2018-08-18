@@ -1,0 +1,16 @@
+.assignment-title {
+  background: $gray-200;
+  padding: 0 $card-spacer-x;
+  line-height: 2em;
+}
+
+.assignment-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assignment-stage-countdown {
+  text-align: right;
+  font-weight: bold;
+}

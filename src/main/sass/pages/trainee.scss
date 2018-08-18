@@ -1,7 +1,63 @@
-.s-trainee {
-  background: url('../images/funky-lines.png');
+.traineeNav {
+  background-color: rgba(57,39,121,.8);
+  background-size: cover;
+  position: relative;
+}
+
+.traineeNav:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("../images/classroom_bg.jpeg") center center no-repeat fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.1;
+  z-index: 0;
 }
 
 .traineeNav h3 {
   text-align: center;
+  color: #fff;
+  z-index: 1;
+  position: relative;
+}
+
+.traineeNav .nav {
+  z-index: 1;
+  position: relative;
+}
+
+.traineeNav .nav-link {
+  color: #fff;
+}
+
+.userAssignments-section:first-child {
+  margin-top: 0;
+}
+
+.userAssignments-section {
+  margin-top: 2em;
+}
+
+.userAssignments-single {
+  border: 1px solid $gray-200;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 2em;
+}
+
+.userAssignments-single img {
+  display: block;
+  width: 200px;
+}
+
+.userAssignments-single a {
+  font-size: 1.4em;
+}
+
+.userAssignments-single-body {
+  padding: 1em;
+  flex-grow: 1;
 }

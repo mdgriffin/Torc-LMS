@@ -19,11 +19,13 @@ var AssignmentStage = (function () {
 
     var template = `
         <div class="assignment-stage">
-            <p>Time Remaining: {{timeRemaining | formatTime}}</p>
-            <h3>
-                {{stage.title}}
-                <audio-player v-if="stage.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + stage.titleAudio"></audio-player>
-            </h3>
+            <div class="assignment-stage-header">
+                <h3 class="assignment-stage-title">
+                    {{stage.title}}
+                    <audio-player v-if="stage.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + stage.titleAudio"></audio-player>
+                </h3>
+                <p class="assignment-stage-countdown">Time Remaining: {{timeRemaining | formatTime}}</p>
+            </div>
             <div class="assignment-stage-video" v-if="fsm.state === 'video'">
                 <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
@@ -136,27 +138,26 @@ var Assignment = (function () {
     const STAGE_DURATION = 1000 * 60 * 15;
 
     var template = `
-        <div class="course">
-            <h2 class="pageTitle">
+        <div class="assignment ">
+            <h2 class="assignment-title">
                 {{course.title}}
                 <audio-player v-if="course.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + course.titleAudio"></audio-player>
             </h2>
             
-            <div class="card">
-                <div class="card-body">
-                    <div class="assignment-stageContainer" v-if="courseIncomplete">
-                        <p class="assignment-progressBar">Stage {{ currentStageIndex + 1}} of {{numStages}} <i class="fas fa-heart" v-for="i in numAttemptsRemaining"></i></p>
-                        <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
-                    </div>
-
-                    <div class="assignment-completed" v-if="courseCompleted">
-                        <h3>Congratulations! You Have Completed This Course</h3>
-                    </div>
-
-                    <div class="assignment-locked" v-if="courseLocked">
-                        <h3>Course Locked: Too Many Failed Attempts</h3>
-                    </div>
+            <div class="card-body">
+                <div class="assignment-stageContainer" v-if="courseIncomplete">
+                    
+                    <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                 </div>
+    
+                <div class="assignment-completed" v-if="courseCompleted">
+                    <h3>Congratulations! You Have Completed This Course</h3>
+                </div>
+    
+                <div class="assignment-locked" v-if="courseLocked">
+                    <h3>Course Locked: Too Many Failed Attempts</h3>
+                </div>
+            
             </div>
         </div>
     `

@@ -1,6 +1,6 @@
 (function () {
 
-    const BLANK_STAGE = {stageid: null, title: '', videoUrl: '', questions: []};
+    const BLANK_STAGE = {stageid: null, title: '', videoUrl: '', transcript: '', questions: []};
     const BLANK_QUESTION = {questionid: null, question: '', explanation: '', options: []};
     const BLANK_OPTION = {optionid: null, text: '', isCorrect: false};
 
@@ -146,6 +146,10 @@
                 <input type="text" v-model="videoUrl" :class="[\'form-control\', {\'is-invalid\': wasValidated && !validVideoUrl}]" />
                 <div class="invalid-feedback">Video URL is required</div>
             </div>
+            <div class="form-group">
+                <label>Video Transcript</label>
+                <textarea v-model="transcript" class="form-control" />
+            </div>
             <div class="courseCreator-questions">
                 <ul class="nav nav-tabs">
                     <li class="nav-item" v-for="(question, questionIndex) in questions">
@@ -165,6 +169,7 @@
             return {
                 title: this.course.stages[this.stageindex].title,
                 videoUrl: this.course.stages[this.stageindex].videoUrl,
+                transcript: this.course.stages[this.stageindex].transcript,
                 currentQuestionIndex: this.course.stages[this.stageindex].questions.length > 0? 0 : null
             };
         },
@@ -226,6 +231,9 @@
             },
             videoUrl: function (newVal) {
                 this.course.stages[this.stageindex].videoUrl = newVal;
+            },
+            transcript: function (newVal) {
+                this.course.stages[this.stageindex].transcript = newVal;
             }
         }
     });

@@ -31,6 +31,9 @@ public class Stage implements Serializable {
     @Column(name="step_order")
     private int stepOrder;
 
+    @Column(name="transcript", columnDefinition = "LONGTEXT")
+    private String transcript;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="course_id", nullable=false)
     @JsonBackReference("courseStages")
@@ -81,6 +84,14 @@ public class Stage implements Serializable {
 
     public void setStepOrder(int stepOrder) {
         this.stepOrder = stepOrder;
+    }
+
+    public String getTranscript() {
+        return transcript;
+    }
+
+    public void setTranscript(String transcript) {
+        this.transcript = transcript;
     }
 
     public Course getCourse() {

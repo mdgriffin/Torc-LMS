@@ -29,6 +29,10 @@ var AssignmentStage = (function () {
             <div class="assignment-stage-video" v-if="fsm.state === 'video'">
                 <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>
                 <!--<video-player :video-url="'/teamtorc-lms/videos/video3.mp4'" v-on:play="onVideoPlay" v-on:end="onVideoEnded"></video-player>-->
+                <div class="assignment-stage-transcript" v-if="stage.transcript">
+                    <h3>Transcript</h3>
+                    <span v-html="transcriptAsHtml"></span>
+                </div>
             </div>
             <div class="assignment-stage-quizProceed" v-if="fsm.state === 'confirmQuiz'">
                 <button class="btn btn-primary btn-lg" v-on:click="confirmQuizProceed">Proceed to Knowledge Check</button>
@@ -55,6 +59,12 @@ var AssignmentStage = (function () {
             return {
                 timeRemaining: this.stageDuration,
                 fsm: AssignmentStageFSM()
+            }
+        },
+        computed: {
+            transcriptAsHtml: function () {
+                const converter = new showdown.Converter();
+                return converter.makeHtml(this.stage.transcript);
             }
         },
         filters: {
@@ -146,7 +156,6 @@ var Assignment = (function () {
             
             <div class="card-body">
                 <div class="assignment-stageContainer" v-if="courseIncomplete">
-                    
                     <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                 </div>
     

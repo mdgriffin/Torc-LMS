@@ -6285,6 +6285,14 @@ span.required {
   outline: none; }
 
 /* === Quiz Component === */
+.quiz {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
 .quiz-question-wrongAnswer p,
 .quiz-question-correctAnswer p {
   margin: 0; }
@@ -6533,8 +6541,7 @@ span.required {
   justify-content: flex-end;
   align-items: center; }
 
-.itemList-single-actions button,
-.itemList-single-actions a{
+.itemList-single-actions button {
   margin-left: 5px; }
 
 /* Trainee Home */

@@ -5,12 +5,12 @@ const PASS_PERCENTAGE = 0.7;
 var template = `
     <div class="quiz">
         <div class="quiz-questions" v-if="!quizCompleted">
-            <h2>Knowledge Check</h2>
+            <h2 class="quiz-title">Knowledge Check</h2>
             <div class="quiz-question">
-                <h3>
+                <h4>
                     {{question.question}}
                     <audio-player v-if="question.questionAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + question.questionAudio"></audio-player>
-                </h3>
+                </h4>
                 <div class="quiz-question-wrongAnswer" v-if="questionAnswered && !answerCorrect">
                     <p>Wrong Answer!</p>
                 </div>

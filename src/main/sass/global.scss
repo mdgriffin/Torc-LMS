@@ -218,48 +218,6 @@ span.required {
   outline: none;
 }
 
-/* === Quiz Component === */
-
-.quiz {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-.quiz-question-wrongAnswer p,
-.quiz-question-correctAnswer p {
-  margin: 0;
-}
-
-.quiz-question-wrongAnswer,
-.quiz-question-correctAnswer {
-  padding: 5px 10px;
-  color: #fff;
-  margin: 10px 0;
-}
-
-.quiz-question-wrongAnswer {
-  background: $red;
-}
-
-.quiz-question-correctAnswer {
-  background: $green;
-  color: #fff;
-}
-
-.quiz-question-explanation {
-  background: #eaeaea;
-  padding: 5px 10px;
-  margin: 10px 0;
-}
-
-.quiz-question-explanation p {
-  margin: 0;
-}
-
 /* Stage Selector */
 
 .stage-selector-section h3 .fa-check {

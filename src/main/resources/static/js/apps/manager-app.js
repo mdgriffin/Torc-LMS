@@ -93,7 +93,7 @@ const LockedAssignments = (function () {
             })
             .catch(error => {
                 console.error(error);
-                alert("An error has occured, please try again");
+                alert("An error has occurred, please try again");
                 self.lockedUsersLoading = false;
             });
         }
@@ -192,7 +192,7 @@ const UserPage = (function () {
                 .catch(err => {
                     console.error(err);
                     this.traineeUsersLoading = false;
-                    alert('An error has occured, please reload and try again');
+                    alert('An error has occurred, please reload and try again');
                 })
         },
         store: store
@@ -252,7 +252,7 @@ const UserSinglePage = (function () {
                 .catch(err => {
                     console.error(err);
                     this.traineeLoading = false;
-                    alert('An error has occured, please reload and try again');
+                    alert('An error has occurred, please reload and try again');
                 });
         },
         store: store
@@ -305,7 +305,7 @@ const AssignCoursePage = (function () {
                 .catch(err => {
                     console.error(err);
                     this.traineeUsersLoading = false;
-                    alert('An error has occured, please reload and try again');
+                    alert('An error has occurred, please reload and try again');
                 });
 
             this.$store.dispatch('retrieveCourses')
@@ -315,7 +315,7 @@ const AssignCoursePage = (function () {
                 .catch(err => {
                     console.error(err);
                     this.coursesLoading = false;
-                    alert('An error has occured, please reload and try again');
+                    alert('An error has occurred, please reload and try again');
                 })
         },
         store: store

@@ -106,12 +106,26 @@ const ManagerStats = (function () {
     const  template = `
         <div class="managerStats container">
             <div class="section">
-                <h2 class="pageTitle">Statistics</h2>
-                <div class="card">
-                    <div class="card-body"></div>
-                        <bar-chart :chart-data="chartData"></bar-chart>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <h4 class="card-header">User Assignments By Status</h4>
+                            <div class="card-body">
+                                <loading-status v-if="traineeUsersLoading"></loading-status>
+                                <pie-chart v-if="!traineeUsersLoading" :chart-data="numAssignmentsByStatus"></pie-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <h4 class="card-header">Some Stats</h4>
+                            <div class="card-body">
+                                <bar-chart :chart-data="chartData"></bar-chart>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
         </div>
     `
 
@@ -135,12 +149,43 @@ const ManagerStats = (function () {
                             ],
                         }
                     ]
+                },
+                traineeUsersLoading: true
+            }
+        },
+        computed: {
+            traineeUsers: function () {
+                return this.$store.state.traineeUsers;
+            },
+            numAssignmentsByStatus: function () {
+                const stats = Util.getNumAssignmentsByStatus(this.traineeUsers);
+
+                return {
+                    datasets: [{
+                        backgroundColor: ['#cc0d00', '#1676cc', '#4fcc00'],
+                        data: [stats['LOCKED'], stats['COMPLETED'], stats['INCOMPLETE']]
+                    }],
+                    labels: ['Locked', 'Completed', 'Active']
                 }
             }
         },
         components: {
-            'bar-chart': BarChart
-        }
+            'bar-chart': BarChart,
+            'pie-chart': PieChart,
+            'loading-status': LoadingStatus
+        },
+        created: function () {
+            this.$store.dispatch('retrieveTraineeUsers')
+                .then(() => {
+                    this.traineeUsersLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.traineeUsersLoading = false;
+                    alert('An error has occurred, please reload and try again');
+                })
+        },
+        store
     }
 
 })();
@@ -176,7 +221,6 @@ const UserPage = (function () {
         },
         computed: {
             traineeUsers: function () {
-                console.log(this.$store.state.traineeUsers);
                 return this.$store.state.traineeUsers;
             }
         },
@@ -325,7 +369,7 @@ const AssignCoursePage = (function () {
 const ManagerApp = (function () {
 
     const routes = [
-        { path: '/', redirect: '/locked' },
+        { path: '/', redirect: '/statistics' },
         { path: '/locked', component: LockedAssignments },
         { path: '/users', component: UserPage },
         { path: '/users/:id', component: UserSinglePage },

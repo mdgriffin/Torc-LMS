@@ -29,6 +29,21 @@ var Util = (function () {
                     question.options.forEach(option => option.uid = self.guid());
                 });
             });
+        },
+        getNumAssignmentsByStatus (users) {
+            let result = {
+                'LOCEKD': 0,
+                'INCOMPLETE': 0,
+                'COMPLETED': 0
+            }
+
+            users.forEach(user => {
+                user.assignedCourses.forEach(assignment => {
+                    result[assignment.status]++;
+                })
+            })
+
+            return result;
         }
     }
 })();

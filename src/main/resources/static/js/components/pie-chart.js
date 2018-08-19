@@ -11,11 +11,5 @@ var PieChart = (function () {
         mounted () {
             this.renderChart(this.chartData, this.options)
         },
-        watch: {
-            chartData: function (newVal) {
-                console.log('Chart Data changing: ');
-                console.log(newVal);
-            }
-        }
     }
 })();

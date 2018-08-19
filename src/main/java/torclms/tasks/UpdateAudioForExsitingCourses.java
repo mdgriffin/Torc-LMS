@@ -3,7 +3,6 @@ package torclms.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import torclms.model.Course;
 import torclms.repository.CourseRepository;
@@ -27,7 +26,7 @@ public class UpdateAudioForExsitingCourses {
         ExecutorService executor = ExecutorService.getInstance();
 
         courses.forEach(course -> {
-            executor.addJob(new ProcessTextToSpeech(course, courseRepository));
+            executor.addJob(new ProcessCourseTextToSpeech(course, courseRepository));
         });
     }
 }

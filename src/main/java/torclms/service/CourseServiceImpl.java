@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import torclms.exception.ResourceNotFoundException;
 import torclms.model.Course;
 import torclms.repository.CourseRepository;
-import torclms.tasks.ProcessTextToSpeech;
+import torclms.tasks.ProcessCourseTextToSpeech;
 import torclms.tasks.ExecutorService;
+import torclms.tasks.ProcessUpdateCourseTextToSpeech;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +30,18 @@ public class CourseServiceImpl implements CourseService {
         Course savedCourse = courseRepo.save(course);
 
         ExecutorService executorService = ExecutorService.getInstance();
-        executorService.addJob(new ProcessTextToSpeech(savedCourse, courseRepo));
+        executorService.addJob(new ProcessCourseTextToSpeech(savedCourse, courseRepo));
 
         return savedCourse;
     }
 
     @Override
     public Course updateCourse(Course course) {
+        Course existingCourse = courseRepo.findById(course.getCourseId()).orElseThrow(() -> new ResourceNotFoundException("", "", course.getCourseId()));
+
+        ExecutorService executorService = ExecutorService.getInstance();
+        executorService.addJob(new ProcessUpdateCourseTextToSpeech(course, existingCourse, courseRepo));
+
         return courseRepo.save(course);
     }
 

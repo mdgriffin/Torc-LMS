@@ -1,9 +1,13 @@
 var store = new Vuex.Store({
     state: {
+        users: [],
         traineeUsers: [],
         courses: []
     },
     mutations: {
+        setUsers: function (state, users) {
+            state.users = users;
+        },
         setTraineeUsers: function (state, traineeUsers) {
             state.traineeUsers = traineeUsers
         },
@@ -12,6 +16,9 @@ var store = new Vuex.Store({
         }
     },
     getters: {
+        users: function (state) {
+            return state.users;
+        },
         getTrainee: function (state) {
             return function (userId) {
                 let user = state.traineeUsers.filter(user => user.userId === userId);
@@ -26,6 +33,16 @@ var store = new Vuex.Store({
         }
     },
     actions: {
+        retrieveUsers: function (context) {
+            if (context.state.users.length === 0) {
+                return UserApi.getAllUsers()
+                    .then(function (users) {
+                        context.commit('setUsers', users)
+                    });
+            } else {
+                return Promise.resolve();
+            }
+        },
         retrieveTraineeUsers: function (context) {
             if (context.state.traineeUsers.length === 0) {
                 return UserApi.getTraineeUsers()
@@ -35,7 +52,6 @@ var store = new Vuex.Store({
             } else {
                 return Promise.resolve();
             }
-
         },
         retrieveCourses: function (context) {
             return fetch(Config.coursesApiUrl, {

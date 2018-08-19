@@ -21,9 +21,6 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     private UserAssignmentRepository userAssignmentRepository;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private  StageService stageService;
 
     private static final int NUM_STAGE_ATTEMPTS = 2;

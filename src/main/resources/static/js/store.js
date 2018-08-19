@@ -2,7 +2,8 @@ var store = new Vuex.Store({
     state: {
         users: [],
         traineeUsers: [],
-        courses: []
+        courses: [],
+        assignments: []
     },
     mutations: {
         setUsers: function (state, users) {
@@ -13,6 +14,9 @@ var store = new Vuex.Store({
         },
         setCourses: function (state, courses) {
             state.courses = courses;
+        },
+        setAssignments: function (state, assignments) {
+            state.assignments = assignments;
         }
     },
     getters: {
@@ -30,6 +34,9 @@ var store = new Vuex.Store({
         },
         courses: function (state) {
             return state.courses;
+        },
+        assignments: function (state) {
+            return state.assignments;
         }
     },
     actions: {
@@ -63,9 +70,19 @@ var store = new Vuex.Store({
                     throw Error(response.statusText);
                 }
             })
-                .then(courses => {
-                    context.commit('setCourses', courses)
-                });
+            .then(courses => {
+                context.commit('setCourses', courses)
+            });
+        },
+        retrieveAssignments: function (context) {
+            if (context.state.assignments.length === 0) {
+                return AssignmentsApi.getAssignments()
+                    .then(function (assignments) {
+                        context.commit('setAssignments', assignments)
+                    });
+            } else {
+                return Promise.resolve();
+            }
         }
     }
 });

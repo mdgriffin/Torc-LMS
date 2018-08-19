@@ -18,6 +18,8 @@ public interface UserAssignmentService {
 
     int numAttemptsRemaining(UserAssignment assignment, int stageId);
 
+    List<UserAssignment> getAllAssignments();
+
     List<UserAssignment> getAssignmentsByStatus (AssignmentStatus assignmentStatus);
 
     UserAssignment unlockAssignment (Long assignmentId);

@@ -113,4 +113,8 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         return expiredAssignments.size();
     }
 
+    public List<UserAssignment> getAllAssignments() {
+        return userAssignmentRepository.findAll();
+    }
+
 }

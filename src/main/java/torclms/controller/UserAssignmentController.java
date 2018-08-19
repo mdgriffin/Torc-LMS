@@ -36,6 +36,11 @@ public class UserAssignmentController {
     @Autowired
     private UserAssignmentService userAssignmentService;
 
+    @GetMapping("/assignments")
+    public List<UserAssignment> getAllAssignments () {
+        return userAssignmentService.getAllAssignments();
+    }
+
     @GetMapping("/assignments/{assignmentId}")
     public UserAssignment getAssignment (@PathVariable(value = "assignmentId") Long assignmentId) {
         return userAssignmentService.getAssignmentById(assignmentId).orElseThrow(() -> new ResourceNotFoundException("UserAssignment", "id", assignmentId));

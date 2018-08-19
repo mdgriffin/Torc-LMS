@@ -118,9 +118,17 @@ const ManagerStats = (function () {
                     </div>
                     <div class="col-sm-6">
                         <div class="card">
-                            <h4 class="card-header">Some Stats</h4>
+                            <h4 class="card-header">Recent Stage Completions</h4>
                             <div class="card-body">
-                                <bar-chart :chart-data="chartData"></bar-chart>
+                                
+                                <loading-status v-if="assignmentsLoading"></loading-status>
+                                <p>Num Stage Attempts: {{ stageAttempts.length }}</p>
+                                <div v-for="attempt in stageAttempts">
+                                    <h4>{{ attempt.course.title }}</h4>
+                                    <p>{{ attempt.completed }}</p>
+                                    <p>Num Questions: {{ attempt.numQuestions }}</p>
+                                    <p>Num Correct: {{ attempt.numCorrect }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,12 +158,16 @@ const ManagerStats = (function () {
                         }
                     ]
                 },
-                traineeUsersLoading: true
+                traineeUsersLoading: true,
+                assignmentsLoading: true
             }
         },
         computed: {
             traineeUsers: function () {
                 return this.$store.state.traineeUsers;
+            },
+            stageAttempts: function () {
+                return Util.getStageAttemptsWithCourseInfo(this.$store.state.assignments);
             },
             numAssignmentsByStatus: function () {
                 const stats = Util.getNumAssignmentsByStatus(this.traineeUsers);
@@ -182,6 +194,16 @@ const ManagerStats = (function () {
                 .catch(err => {
                     console.error(err);
                     this.traineeUsersLoading = false;
+                    alert('An error has occurred, please reload and try again');
+                });
+
+            this.$store.dispatch('retrieveAssignments')
+                .then(() => {
+                    this.assignmentsLoading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.assignmentsLoading = false;
                     alert('An error has occurred, please reload and try again');
                 })
         },

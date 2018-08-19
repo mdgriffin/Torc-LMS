@@ -10,19 +10,20 @@
 
         <div class="section">
 
-            <article class="card">
-                    <div class="card-header">
-                        <p th:utext="${userName}"></p>
-                    </div>
-                    <div class="card-body">
-                        <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
-                    </div>
-            </article>
+            <div id="adminHomeApp"></div>
 
         </div>
 
     </div>
 
     <div th:replace="~{fragments/footer :: content}"></div>
+
+    <th:block th:include="fragments/footer :: vueResources"></th:block>
+
+    <script th:src="@{/vendor/chart.js}"></script>
+    <script th:src="@{/vendor/vue-charts/vue-chartjs.min.js}"></script>
+    <script th:src="@{/js/components/loading-status.js}"></script>
+    <script th:src="@{/js/components/bar-chart.js}"></script>
+    <script th:src="@{/js/apps/admin-home.js}"></script>
 </body>
 </html>

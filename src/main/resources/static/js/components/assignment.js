@@ -44,6 +44,11 @@ var AssignmentViewStage = (function () {
                 return converter.makeHtml(this.stage.transcript);
             }
         },
+        methods: {
+            canLeave: function () {
+                return true;
+            }
+        },
         components: {
             'audio-player': AudioPlayer,
             'video-player': VideoPlayer,
@@ -93,8 +98,9 @@ var AssignmentStage = (function () {
         props: ['courseId', 'stage', 'stageDuration', 'lastStage'],
         template: template,
         data: function () {
+            let prevCountdown = this.stage.countdownRemaining;
             return {
-                timeRemaining: this.stageDuration,
+                timeRemaining: prevCountdown || this.stageDuration,
                 fsm: AssignmentStageFSM()
             }
         },
@@ -154,6 +160,7 @@ var AssignmentStage = (function () {
                 if (!this._timer) {
                     this._timer = setInterval((function () {
                         this.timeRemaining -= 1000;
+                        this.stage.countdownRemaining = this.timeRemaining;
 
                         if (this.timeRemaining <= 0) {
                             this.stopTimer();
@@ -165,6 +172,9 @@ var AssignmentStage = (function () {
             stopTimer: function () {
                 clearInterval(this._timer);
                 this._timer = null;
+            },
+            canLeave: function () {
+                return  this.fsm.state === 'video';
             }
         },
         components: {
@@ -192,7 +202,7 @@ var Assignment = (function () {
             
             <div class="card-body">
                 
-                <div class="assignment-stageList">
+                <div class="assignment-stageList" v-click-outside="closeStageDropdown">
                     <button v-on:click="toggleStageDropdown" class="btn btn-secondary">
                         View Stages
                         <i :class="['far', 'fa-caret-square-' + (stageDropdownOpen? 'up' : 'down')]"></i>
@@ -210,8 +220,8 @@ var Assignment = (function () {
                 
                 <div class="assignment-stageContainer" v-if="courseIncomplete">
                     <div v-for="(stage, stageIndex) in course.stages">
-                        <assignment-view-stage v-if="stageIndex === currentStageIndex && stageIsComplete(stageIndex)" :key="stageIndex +'v'" :stage="stage"></assignment-view-stage>
-                        <assignment-stage v-if="stageIndex === currentStageIndex  && !stageIsComplete(stageIndex)" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
+                        <assignment-view-stage ref="stageEl"  v-if="stageIndex === currentStageIndex && stageIsComplete(stageIndex)" :key="stageIndex +'v'" :stage="stage"></assignment-view-stage>
+                        <assignment-stage ref="stageEl" v-if="stageIndex === currentStageIndex  && !stageIsComplete(stageIndex)" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
                     </div>
                     
                 </div>
@@ -293,8 +303,21 @@ var Assignment = (function () {
             toggleStageDropdown: function () {
                 this.stageDropdownOpen = !this.stageDropdownOpen;
             },
+            closeStageDropdown: function () {
+                this.stageDropdownOpen = false;
+            },
             switchStage: function (stageIndex) {
-                this.currentStageIndex = stageIndex;
+                if (stageIndex === this.currentStageIndex) return;
+
+                var el = this.$refs.stageEl[0];
+
+                if (this.canEnter(stageIndex) && el.canLeave()) {
+                    this.currentStageIndex = stageIndex;
+                }
+
+                if (!el.canLeave()) {
+                    alert("You can only change stage while the video is playing");
+                }
             },
             stageIsComplete: function (stageIndex) {
                 let passedStageIndex = -1;
@@ -306,6 +329,17 @@ var Assignment = (function () {
                 });
 
                 return stageIndex < passedStageIndex;
+            },
+            canEnter: function (stageIndex) {
+                let passedStageIndex = -1;
+                let currentStageId = this.assignment.currentStageId;
+                this.course.stages.forEach((stage, index) => {
+                    if (stage.stageId === currentStageId) {
+                        passedStageIndex = index;
+                    }
+                });
+
+                return stageIndex <= passedStageIndex;
             }
         },
         components: {

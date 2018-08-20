@@ -27,7 +27,7 @@ public class ProcessUpdateCourseTextToSpeech extends  TextToSpeechService implem
 
     public ProcessUpdateCourseTextToSpeech(Course course, Course existingCourse, CourseRepository courseRepository) {
         this.course = course;
-        this.existingCourse = course;
+        this.existingCourse = existingCourse;
         this.courseRepository = courseRepository;
     }
 

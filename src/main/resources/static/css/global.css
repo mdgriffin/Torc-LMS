@@ -6628,4 +6628,25 @@ span.required {
 .lockedUsers-assignment-unlocking {
   opacity: 0.4; }
 
+/* Stage Attempts Listing */
+.stageAttemptList-single {
+  padding: 1em; }
+
+.stageAttemptList .fa-check-circle {
+  color: #28a745; }
+
+.stageAttemptList .fa-times-circle {
+  color: #dc3545; }
+
+.infoTable th,
+.infoTable td {
+  padding: 10px; }
+
+.infoTable td {
+  border-top: 1px solid #e9ecef;
+  text-align: center; }
+
+.infoTable td:first-child {
+  text-align: inherit; }
+
 /*# sourceMappingURL=global.css.map */

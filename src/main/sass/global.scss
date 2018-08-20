@@ -514,3 +514,34 @@ span.required {
 .lockedUsers-assignment-unlocking {
   opacity: 0.4;
 }
+
+
+/* Stage Attempts Listing */
+
+.stageAttemptList-single {
+  padding: 1em;
+}
+
+// .compactList
+
+.stageAttemptList .fa-check-circle {
+  color: $success;
+}
+
+.stageAttemptList .fa-times-circle {
+  color: $danger;
+}
+
+.infoTable th,
+.infoTable td {
+  padding: 10px;
+}
+
+.infoTable td {
+  border-top: 1px solid $gray-200;
+  text-align: center;
+}
+
+.infoTable td:first-child {
+  text-align: inherit;
+}

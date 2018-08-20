@@ -119,15 +119,28 @@ const ManagerStats = (function () {
                     <div class="col-sm-6">
                         <div class="card">
                             <h4 class="card-header">Recent Stage Completions</h4>
-                            <div class="card-body">
-                                <loading-status v-if="stageAttemptsLoading"></loading-status>
-                                <p>Num Stage Attempts: {{ stageAttempts.length }}</p>
-                                <div v-for="attempt in stageAttempts">
-                                    <h4>{{ attempt.course.title }}</h4>
-                                    <p>{{ attempt.completed }}</p>
-                                    <p>Num Questions: {{ attempt.numQuestions }}</p>
-                                    <p>Num Correct: {{ attempt.numCorrect }}</p>
-                                </div>
+                            <div class="card-body" v-if="stageAttemptsLoading">
+                                <loading-status></loading-status>
+                            </div>
+                                <table class="infoTable stageAttemptList" v-if="!stageAttemptsLoading">
+                                    <thead>
+                                        <th>Course Title</th>
+                                        <th>Passed</th>
+                                        <th># Questions</th>
+                                        <th># Correct</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="attempt in stageAttempts">
+                                            <td>{{ attempt.course.title }}</td>
+                                            <td>
+                                                <i v-if="attempt.completed" class="fas fa-check-circle"></i>
+                                                <i v-else class="fas fa-times-circle"></i>
+                                            </td>
+                                            <td>{{ attempt.numQuestions }}</td>
+                                            <td>{{ attempt.numCorrect }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

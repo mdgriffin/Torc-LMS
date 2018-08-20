@@ -125,19 +125,19 @@ const ManagerStats = (function () {
                                 <table class="infoTable stageAttemptList" v-if="!stageAttemptsLoading">
                                     <thead>
                                         <th>Course Title</th>
+                                        <th>Date</th>
                                         <th>Passed</th>
-                                        <th># Questions</th>
-                                        <th># Correct</th>
+                                        <th>Result</th>
                                     </thead>
                                     <tbody>
                                         <tr v-for="attempt in stageAttempts">
                                             <td>{{ attempt.course.title }}</td>
-                                            <td>
+                                            <td>{{ attempt.dateAttempted | formatDate }}</td>
+                                            <td class="text-center">
                                                 <i v-if="attempt.completed" class="fas fa-check-circle"></i>
                                                 <i v-else class="fas fa-times-circle"></i>
                                             </td>
-                                            <td>{{ attempt.numQuestions }}</td>
-                                            <td>{{ attempt.numCorrect }}</td>
+                                            <td>{{ percentageCorrect(attempt.numQuestions, attempt.numCorrect) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -174,6 +174,11 @@ const ManagerStats = (function () {
                 stageAttemptsLoading: true
             }
         },
+        filters: {
+            formatDate: function (date) {
+                return moment(date).format('h:mmA D/MM/YYYY')
+            }
+        },
         computed: {
             traineeUsers: function () {
                 return this.$store.state.traineeUsers;
@@ -191,6 +196,11 @@ const ManagerStats = (function () {
                     }],
                     labels: ['Locked', 'Completed', 'Active']
                 }
+            }
+        },
+        methods: {
+            percentageCorrect: function (numQuestions, numCorrect) {
+                return parseFloat((numCorrect / numQuestions) * 100).toFixed(2) + '%';
             }
         },
         components: {

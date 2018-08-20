@@ -32,7 +32,7 @@ var Util = (function () {
         },
         getNumAssignmentsByStatus (users) {
             let result = {
-                'LOCEKD': 0,
+                'LOCKED': 0,
                 'INCOMPLETE': 0,
                 'COMPLETED': 0
             }

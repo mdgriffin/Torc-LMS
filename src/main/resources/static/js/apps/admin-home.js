@@ -16,11 +16,30 @@ const AdminHome = (function () {
                 </article>
             </div>
             <div class="col-sm-6">
-                <article class="card">
-                    <h4 class="card-header">Courses</h4>
-                    <div class="card-body">
-                        <loading-status v-if="coursesLoading"></loading-status>
-                        <p v-if="!coursesLoading">Number of Courses: {{courses.length}}</p>
+                <article class="card card-highlight bg-warning">
+                    <loading-status v-if="usersLoading"></loading-status>
+                    <div v-if="!usersLoading" class="row">
+                        <div class="col-sm-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="col-sm-9">
+                            <h5>Number of Users</h5>
+                            <h4>{{users.length}}</h4>
+                        </div>
+                       
+                    </div>
+                </article>
+                <article class="card card-highlight bg-secondary mt-4">
+                    <loading-status v-if="coursesLoading"></loading-status>
+                    <div v-if="!coursesLoading" class="row">
+                        <div class="col-sm-3">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="col-sm-9">
+                            <h5>Number of Courses</h5>
+                            <h4>{{courses.length}}</h4>
+                        </div>
+                       
                     </div>
                 </article>
             </div>

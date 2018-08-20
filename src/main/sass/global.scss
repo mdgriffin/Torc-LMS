@@ -540,3 +540,14 @@ span.required {
 .infoTable td {
   border-top: 1px solid $gray-200;
 }
+
+.card-highlight {
+  background: blue;
+  color: #fff;
+  padding: 1em;
+}
+
+.card-highlight i {
+  font-size: 4em;
+  text-align: center;
+}

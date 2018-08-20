@@ -44,6 +44,27 @@ var Util = (function () {
             })
 
             return result;
+        },
+        formatDate: function (date) {
+            return moment(date).format('h:mmA D/MM/YYYY')
+        },
+        filterUserInfo: function (users) {
+            let result = [];
+
+            users.forEach(user => {
+                let obj = {};
+
+                obj.userId = user.userId;
+                obj.firstname = user.firstname;
+                obj.surname = user.surname;
+                obj.email = user.email;
+                obj.registeredOn = this.formatDate(user.registeredOn);
+                obj.role = user.roles[0].role;
+
+                result.push(obj);
+            });
+
+            return result;
         }
     }
 })();

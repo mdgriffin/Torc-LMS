@@ -5,13 +5,14 @@ var UserManagerApp = (function () {
             <div class="alert alert-danger" v-if="!loadingUsers && loadingError">An error has occured while loading courses</div>
             <div class="alert alert-info" v-if="!loadingUsers && !loadingError && users.length === 0">No Users Found</div>
             <loading-status v-if="loadingUsers"></loading-status>
-            <user-list v-if="users.length > 0" :users="users">
-                <template slot="actions" slot-scope="slotProps">
-                    <a class="btn btn-outline-info" :href="usersUrl + '/' + slotProps.user.userId">Edit</a>
-                    <button class="btn btn-outline-danger" v-on:click="disableUser(slotProps.user.userId)"><i class="fas fa-minus-circle"></i></button>
+            <data-table v-if="!loadingUsers" :headings="headings" :rows="users">
+                <template slot="after-data" slot-scope="slotProps">
+                    <td class="p-1">
+                        <a class="btn btn-outline-info" :href="usersUrl + '/' + slotProps.rowData.userId">Edit</a>
+                        <button class="btn btn-outline-danger" v-on:click="disableUser(slotProps.rowData.userId)"><i class="fas fa-minus-circle"></i></button>
+                    </td>
                 </template>
-                
-            </user-list>
+            </data-table>
         </div>
     `
 
@@ -20,11 +21,13 @@ var UserManagerApp = (function () {
         data: {
             users: [],
             loadingUsers: true,
-            loadingError: false
+            loadingError: false,
+            headings: ['#ID', 'Firstname', 'Surname', 'Email', 'Date Registered', 'Role', 'Actions'],
         },
         components: {
             'user-list': UserList,
-            'loading-status': LoadingStatus
+            'loading-status': LoadingStatus,
+            'data-table': TableComponents.DataTable
         },
         methods: {
             disableUser: function (userId) {
@@ -50,7 +53,7 @@ var UserManagerApp = (function () {
             })
                 .then(json => {
                     self.loadingUsers = false;
-                    self.users = json;
+                    self.users = Util.filterUserInfo(json);
                 })
                 .catch(error => {
                     console.error(error);

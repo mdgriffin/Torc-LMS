@@ -15,6 +15,43 @@ var AssignmentStageFSM = function () {
     });
 };
 
+var AssignmentViewStage = (function () {
+
+    const template = `
+        <div class="assignment-viewStage">
+            <div class="assignment-stage-header">
+                <h3 class="assignment-stage-title">
+                    {{stage.title}}
+                    <audio-player v-if="stage.titleAudio" :audioUrl="'https://storage.googleapis.com/torc-lms.appspot.com/audio/' + stage.titleAudio"></audio-player>
+                </h3>
+            </div>
+            <div class="assignment-stage-video">
+                <video-player :video-url="'https://storage.googleapis.com/torc-lms.appspot.com/videos/' + stage.videoUrl"></video-player>
+                <div class="assignment-stage-transcript" v-if="stage.transcript">
+                    <h3>Transcript</h3>
+                    <span v-html="transcriptAsHtml"></span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return {
+        props: ['stage'],
+        template: template,
+        computed: {
+            transcriptAsHtml: function () {
+                const converter = new showdown.Converter();
+                return converter.makeHtml(this.stage.transcript);
+            }
+        },
+        components: {
+            'audio-player': AudioPlayer,
+            'video-player': VideoPlayer,
+            'quiz': Quiz
+        }
+    }
+})();
+
 var AssignmentStage = (function () {
 
     var template = `
@@ -140,7 +177,6 @@ var AssignmentStage = (function () {
         }
     }
 
-
 })();
 
 var Assignment = (function () {
@@ -155,8 +191,29 @@ var Assignment = (function () {
             </h2>
             
             <div class="card-body">
+                
+                <div class="assignment-stageList">
+                    <button v-on:click="toggleStageDropdown" class="btn btn-secondary">
+                        View Stages
+                        <i :class="['far', 'fa-caret-square-' + (stageDropdownOpen? 'up' : 'down')]"></i>
+                    </button>
+                    <div :class="['assignment-stageList-dropdown', {isOpen: stageDropdownOpen}]">
+                        <div class="assignment-stageList-single" v-for="(stage, stageIndex) in course.stages">
+                            <button v-on:click="switchStage(stageIndex)">
+                                {{stageIndex + 1}}. {{stage.title}}
+                                <i class="fas fa-check-circle text-success" v-if="stageIsComplete(stageIndex)"></i>
+                                <i class="fas fa-play-circle text-primary" v-if="stageIndex === currentStageIndex"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="assignment-stageContainer" v-if="courseIncomplete">
-                    <assignment-stage v-for="(stage, stageIndex) in course.stages" v-if="stageIndex === currentStageIndex" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
+                    <div v-for="(stage, stageIndex) in course.stages">
+                        <assignment-view-stage v-if="stageIndex === currentStageIndex && stageIsComplete(stageIndex)" :key="stageIndex +'v'" :stage="stage"></assignment-view-stage>
+                        <assignment-stage v-if="stageIndex === currentStageIndex  && !stageIsComplete(stageIndex)" :key="stageIndex" :course-id="course.courseId" :stage="stage" :stage-duration="stageDuration" v-on:fail="stageFail" v-on:pass="stagePass" v-on:complete="stageComplete" :last-stage="isLastStage(stageIndex)"></assignment-stage>
+                    </div>
+                    
                 </div>
     
                 <div class="assignment-completed" v-if="courseCompleted">
@@ -183,7 +240,8 @@ var Assignment = (function () {
         data: function () {
             return {
                 stageDuration: STAGE_DURATION,
-                currentStageIndex: this.stageIndex
+                currentStageIndex: this.stageIndex,
+                stageDropdownOpen: false
             }
         },
         computed: {
@@ -231,11 +289,29 @@ var Assignment = (function () {
             },
             isLastStage: function (stageIndex) {
                 return stageIndex === this.course.stages.length - 1;
+            },
+            toggleStageDropdown: function () {
+                this.stageDropdownOpen = !this.stageDropdownOpen;
+            },
+            switchStage: function (stageIndex) {
+                this.currentStageIndex = stageIndex;
+            },
+            stageIsComplete: function (stageIndex) {
+                let passedStageIndex = -1;
+                let currentStageId = this.assignment.currentStageId;
+                this.course.stages.forEach((stage, index) => {
+                    if (stage.stageId === currentStageId) {
+                        passedStageIndex = index;
+                    }
+                });
+
+                return stageIndex < passedStageIndex;
             }
         },
         components: {
             'audio-player': AudioPlayer,
             'assignment-stage': AssignmentStage,
+            'assignment-view-stage': AssignmentViewStage,
             'loading-status': LoadingStatus
         },
         created: function () {
@@ -263,6 +339,8 @@ var Assignment = (function () {
                     }
                 }).then(assignment => {
                     Vue.set(self.assignment, 'status', assignment.status);
+                    // TODO: Check!!!
+                    Vue.set(self.assignment, 'currentStageId', assignment.currentStageId);
                     Vue.set(self.assignment, 'stageAttempts', assignment.stageAttempts);
                 }).catch(error => {
                     console.error(error);

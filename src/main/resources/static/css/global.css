@@ -6052,6 +6052,35 @@ a.text-dark:hover, a.text-dark:focus {
   text-align: right;
   font-weight: bold; }
 
+.assignment-stageList {
+  position: relative; }
+
+.assignment-stageList-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 400px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  display: none;
+  z-index: 1; }
+
+.assignment-stageList-dropdown.isOpen {
+  display: block; }
+
+.assignment-stageList-single button {
+  background: none;
+  border: none;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer; }
+
+.assignment-stageList-single:last-child button {
+  border-bottom: none; }
+
 .quiz {
   -webkit-user-select: none;
   -khtml-user-select: none;

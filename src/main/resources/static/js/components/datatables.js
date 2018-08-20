@@ -144,7 +144,8 @@ components.BaseTable = {
                 var escapedInputText = Util.escapeRegExp(this.searchInput.toLowerCase());
                 return rows.filter(function (row) {
                     return Object.keys(row).filter(function (key) {
-                        return row[key].toLowerCase().search(escapedInputText) !== -1;
+                        var colVal = String(row[key]);
+                        return colVal.toLowerCase().search(escapedInputText) !== -1;
                     }).length > 0;
                 });
             }

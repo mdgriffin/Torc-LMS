@@ -1,7 +1,7 @@
 var TableComponents = (function () {
 
 var baseTableTemplate = [
-'<div class="datatable>">',
+'<div class="datatable">',
     '<header v-if="pagination || search"  :class="{\'text-right\': !pagination && search}">',
         '<div v-if="pagination"  class="datatable-options alignMiddle-half">',
             '<label>Show ',

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import torclms.dto.StageAttemptDto;
+import torclms.dto.StageAttemptInfoDto;
 import torclms.dto.UserCourseAssignment;
 import torclms.entity.AssignmentStatus;
 import torclms.exception.ResourceNotFoundException;
@@ -61,6 +62,11 @@ public class UserAssignmentController {
 
         return userAssignments;
     };
+
+    @GetMapping("/assignments/attempt-stage")
+    public List<StageAttemptInfoDto> getAllAttempts () {
+        return userAssignmentService.getAllStageAttempts();
+    }
 
     @PostMapping("/assignments/attempt-stage")
     public UserAssignment postAttemptStage (@RequestBody StageAttemptDto stageAttemptDto) {

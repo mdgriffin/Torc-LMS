@@ -120,8 +120,7 @@ const ManagerStats = (function () {
                         <div class="card">
                             <h4 class="card-header">Recent Stage Completions</h4>
                             <div class="card-body">
-                                
-                                <loading-status v-if="assignmentsLoading"></loading-status>
+                                <loading-status v-if="stageAttemptsLoading"></loading-status>
                                 <p>Num Stage Attempts: {{ stageAttempts.length }}</p>
                                 <div v-for="attempt in stageAttempts">
                                     <h4>{{ attempt.course.title }}</h4>
@@ -159,7 +158,7 @@ const ManagerStats = (function () {
                     ]
                 },
                 traineeUsersLoading: true,
-                assignmentsLoading: true
+                stageAttemptsLoading: true
             }
         },
         computed: {
@@ -167,7 +166,7 @@ const ManagerStats = (function () {
                 return this.$store.state.traineeUsers;
             },
             stageAttempts: function () {
-                return Util.getStageAttemptsWithCourseInfo(this.$store.state.assignments);
+                return this.$store.state.stageAttempts;
             },
             numAssignmentsByStatus: function () {
                 const stats = Util.getNumAssignmentsByStatus(this.traineeUsers);
@@ -197,13 +196,13 @@ const ManagerStats = (function () {
                     alert('An error has occurred, please reload and try again');
                 });
 
-            this.$store.dispatch('retrieveAssignments')
+            this.$store.dispatch('retrieveStageAttempts')
                 .then(() => {
-                    this.assignmentsLoading = false;
+                    this.stageAttemptsLoading = false;
                 })
                 .catch(err => {
                     console.error(err);
-                    this.assignmentsLoading = false;
+                    this.stageAttemptsLoading = false;
                     alert('An error has occurred, please reload and try again');
                 })
         },

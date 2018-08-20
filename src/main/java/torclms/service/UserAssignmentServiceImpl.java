@@ -3,6 +3,7 @@ package torclms.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import torclms.dto.StageAttemptDto;
+import torclms.dto.StageAttemptInfoDto;
 import torclms.entity.AssignmentStatus;
 import torclms.entity.TestCompletionDeadline;
 import torclms.exception.ResourceNotFoundException;
@@ -19,6 +20,9 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Autowired
     private UserAssignmentRepository userAssignmentRepository;
+
+    @Autowired
+    private  StageAttemptRepository stageAttemptRepository;
 
     @Autowired
     private  StageService stageService;
@@ -115,6 +119,16 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     public List<UserAssignment> getAllAssignments() {
         return userAssignmentRepository.findAll();
+    }
+
+    public List<StageAttemptInfoDto> getAllStageAttempts() {
+        List<StageAttempt> stageAttempts = stageAttemptRepository.findAll();
+        List<StageAttemptInfoDto> attemptsDtoList = new ArrayList<>();
+
+        stageAttempts.forEach(attempt -> attemptsDtoList.add(new StageAttemptInfoDto(attempt)));
+
+        return attemptsDtoList;
+
     }
 
 }

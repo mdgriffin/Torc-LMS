@@ -3,7 +3,8 @@ var store = new Vuex.Store({
         users: [],
         traineeUsers: [],
         courses: [],
-        assignments: []
+        assignments: [],
+        stageAttempts: []
     },
     mutations: {
         setUsers: function (state, users) {
@@ -17,6 +18,9 @@ var store = new Vuex.Store({
         },
         setAssignments: function (state, assignments) {
             state.assignments = assignments;
+        },
+        setStageAttempts: function (state, stageAttempts) {
+            state.stageAttempts = stageAttempts;
         }
     },
     getters: {
@@ -37,6 +41,9 @@ var store = new Vuex.Store({
         },
         assignments: function (state) {
             return state.assignments;
+        },
+        stageAttempts: function (state) {
+            return state.stageAttempts;
         }
     },
     actions: {
@@ -79,6 +86,16 @@ var store = new Vuex.Store({
                 return AssignmentsApi.getAssignments()
                     .then(function (assignments) {
                         context.commit('setAssignments', assignments)
+                    });
+            } else {
+                return Promise.resolve();
+            }
+        },
+        retrieveStageAttempts: function (context) {
+            if (context.state.stageAttempts.length === 0) {
+                return StageAttemptsApi.getAll()
+                    .then(function (stageAttempts) {
+                        context.commit('setStageAttempts', stageAttempts)
                     });
             } else {
                 return Promise.resolve();

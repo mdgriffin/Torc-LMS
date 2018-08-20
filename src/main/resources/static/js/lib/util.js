@@ -44,28 +44,6 @@ var Util = (function () {
             })
 
             return result;
-        },
-        getStageAttemptsWithCourseInfo (assignments) {
-            let result = [];
-
-            assignments.forEach(assignment => {
-                assignment.stageAttempts.forEach(attempt => {
-                    let attemptDto = {};
-
-                    attemptDto.course = {};
-                    attemptDto.course.title = assignment.assignedCourse.title;
-
-                    attemptDto.completed = attempt.completed;
-                    attemptDto.dateAttempted = attempt.dateAttempted;
-                    attemptDto.numQuestions = attempt.numQuestions;
-                    attemptDto.numCorrect = attempt.numCorrect;
-                    attemptDto.stage = attempt.stage;
-
-                    result.push(attemptDto);
-                });
-            });
-
-            return result;
         }
     }
 })();

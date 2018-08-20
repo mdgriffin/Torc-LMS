@@ -1,6 +1,7 @@
 package torclms.service;
 
 import torclms.dto.StageAttemptDto;
+import torclms.dto.StageAttemptInfoDto;
 import torclms.entity.AssignmentStatus;
 import torclms.model.Stage;
 import torclms.model.StageAttempt;
@@ -18,12 +19,14 @@ public interface UserAssignmentService {
 
     int numAttemptsRemaining(UserAssignment assignment, int stageId);
 
-    List<UserAssignment> getAllAssignments();
-
     List<UserAssignment> getAssignmentsByStatus (AssignmentStatus assignmentStatus);
 
     UserAssignment unlockAssignment (Long assignmentId);
 
     int changeStatusOfExpiredAssignments ();
+
+    List<UserAssignment> getAllAssignments();
+
+    List<StageAttemptInfoDto> getAllStageAttempts();
 
 }

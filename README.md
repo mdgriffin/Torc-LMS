@@ -1,15 +1,24 @@
-# Team Torc Learning Management System
+## Torc LMS
 
-### Building and Running
+This is a corporate learning management system with a Java backend developed using Spring Boot. The frontend is developed using Vue and Bootstrap (pre-processed with Sass).
 
-Building
-````
-mvn -P local clean install
-````
+### User Roles / Functionality
 
-Running the application:
-````
-mvn -P local spring-boot:run
-````
+- Admin
+    - Manage users
+    - Manage course content
+- Manager
+    - Assign course content to trainees
+    - Unlock assigned course content
+    - View trainee progress
+- Trainee
+    - Take Course
+    - View past courses 
+    
+### Additional Functionality
 
-The application is configured to listen to localhost:8090
+- Course content text to speech conversion (using Google Cloud Text to Speech)
+
+### Future Development
+
+- Upload video and audio files from course creator (currently manually uploaded to CDN)
